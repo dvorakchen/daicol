@@ -1,0 +1,15 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"example_message": "Hello world {username}",
+	"sign_in": "Sign in",
+	"sign_out": "Sign out",
+	"sign_in.phone_number": "Phone number",
+	"sign_in.phone_number.hint": "Must be 11 digits",
+	"sign_in.code": "Code",
+	"sign_in.code.hint": "Please enter the code sent to your phone",
+	"sign_in.send_code": "Send code",
+	"sign_in.or_register": "Register or Sign In",
+	"sign_in.error.invalid": "invalid phone or code format",
+	"sign_in.error.no_code": "invalid code, please resend",
+	"captcha.sent_error": "Sent code error, please retry"
+}

@@ -1,0 +1,15 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"example_message": "你好 {username}",
+	"sign_in": "登录",
+	"sign_out": "登出",
+	"sign_in.phone_number": "手机号",
+	"sign_in.phone_number.hint": "手机号为11位数字",
+	"sign_in.code": "验证码",
+	"sign_in.code.hint": "请输入发送到您手机的验证码",
+	"sign_in.send_code": "发送验证码",
+	"sign_in.or_register": "注册或直接登录",
+	"sign_in.error.invalid": "手机号或验证码格式有误",
+	"sign_in.error.no_code": "验证码错误，请重新发送",
+	"captcha.sent_error": "发送验证码失败，请重试"
+}
