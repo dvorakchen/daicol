@@ -28,7 +28,6 @@ class ThemeMan {
 				})
 			)
 			.subscribe(() => {
-				console.log('Theme preference saved to server.');
 			});
 
 		this.changeTheme();
@@ -48,7 +47,6 @@ class ThemeMan {
 	}
 
 	private notifyThemeChange(): void {
-		console.log('Theme changed, isDark:', this._isDark);
 		this.themeChangeNotifier.next(this._isDark);
 	}
 }

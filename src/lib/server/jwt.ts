@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { env } from '$env/dynamic/private';
 import { DateTime } from 'luxon';
+import logger from '$lib/server/log.ts';
+
 
 export const JWT_COOKIE_KEY = 'jwt';
 
@@ -32,7 +34,7 @@ export function isJwtValid(token: string): boolean {
 		jwt.verify(token, env.JWT_KEY!);
 		return true;
 	} catch (e) {
-		console.error('JWT verification failed:', e);
+		logger.error(`JWT verification failed: ${e}`);
 		return false;
 	}
 }
@@ -55,23 +57,23 @@ export function getJwtPayload(token: string): JwtPayload {
 
 export function tryGetPayloadSub(token: string) {
 	if (!token) {
-		console.warn('No JWT found in cookies, RETURNED');
+		logger.warn('No JWT found in cookies, RETURNED');
 		return null;
 	}
 
 	if (!env.JWT_KEY) {
-		console.warn('No JWT KEY, RETURNED');
-		console.error('JWT_KEY is not set in environment variables.');
+		logger.warn('No JWT KEY, RETURNED');
+		logger.error('JWT_KEY is not set in environment variables.');
 	}
 
 	if (!isJwtValid(token)) {
-		console.warn('invald JWT or expired, RETURNED');
+		logger.warn('invald JWT or expired, RETURNED');
 		return null;
 	}
 
 	const payload = getJwtPayload(token) as JwtPayload;
 	if (!payload.sub) {
-		console.warn('No sub IN JWT, RETURNED');
+		logger.warn('No sub IN JWT, RETURNED');
 		return null;
 	}
 

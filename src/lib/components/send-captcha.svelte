@@ -8,7 +8,7 @@
 	const COUNTDOWN = 60;
 	let clock = $state(0);
 
-	let { phone } = $props();
+	let { phone = '' } = $props();
 	let disabled = $derived(phone.trim().length !== 11 || clock !== 0);
 
 	let intervalId: NodeJS.Timeout;
@@ -57,7 +57,6 @@
 	class="btn btn-primary"
 	type="button"
 	{disabled}
-	style:background-color={disabled ? 'white' : ''}
 	onclick={onSendCaptcha}
 >
 	{#if clock !== 0}
