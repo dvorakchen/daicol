@@ -3,17 +3,17 @@ import { db } from "$lib/server/db/index.ts";
 import { m } from "$lib/paraglide/messages.js";
 import { and, eq } from "drizzle-orm";
 import { smsCaptcha } from "$lib/server/db/schema/sms_captcha.ts";
-import { JWT_COOKIE_KEY, sign } from "$lib/server/jwt.ts";
+import { setJWTCookie, signJWT } from "$lib/server/jwt.ts";
 import { users } from "$lib/server/db/schema/users.ts";
 import { createUser } from "$lib/server/repo/users.ts";
 import { DateTime } from "luxon";
-import logger from '$lib/server/log.ts';
+import logger from "$lib/server/log.ts";
 
 export async function POST({ request, cookies }: RequestEvent) {
   const data: { phone: string; code: string } = await request.json();
   const phone = data.phone?.toString() ?? "";
   const code = data.code?.toString() ?? "";
-  
+
   if (!phone || phone.length !== 11 || !code || code.length !== 4) {
     logger.error(`invalid: ${phone} - ${code}`);
     return json({ error: m["sign_in.error.invalid"]() }, { status: 422 });
@@ -27,7 +27,7 @@ export async function POST({ request, cookies }: RequestEvent) {
     ),
   });
   if (!sms) {
-    logger.info( m["sign_in.error.no_code"]())
+    logger.info(m["sign_in.error.no_code"]());
     return json({
       error: m["sign_in.error.no_code"](),
     }, { status: 422 });
@@ -45,11 +45,9 @@ export async function POST({ request, cookies }: RequestEvent) {
     user = await createUser(phone);
   }
 
-  const token = sign(user.id, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+  const token = signJWT(user.id, DateTime.utc().plus({ weeks: 1 }).toSeconds());
 
-  cookies.set(JWT_COOKIE_KEY, token, {
-    path: "/",
-  });
+  setJWTCookie(cookies, token);
 
   return json({});
 }

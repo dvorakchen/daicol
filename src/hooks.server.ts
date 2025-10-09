@@ -2,15 +2,21 @@ import type { Handle } from "@sveltejs/kit";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { sequence } from "@sveltejs/kit/hooks";
 import { db } from "$lib/server/db/index.ts";
-import { tryGetPayloadSub } from "$lib/server/jwt.ts";
+import {
+  isJwtValid,
+  JWT_COOKIE_KEY,
+  setJWTCookie,
+  signJWT,
+  tryGetPayloadSub,
+} from "$lib/server/jwt.ts";
 import type { UserAttributes } from "$lib/share/user.ts";
-import { env } from '$env/dynamic/private'
+import { env } from "$env/dynamic/private";
 import logger from "$lib/server/log.ts";
+import { DateTime } from "luxon";
 
 const DATABASE_URL = env.DATABASE_URL;
-if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
+if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
 logger.info(`Using DATABASE_URL: ${DATABASE_URL}`);
-
 
 // creating a handle to use the paraglide middleware
 const paraglideHandle: Handle = ({ event, resolve }) =>
@@ -30,7 +36,7 @@ const paraglideHandle: Handle = ({ event, resolve }) =>
 const themeHandle: Handle = ({ event, resolve }) => {
   return resolve(event, {
     transformPageChunk: async ({ html }) => {
-      const jwt = event.cookies.get("jwt");
+      const jwt = event.cookies.get(JWT_COOKIE_KEY);
       const sub = tryGetPayloadSub(jwt || "");
       if (!sub) {
         return html.replace("%theme%", "");
@@ -49,4 +55,26 @@ const themeHandle: Handle = ({ event, resolve }) => {
   });
 };
 
-export const handle = sequence(themeHandle, paraglideHandle);
+/**
+ * refresh the JWT if the JWT is valid
+ */
+const refreshAuth: Handle = ({ event, resolve }) => {
+  const response = resolve(event);
+
+  // refresh
+  const token = event.cookies.get(JWT_COOKIE_KEY) ?? "";
+  if (isJwtValid(token)) {
+    const sub = tryGetPayloadSub(token);
+    if (sub) {
+      const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+      setJWTCookie(event.cookies, token);
+    }
+  }
+
+  //  check protecting route, return 401 if need auth
+
+
+  return response;
+};
+
+export const handle = sequence(themeHandle, paraglideHandle, refreshAuth);
