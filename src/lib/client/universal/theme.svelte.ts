@@ -27,8 +27,7 @@ class ThemeMan {
 					);
 				})
 			)
-			.subscribe(() => {
-			});
+			.subscribe(() => {});
 
 		this.changeTheme();
 	}

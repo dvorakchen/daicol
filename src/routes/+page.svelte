@@ -1,13 +1,17 @@
 <script lang="ts">
-	import ThemeController from '$lib/components/theme-controller.svelte';
-	import { m } from '$lib/paraglide/messages.js';
+	import Navbar from '$lib/components/navbar.svelte';
 	import { AddressBookOutline } from 'flowbite-svelte-icons';
+
+	let { data } = $props();
 </script>
 
-<ThemeController />
+<main>
+	<Navbar userSignInInfo={data.userSignInInfo} />
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-<h1>{m.example_message({ username: 'Dvorak' })}</h1>
+	<h1>Welcome to SvelteKit</h1>
+	<p>
+		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
+	</p>
 
-<AddressBookOutline />
+	<AddressBookOutline />
+</main>

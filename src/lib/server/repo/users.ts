@@ -3,7 +3,7 @@ import { db } from '$lib/server/db/index.ts';
 import { eq, sql } from 'drizzle-orm';
 import { UserStatus } from '../../share/user.ts';
 
-export async function createUser(phone: string) {
+export async function createUserByPhone(phone: string) {
 	const user = await db.query.users.findFirst({
 		where: eq(users.phoneNumber, phone)
 	});

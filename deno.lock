@@ -40,7 +40,8 @@
     "npm:vite@^7.1.9": "7.1.9_@types+node@24.7.0_picomatch@4.0.3",
     "npm:vitest-browser-svelte@^1.1.0": "1.1.0_@vitest+browser@3.2.4__playwright@1.56.0__vitest@3.2.4___@types+node@24.7.0___@vitest+browser@3.2.4___playwright@1.56.0___vite@7.1.9____@types+node@24.7.0____picomatch@4.0.3__@testing-library+dom@10.4.1__vite@7.1.9___@types+node@24.7.0___picomatch@4.0.3__@types+node@24.7.0_svelte@5.39.10__acorn@8.15.0_vitest@3.2.4__@types+node@24.7.0__@vitest+browser@3.2.4___playwright@1.56.0___vitest@3.2.4___@testing-library+dom@10.4.1___vite@7.1.9____@types+node@24.7.0____picomatch@4.0.3___@types+node@24.7.0__playwright@1.56.0__vite@7.1.9___@types+node@24.7.0___picomatch@4.0.3_playwright@1.56.0_@types+node@24.7.0_vite@7.1.9__@types+node@24.7.0__picomatch@4.0.3",
     "npm:vitest@^3.2.4": "3.2.4_@types+node@24.7.0_@vitest+browser@3.2.4__playwright@1.56.0__vitest@3.2.4__@testing-library+dom@10.4.1__vite@7.1.9___@types+node@24.7.0___picomatch@4.0.3__@types+node@24.7.0_playwright@1.56.0_vite@7.1.9__@types+node@24.7.0__picomatch@4.0.3",
-    "npm:winston@^3.18.3": "3.18.3"
+    "npm:winston@^3.18.3": "3.18.3",
+    "npm:zod@^4.1.12": "4.1.12"
   },
   "npm": {
     "@babel/code-frame@7.27.1": {
@@ -2674,6 +2675,9 @@
     },
     "zimmerframe@1.1.4": {
       "integrity": "sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ=="
+    },
+    "zod@4.1.12": {
+      "integrity": "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="
     }
   },
   "remote": {
@@ -2809,7 +2813,8 @@
         "npm:vite@^7.1.9",
         "npm:vitest-browser-svelte@^1.1.0",
         "npm:vitest@^3.2.4",
-        "npm:winston@^3.18.3"
+        "npm:winston@^3.18.3",
+        "npm:zod@^4.1.12"
       ]
     }
   }

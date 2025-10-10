@@ -3,11 +3,24 @@ import { db } from '$lib/server/db/index.ts';
 import { smsCaptcha } from '$lib/server/db/schema/sms_captcha.ts';
 import { eq, sql } from 'drizzle-orm';
 import logger from '$lib/server/log.ts';
+import { m } from '$lib/paraglide/messages.js';
 
 export async function POST({ request }: RequestEvent) {
 	logger.info(`handle api captcha/send`);
 	const { phone }: { phone: string } = await request.json();
-	const code = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+
+	if (!/^\d{11}$/.test(phone)) {
+		return json(
+			{
+				error: m['sign_in.error.invalid_phone']()
+			},
+			{ status: 422 }
+		);
+	}
+
+	const code = Math.floor(Math.random() * 10000)
+		.toString()
+		.padStart(4, '0');
 	logger.info(`phone: ${phone}, code: ${code}`);
 
 	await db.transaction(async (tx) => {

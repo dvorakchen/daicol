@@ -4,19 +4,19 @@ Dvorak's AI collection
 
 This project used:
 
-- frontend framework:  Sveltekit
-- backend framework:   Sveltekit
-- UI style:            Tailwindcss, DaisyUI
-- icon:                flowbite-svelte-icons
-- runtime:             Deno
-- package manager:     Deno
-- log:                 winston
-- database:            postgres
-- ORM:                 drizzle
-- http:                rxjs
-- i18n:                paraglide
-- unit test:           vitest
-- e2e test:            playwright
+- frontend framework: Sveltekit
+- backend framework: Sveltekit
+- UI style: Tailwindcss, DaisyUI
+- icon: flowbite-svelte-icons
+- runtime: Deno
+- package manager: Deno
+- log: winston
+- database: postgres
+- ORM: drizzle
+- http: rxjs
+- i18n: paraglide
+- unit test: vitest
+- e2e test: playwright
 
 ## Developing
 

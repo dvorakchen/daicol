@@ -1,11 +1,23 @@
 <script lang="ts">
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import ToastMsg from '$lib/components/toast-msg.svelte';
+	import { onMount } from 'svelte';
+	import { invalidate } from '$app/navigation';
 
 	let { children } = $props();
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			invalidate('api/users/sign-in-info');
+		}, 1000 * 30);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
 <svelte:head>

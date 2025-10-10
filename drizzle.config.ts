@@ -7,6 +7,6 @@ export default defineConfig({
 	schema: './src/lib/server/db/schema',
 	dialect: 'postgresql',
 	dbCredentials: { url: DATABASE_URL },
-	verbose: true,
-	strict: true
+	verbose: true
+	// strict: true
 });

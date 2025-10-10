@@ -1,8 +1,9 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"example_message": "Hello world {username}",
+	"title": "Daicol AI",
 	"sign_in": "Sign in",
 	"sign_out": "Sign out",
+	"avatar": "avatar",
 	"sign_in.phone_number": "Phone number",
 	"sign_in.phone_number.hint": "Must be 11 digits",
 	"sign_in.code": "Code",
@@ -10,6 +11,9 @@
 	"sign_in.send_code": "Send code",
 	"sign_in.or_register": "Register or Sign In",
 	"sign_in.error.invalid": "invalid phone or code format",
+	"sign_in.error.invalid_phone": "invalid phone",
 	"sign_in.error.no_code": "invalid code, please resend",
-	"captcha.sent_error": "Sent code error, please retry"
+	"captcha.sent_error": "Sent code error, please retry",
+	"search_ai": "Search AI you want",
+	"goto_home_page": "Goto home page"
 }
