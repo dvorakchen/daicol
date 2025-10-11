@@ -34,7 +34,6 @@ export function isJwtValid(token: string): boolean {
 		jwt.verify(token, env.JWT_KEY!);
 		return true;
 	} catch (e) {
-		logger.error(`JWT verification failed: ${e}`);
 		return false;
 	}
 }
@@ -57,17 +56,16 @@ export function getJwtPayload(token: string): JwtPayload {
 
 export function tryGetPayloadSub(token: string) {
 	if (!token) {
-		logger.warn('No JWT found in cookies, RETURNED');
+		logger.info('No JWT found in cookies, RETURNED');
 		return null;
 	}
 
 	if (!env.JWT_KEY) {
-		logger.warn('No JWT KEY, RETURNED');
 		logger.error('JWT_KEY is not set in environment variables.');
 	}
 
 	if (!isJwtValid(token)) {
-		logger.warn('invald JWT or expired, RETURNED');
+		logger.info('invald JWT or expired, RETURNED');
 		return null;
 	}
 

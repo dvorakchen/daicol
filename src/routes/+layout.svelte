@@ -11,7 +11,7 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			invalidate('api/users/sign-in-info');
+			invalidate('/api/users/sign-in-info');
 		}, 1000 * 30);
 
 		return () => {

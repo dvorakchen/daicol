@@ -51,7 +51,7 @@
 		startCountDown(COUNTDOWN);
 		localStorage.setItem(SEND_CAPTCHA_CLOCK_KEY, Math.floor(DateTime.utc().toSeconds()).toString());
 
-		post(`api/captcha/send`, { phone }).subscribe({
+		post(`/api/captcha/send`, { phone }).subscribe({
 			error: (e) => {
 				toastMan.add('error', `${m['captcha.sent_error']()}: ${e}`);
 				console.error('send captcha error: ', e);

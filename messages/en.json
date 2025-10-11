@@ -15,5 +15,6 @@
 	"sign_in.error.no_code": "invalid code, please resend",
 	"captcha.sent_error": "Sent code error, please retry",
 	"search_ai": "Search AI you want",
-	"goto_home_page": "Goto home page"
+	"goto_home_page": "Goto home page",
+	"app.category.creative_design": "Creative Design"
 }
