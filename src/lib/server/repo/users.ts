@@ -12,6 +12,8 @@ export async function createUserByPhone(phone: string) {
     throw `phone number: ${phone} already exists`;
   }
 
+  const NEW_USER_DEFAULT_POINTS = 2;
+
   const newUser = await db
     .insert(users)
     .values({
@@ -21,6 +23,7 @@ export async function createUserByPhone(phone: string) {
       passwordHash: "",
       profilePicture: "",
       attributes: {},
+      points: NEW_USER_DEFAULT_POINTS,
       status: UserStatus.Enabled,
       createAt: sql`now()`,
       updateAt: sql`now()`,

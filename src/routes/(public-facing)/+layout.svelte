@@ -5,4 +5,6 @@
 </script>
 
 <Navbar userSignInInfo={data.userSignInInfo} />
-{@render children()}
+<div class="p-2 lg:max-w-6xl mx-auto">
+	{@render children()}
+</div>

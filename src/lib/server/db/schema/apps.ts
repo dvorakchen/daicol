@@ -1,5 +1,6 @@
 import {
   integer,
+  numeric,
   pgTable,
   serial,
   timestamp,
@@ -9,6 +10,7 @@ import { sql } from "drizzle-orm";
 
 export const apps = pgTable("apps", {
   id: serial("id").primaryKey(),
+  routeId: varchar("router_id", { length: 64 }).notNull().default("").unique(),
   name: varchar("name", { length: 64 }).notNull().unique().default(""),
   category: varchar("category", { length: 32 }).notNull().default(""),
   keywords: varchar("keywords", { length: 256 }).array()
@@ -24,8 +26,8 @@ export const apps = pgTable("apps", {
   source: varchar("source", { length: 64 }).notNull().default(""),
   icon: varchar("icon", { length: 256 }).notNull().default(""),
   barImg: varchar("bar_img", { length: 256 }).notNull().default(""),
-  rate: integer("rate").notNull().default(0),
-  useCound: integer("use_count").notNull().default(0),
+  rate: numeric("rate", { precision: 5, scale: 2 }).notNull().default("0.0"),
+  useCount: integer("use_count").notNull().default(0),
   points: integer("points").notNull().default(0),
   status: integer("status").notNull().default(0),
   createAt: timestamp("create_at", { withTimezone: true }).notNull()

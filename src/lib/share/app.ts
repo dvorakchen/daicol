@@ -1,22 +1,10 @@
 export enum AppStatus {
-	Enabled = 0,
-	Disabled = 1,
+  Enabled = 0,
+  Disabled = 1,
+  Unknowed = 2,
 }
 
-/**
- * App Categorys
- * 
- * the value is paraglide messages key, for i18n
- * 
- * # Usage:
- * 
- * ```ts
- * import { m } from '$lib/paraglide/messages';
- * const creativeDesign = AppCategory.creativeDesign;
- * 
- * const label = m[creativeDesign]();
- * ```
- */
-export const AppCategory = {
-	creativeDesign: 'app.category.creative_design',
-};
+export enum AppCategories {
+  CreativeDesign = '创意设计',
+  EnhanceImages = "美图",
+}
