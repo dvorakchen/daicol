@@ -21,9 +21,6 @@ This project used:
 ## Developing
 
 ```sh
-deno task dev
-
-# or start the server and open the app in a new browser tab
 deno task dev -- --open
 ```
 
