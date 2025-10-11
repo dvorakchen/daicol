@@ -1,7 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server.js';
 import { sequence } from '@sveltejs/kit/hooks';
-import { db } from '$lib/server/db/index.ts';
 import {
 	isJwtValid,
 	JWT_COOKIE_KEY,
@@ -14,6 +13,7 @@ import { env } from '$env/dynamic/private';
 import logger from '$lib/server/log.ts';
 import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
+import { getUserById } from '$lib/server/repo/users.ts';
 
 const DATABASE_URL = env.DATABASE_URL;
 if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
@@ -42,9 +42,7 @@ const themeHandle: Handle = ({ event, resolve }) => {
 				return html.replace('%theme%', '');
 			}
 
-			const user = await db.query.users.findFirst({
-				where: (users, { eq }) => eq(users.id, sub)
-			});
+			const user = await getUserById(sub);
 
 			if (!user) {
 				return html.replace('%theme%', '');

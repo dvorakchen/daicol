@@ -1,9 +1,7 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
-import { db } from '$lib/server/db/index.ts';
-import { smsCaptcha } from '$lib/server/db/schema/sms_captcha.ts';
-import { eq, sql } from 'drizzle-orm';
 import logger from '$lib/server/log.ts';
 import { m } from '$lib/paraglide/messages.js';
+import { updateNewSmsCode } from '$lib/server/repo/smsCaptcha.ts';
 
 export async function POST({ request }: RequestEvent) {
 	logger.info(`handle api captcha/send`);
@@ -23,29 +21,7 @@ export async function POST({ request }: RequestEvent) {
 		.padStart(4, '0');
 	logger.info(`phone: ${phone}, code: ${code}`);
 
-	await db.transaction(async (tx) => {
-		const sms = await tx.query.smsCaptcha.findFirst({
-			where: eq(smsCaptcha.phoneNumber, phone)
-		});
-		if (sms) {
-			logger.info(`has sms record about phone: ${phone}, update`);
-			await tx
-				.update(smsCaptcha)
-				.set({
-					isUsed: false,
-					code,
-					createAt: sql`now()`
-				})
-				.where(eq(smsCaptcha.phoneNumber, phone));
-		} else {
-			logger.info(`has NOT sms record about phone: ${phone}, insert`);
-			await tx.insert(smsCaptcha).values({
-				phoneNumber: phone,
-				code,
-				createAt: sql`now()`
-			});
-		}
-	});
+	await updateNewSmsCode(phone, code);
 
 	// todo: send code to phone
 
