@@ -7,8 +7,8 @@ import { QS_REDIRECT_KEY } from '$lib/share/index.ts';
 
 export type Headers = Readonly<Record<string, string>>;
 
-export function get(url: string, headers?: Headers) {
-	return httpRequest('GET', url, headers);
+export function get<T>(url: string, headers?: Headers) {
+	return httpRequest<T>('GET', url, headers);
 }
 
 /**

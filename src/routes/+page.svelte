@@ -1,97 +1,75 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { StarSolid } from 'flowbite-svelte-icons';
+	import { type AppDisplayType } from '$lib/share/app.js';
+	import { CaretDownSolid, StarSolid } from 'flowbite-svelte-icons';
+
+	import RankApps from '$lib/components/rank-apps.svelte';
+	import Footer from '$lib/components/footer.svelte';
+	import More from '$lib/components/more.svelte';
 
 	let { data } = $props();
 </script>
 
 <Navbar userSignInInfo={data.userSignInInfo} />
-<main class="mx-auto min-h-screen px-2 py-4 lg:max-w-6xl">
-	<h1 class=" text-4xl font-bold">{m['app.ai.hot']()}</h1>
+<main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl">
+	<section>
+		<h1 class="text-4xl font-bold">{m['app.ai.hot']()}</h1>
+		<div
+			class="-mx-2 grid grid-cols-3 grid-rows-3 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-2 lg:grid-cols-5"
+		>
+			{#each data.hotApps as app}
+				{@render appCard({ ...app, rate: +app.rate } as AppDisplayType)}
+			{/each}
+		</div>
+	</section>
 
-	<section
-		class="-mx-2 grid grid-cols-3 grid-rows-3 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-2 lg:grid-cols-5"
-	>
-		{#each data.hotApps as app}
-			{@render appCard(app.routeId, app.icon, app.name, app.description, +app.rate, app.useCount)}
-		{/each}
-		<!-- 
-		{#each Array.from({ length: 10 }) as item}
-			<div
-				class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
-			>
-				<a href={`/ai/`}
-					><img
-						src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-						alt="Workspace/icon/2025/09/30/Screenshot From 2025-09-30 19-23-07.png"
-						class="aspect-video w-full object-cover"
-					/></a
-				>
-				<div class="flex items-center justify-between bg-base-100 px-1 py-2 sm:block sm:px-2">
-					<h3 class="truncate font-semibold">
-						<a href={`/ai/`} class="link">手办生成</a>
-					</h3>
-					<div
-						class="tooltip block tooltip-primary"
-						data-tip="手办生成手办生成手办生成手办生成手办生成手办生成手办生成手办生成手办生成"
-					>
-						<div
-							class="mt-1 hidden max-w-full min-w-0 items-center truncate text-sm whitespace-nowrap text-gray-500 sm:block"
-						>
-							手办生成手办生成手办生成手办生成手办生成手办生成手办生成手办生成手办生成
-						</div>
-					</div>
-					<div class="flex items-center justify-between">
-						<div class="flex items-center text-sm text-amber-500">
-							<StarSolid size="sm" />
-							<span class="ml-1">4.5</span>
-						</div>
-						<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"
-							>0<i class="icon icon-[mdi--eye-outline]"></i></span
-						>
-					</div>
-				</div>
-			</div>
-		{/each} -->
+	<section class="rounded-xl bg-base-200 p-4">
+		<RankApps
+			initList={data.rankApps.map((app) => ({ ...app, rate: +app.rate }) as AppDisplayType)}
+		/>
+	</section>
+	<section class="rounded-xl bg-base-200 p-4">
+		<h1 class="text-2xl font-bold">{m['app.ai.latest']()}</h1>
+		<div
+			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
+		>
+			{#each data.hotApps.slice(0, 6) as app}
+				{@render appCard({ ...app, rate: +app.rate } as AppDisplayType)}
+			{/each}
+		</div>
+		<div class="mt-4 text-center">
+			<More link="/search?type=latest" />
+		</div>
 	</section>
 </main>
+<Footer />
 
-{#snippet appCard(
-	routeId: string,
-	icon: string,
-	name: string,
-	desc: string,
-	rate: number,
-	useCount: number
-)}
+{#snippet appCard(apps: AppDisplayType)}
 	<div
 		class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
 	>
-		<a href={`/ai/${routeId}`}
-			><img src={icon} alt={name} class="aspect-video w-full object-cover" /></a
+		<a href={`/ai/${apps.routeId}`}
+			><img src={apps.icon} alt={apps.name} class="aspect-video w-full object-cover" /></a
 		>
 		<div class="flex items-center justify-between bg-base-100 px-1 py-2 sm:block sm:px-2">
 			<h3 class="truncate font-semibold">
-				<a href={`/ai/${routeId}`} class="link">{name}</a>
+				<a href={`/ai/${apps.routeId}`} class="link">{apps.name}</a>
 			</h3>
-			<div
-				class="tooltip block tooltip-primary"
-				data-tip={desc}
-			>
+			<div class="tooltip block tooltip-primary" data-tip={apps.description}>
 				<div
 					class="mt-1 hidden max-w-full min-w-0 items-center truncate text-sm whitespace-nowrap text-gray-500 sm:block"
 				>
-					{desc}
+					{apps.description}
 				</div>
 			</div>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center text-sm text-amber-500">
 					<StarSolid size="sm" />
-					<span class="ml-1">{rate}</span>
+					<span class="ml-1">{apps.rate}</span>
 				</div>
 				<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"
-					>{useCount}<i class="icon icon-[mdi--eye-outline]"></i></span
+					>{apps.useCount}<i class="icon icon-[mdi--eye-outline]"></i></span
 				>
 			</div>
 		</div>

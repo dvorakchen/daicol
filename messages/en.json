@@ -4,6 +4,8 @@
 	"sign_in": "Sign in",
 	"sign_out": "Sign out",
 	"avatar": "avatar",
+	"contact_us": "Contact Us",
+	"more": "More",
 	"sign_in.phone_number": "Phone number",
 	"sign_in.phone_number.hint": "Must be 11 digits",
 	"sign_in.code": "Code",
@@ -16,5 +18,15 @@
 	"captcha.sent_error": "Sent code error, please retry",
 	"search_ai": "Search AI you want",
 	"goto_home_page": "Goto home page",
-	"app.ai.hot": "Hot AI"
+	"app.ai.hot": "Hot AI",
+	"app.ai.rank": "AI Ranks",
+	"app.ai.rank_total": "Total",
+	"app.ai.rank_month": "Monthly",
+	"app.ai.rank_week": "Weekly",
+	"app.ai.rank.table_head.rank": "Rank",
+	"app.ai.rank.table_head.app_name": "App Name",
+	"app.ai.rank.table_head.category": "Category",
+	"app.ai.rank.table_head.rate": "Rate",
+	"app.ai.rank.table_head.trand": "Trand",
+	"app.ai.latest": "AI Latest"
 }

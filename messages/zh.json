@@ -4,6 +4,8 @@
 	"sign_in": "登录",
 	"sign_out": "登出",
 	"avatar": "头像",
+	"contact_us": "联系我们",
+	"more": "更多",
 	"sign_in.phone_number": "手机号",
 	"sign_in.phone_number.hint": "手机号为11位数字",
 	"sign_in.code": "验证码",
@@ -16,5 +18,15 @@
 	"captcha.sent_error": "发送验证码失败，请重试",
 	"search_ai": "搜索想要的 AI",
 	"goto_home_page": "前往主页",
-	"app.ai.hot": "热门 AI"
+	"app.ai.hot": "热门 AI",
+	"app.ai.rank": "AI应用排行榜",
+	"app.ai.rank_total": "总榜",
+	"app.ai.rank_month": "月榜",
+	"app.ai.rank_week": "周榜",
+	"app.ai.rank.table_head.rank": "排名",
+	"app.ai.rank.table_head.app_name": "应用名称",
+	"app.ai.rank.table_head.category": "分类",
+	"app.ai.rank.table_head.rate": "评分",
+	"app.ai.rank.table_head.trand": "趋势",
+	"app.ai.latest": "最新AI应用"
 }
