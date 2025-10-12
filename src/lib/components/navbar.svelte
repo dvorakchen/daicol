@@ -3,11 +3,11 @@
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { SearchOutline } from 'flowbite-svelte-icons';
-	import logo from '$lib/assets/logo.png';
 	import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY } from '$lib/share';
 	import { onMount } from 'svelte';
+	import Logo from '$lib/components/logo.svelte';
 
 	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
 	let isSignedIn = $derived(Boolean(userSignInInfo.id));
@@ -24,9 +24,7 @@
 <div class="navbar flex-col gap-2 bg-base-100 shadow">
 	<div class="flex h-full w-full max-w-6xl">
 		<a class="btn grow justify-start pl-1 text-xl btn-ghost sm:grow-0 sm:pl-3" href="/">
-			<div class="w-8">
-				<img src={logo} alt={m.title()} />
-			</div>
+			<Logo />
 			{m.title()}</a
 		>
 		<div class="mx-2 hidden w-32 flex-1 items-center justify-center sm:flex sm:w-48 md:w-68">

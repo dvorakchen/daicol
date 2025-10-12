@@ -2,7 +2,7 @@
 	import signInImage from '$lib/assets/sign-in-side-background.jpg';
 	import SignIn from '$lib/components/sign-in.svelte';
 	import { m } from '$lib/paraglide/messages';
-	import logo from '$lib/assets/logo.png';
+	import Logo from '$lib/components/logo.svelte';
 </script>
 
 <main class="flex h-screen bg-cover" style="background-image: url('{signInImage}')">
@@ -16,9 +16,7 @@
 			<SignIn title={m.sign_in()} />
 			<div class="mt-8 flex justify-center">
 				<a class="btn pl-1 text-xl btn-ghost md:pl-3" href="/">
-					<div class="w-8">
-						<img src={logo} alt={m.title()} />
-					</div>
+					<Logo />
 					{m.goto_home_page()}</a
 				>
 			</div>
