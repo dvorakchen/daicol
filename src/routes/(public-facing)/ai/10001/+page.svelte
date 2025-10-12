@@ -1,5 +1,5 @@
 <script>
-	import OneImg2OneImg from "$lib/components/apps/one-img-2-one-img.svelte";
+	import OneImg2OneImg from "$lib/components/apps/1-img-2-1-img.svelte";
 
 </script>
 10001

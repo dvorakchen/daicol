@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Footer from '$lib/components/footer.svelte';
 	import Navbar from '$lib/components/navbar.svelte';
 
 	let { children, data } = $props();
@@ -8,3 +9,4 @@
 <div class="p-2 lg:max-w-6xl mx-auto">
 	{@render children()}
 </div>
+<Footer />
