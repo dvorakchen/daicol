@@ -21,7 +21,7 @@ export enum RankTypes {
 }
 
 export type AppDisplayType = {
-  routeId: string;
+  routeId: number;
   icon: string;
   name: string;
   description: string;

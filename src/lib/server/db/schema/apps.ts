@@ -11,7 +11,7 @@ import { AppStatus } from "../../../share/app.ts";
 
 export const apps = pgTable("apps", {
   id: serial("id").primaryKey(),
-  routeId: varchar("router_id", { length: 64 }).notNull().default("").unique(),
+  routeId: integer("router_id").notNull().unique(),
   name: varchar("name", { length: 64 }).notNull().unique().default(""),
   category: varchar("category", { length: 32 }).notNull().default(""),
   tags: varchar("tags", { length: 32 }).array().notNull().default([]),

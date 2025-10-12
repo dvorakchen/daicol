@@ -1,7 +1,7 @@
 export default [{
-  "routeId": "10001",
+  "routeId": 10001,
   "prompt": "",
 }, {
-  "routeId": "10002",
+  "routeId": 10002,
   "prompt": "",
 }];
