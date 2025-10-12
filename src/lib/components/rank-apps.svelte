@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
 	import { RankTypes, type AppDisplayType } from '$lib/share/app.js';
-	import { CaretUpSolid, StarSolid } from 'flowbite-svelte-icons';
+	import { ChevronUp, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
 	import { debounceTime } from 'rxjs';
 
@@ -129,11 +129,11 @@
 						</div>
 						<div class="col-span-2 text-sm text-gray-500">{app.category}</div>
 						<div class="col-span-2 flex items-center text-sm text-amber-500">
-							<StarSolid />
+							<Star />
 							<span class="ml-1">{app.rate}</span>
 						</div>
 						<div class="col-span-1 text-green-500">
-							<CaretUpSolid class="h-6 w-6 shrink-0" />
+							<ChevronUp class="h-6 w-6 shrink-0" />
 						</div>
 					</div>
 				{/each}

@@ -1,11 +1,11 @@
 <script>
 	import { m } from '$lib/paraglide/messages';
-	import { CaretDownSolid } from 'flowbite-svelte-icons';
+	import { ChevronDown } from 'lucide-svelte';
 
-    let { link } = $props();
+	let { link } = $props();
 </script>
 
 <a href={link} class="btn btn-outline btn-primary"
 	>{m.more()}
-	<CaretDownSolid />
+	<ChevronDown />
 </a>

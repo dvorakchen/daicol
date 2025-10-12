@@ -22,9 +22,9 @@
     "npm:eslint-config-prettier@^10.1.8": "10.1.8_eslint@9.37.0",
     "npm:eslint-plugin-svelte@^3.12.4": "3.12.4_eslint@9.37.0_svelte@5.39.10__acorn@8.15.0_postcss@8.5.6",
     "npm:eslint@^9.37.0": "9.37.0",
-    "npm:flowbite-svelte-icons@3": "3.0.0_svelte@5.39.10__acorn@8.15.0",
     "npm:globals@^16.4.0": "16.4.0",
     "npm:jsonwebtoken@^9.0.2": "9.0.2",
+    "npm:lucide-svelte@0.545": "0.545.0_svelte@5.39.10__acorn@8.15.0",
     "npm:luxon@^3.7.2": "3.7.2",
     "npm:playwright@^1.56.0": "1.56.0",
     "npm:postgres@^3.4.7": "3.4.7",
@@ -1814,14 +1814,6 @@
     "flatted@3.3.3": {
       "integrity": "sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg=="
     },
-    "flowbite-svelte-icons@3.0.0_svelte@5.39.10__acorn@8.15.0": {
-      "integrity": "sha512-7qm8vLOW4uHq1UeDDx0DLrLZXiE8H0i/XCFjGMsSAhIFfpkyIwlE4qXlmy8mjO4p+rzKNbVALQIoDEnuo8tPgg==",
-      "dependencies": [
-        "clsx",
-        "svelte",
-        "tailwind-merge"
-      ]
-    },
     "fn.name@1.1.0": {
       "integrity": "sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw=="
     },
@@ -2147,6 +2139,12 @@
     },
     "loupe@3.2.1": {
       "integrity": "sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ=="
+    },
+    "lucide-svelte@0.545.0_svelte@5.39.10__acorn@8.15.0": {
+      "integrity": "sha512-lVza6hIAf1abADTU1ThyNp+M3bQZtzTGQ9EQZ2xo3n9ftkd4QcWbDB2ekP2MqRLTJpeLXX5gaFEgFZtbWCnyqg==",
+      "dependencies": [
+        "svelte"
+      ]
     },
     "luxon@3.7.2": {
       "integrity": "sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew=="
@@ -3007,9 +3005,9 @@
         "npm:eslint-config-prettier@^10.1.8",
         "npm:eslint-plugin-svelte@^3.12.4",
         "npm:eslint@^9.37.0",
-        "npm:flowbite-svelte-icons@3",
         "npm:globals@^16.4.0",
         "npm:jsonwebtoken@^9.0.2",
+        "npm:lucide-svelte@0.545",
         "npm:luxon@^3.7.2",
         "npm:playwright@^1.56.0",
         "npm:postgres@^3.4.7",

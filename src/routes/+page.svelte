@@ -2,7 +2,7 @@
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { type AppDisplayType } from '$lib/share/app.js';
-	import { CaretDownSolid, StarSolid } from 'flowbite-svelte-icons';
+	import { Star } from 'lucide-svelte';
 
 	import RankApps from '$lib/components/rank-apps.svelte';
 	import Footer from '$lib/components/footer.svelte';
@@ -65,7 +65,7 @@
 			</div>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center text-sm text-amber-500">
-					<StarSolid size="sm" />
+					<Star size="sm" />
 					<span class="ml-1">{apps.rate}</span>
 				</div>
 				<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"

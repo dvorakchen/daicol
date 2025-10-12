@@ -2,7 +2,7 @@
 	import SignOut from '$lib/components/sign-out.svelte';
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { SearchOutline } from 'flowbite-svelte-icons';
+	import { Search  } from 'lucide-svelte';
 	import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY } from '$lib/share';
@@ -72,7 +72,7 @@
 {#snippet search()}
 	<form action="/search">
 		<label class="input w-full">
-			<SearchOutline />
+			<Search  />
 			<input type="search" name="s" placeholder={m.search_ai()} value={searchValue} /></label
 		>
 	</form>

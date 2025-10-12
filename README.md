@@ -7,7 +7,7 @@ This project used:
 - frontend framework: Sveltekit
 - backend framework: Sveltekit
 - UI style: Tailwindcss, DaisyUI
-- icon: flowbite-svelte-icons
+- icon: lucide-svelte
 - runtime: Deno
 - package manager: Deno
 - log: winston

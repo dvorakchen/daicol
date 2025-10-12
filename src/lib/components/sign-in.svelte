@@ -3,7 +3,7 @@
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import SendCaptcha from '$lib/components/send-captcha.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { MobilePhoneOutline, AwardOutline } from 'flowbite-svelte-icons';
+	import { Award, Smartphone } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY } from '$lib/share';
@@ -44,7 +44,7 @@
 <form class="w-2xs" {onsubmit}>
 	<h1 class="mb-8 text-5xl font-bold text-gray-900">{title}</h1>
 	<label class="validator input">
-		<MobilePhoneOutline />
+		<Smartphone />
 		<input
 			aria-label="phone"
 			type="tel"
@@ -65,7 +65,7 @@
 	<div class="flex gap-2">
 		<div>
 			<label class="validator input">
-				<AwardOutline />
+				<Award />
 				<input
 					type="text"
 					class="tabular-nums"
