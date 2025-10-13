@@ -26,7 +26,7 @@
 	}
 </script>
 
-<div class="navbar flex-col gap-2 bg-base-100 shadow">
+<div class="navbar flex-col gap-2 bg-transparent shadow">
 	<div class="flex h-full w-full max-w-6xl">
 		<a class="btn grow justify-start pl-1 text-xl btn-ghost sm:grow-0 sm:pl-3" href="/">
 			<Logo />

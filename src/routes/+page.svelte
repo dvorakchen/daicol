@@ -2,7 +2,7 @@
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { type AppDisplayType } from '$lib/share/app.js';
-	import { Star } from 'lucide-svelte';
+	import { Eye, Star } from 'lucide-svelte';
 
 	import RankApps from '$lib/components/rank-apps.svelte';
 	import Footer from '$lib/components/footer.svelte';
@@ -70,8 +70,11 @@
 					<span class="ml-1">{apps.rate}</span>
 				</div>
 				<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"
-					>{apps.useCount}<i class="icon icon-[mdi--eye-outline]"></i></span
-				>
+					>{apps.useCount}
+					<span class="w-5">
+						<Eye size="xs" />
+					</span>
+				</span>
 			</div>
 		</div>
 	</div>

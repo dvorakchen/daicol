@@ -94,7 +94,7 @@
 									>{app.category}</span
 								>
 								<div class="ml-2 flex items-center text-sm text-amber-500">
-									<i class="icon icon-[mdi--star]"></i> <span class="ml-1">{app.rate}</span>
+									<Star /> <span class="ml-1">{app.rate}</span>
 								</div>
 							</div>
 						</div>
