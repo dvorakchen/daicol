@@ -4,6 +4,7 @@ import { apps } from "$lib/server/db/schema/apps.ts";
 import logger from "$lib/server/log.ts";
 import { AppStatus, RankTypes } from "$lib/share/app.ts";
 import { visitHistories } from "../db/schema/visit_histories.ts";
+import type { SearchType } from "$lib/share/search.ts";
 
 export async function getHotApps(count: number = 10) {
   const hotApps = await db.query.apps.findMany({
@@ -110,4 +111,7 @@ async function getTotalRankApps() {
     .from(visitHistories)
     .groupBy(visitHistories.appId)
     .orderBy(desc(count)).limit(RANK_APPS_COUNT);
+}
+
+export async function searchApps(search: string, type: SearchType) {
 }

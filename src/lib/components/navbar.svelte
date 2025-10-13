@@ -2,11 +2,10 @@
 	import SignOut from '$lib/components/sign-out.svelte';
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { Search  } from 'lucide-svelte';
+	import { Search } from 'lucide-svelte';
 	import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
-	import { QS_REDIRECT_KEY } from '$lib/share';
-	import { onMount } from 'svelte';
+	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
 
 	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
@@ -14,11 +13,17 @@
 
 	let signInURL = $state('/signin');
 	let searchValue = $state('');
+	let loading = $state(false);
 
-	onMount(() => {
+	$effect(() => {
 		signInURL = `/signin?${QS_REDIRECT_KEY}=${page.url.pathname}${page.url.search}`;
-		searchValue = page.url.searchParams.get('s') ?? searchValue;
+		searchValue = (page.url.searchParams.get('s') ?? '').trim();
+		loading = false;
 	});
+
+	function onsubmit() {
+		loading = true;
+	}
 </script>
 
 <div class="navbar flex-col gap-2 bg-base-100 shadow">
@@ -70,10 +75,19 @@
 </div>
 
 {#snippet search()}
-	<form action="/search">
+	<form action="/search" {onsubmit}>
 		<label class="input w-full">
-			<Search  />
-			<input type="search" name="s" placeholder={m.search_ai()} value={searchValue} /></label
+			{#if loading}
+				<span class="loading-spin loading text-primary"></span>
+			{:else}
+				<Search />
+			{/if}
+			<input
+				type="search"
+				name={QS_SEARCH_KEY}
+				placeholder={m.search_ai()}
+				value={searchValue}
+			/></label
 		>
 	</form>
 {/snippet}

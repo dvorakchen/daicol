@@ -2,4 +2,5 @@
 	let { data } = $props();
 </script>
 
-search page {data.s}
+search page {data.search}
+search type: {data.searcType}

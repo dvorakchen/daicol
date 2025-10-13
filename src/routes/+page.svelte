@@ -7,6 +7,7 @@
 	import RankApps from '$lib/components/rank-apps.svelte';
 	import Footer from '$lib/components/footer.svelte';
 	import More from '$lib/components/more.svelte';
+	import { QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/search.js';
 
 	let { data } = $props();
 </script>
@@ -39,7 +40,7 @@
 			{/each}
 		</div>
 		<div class="mt-4 text-center">
-			<More link="/search?type=latest" />
+			<More link={`/search?${QS_SEARCH_TYPE_KEY}=${SearchType.Latest}`} />
 		</div>
 	</section>
 </main>
