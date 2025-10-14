@@ -113,5 +113,12 @@ async function getTotalRankApps() {
     .orderBy(desc(count)).limit(RANK_APPS_COUNT);
 }
 
-export async function searchApps(search: string, type: SearchType) {
+export function searchApps(_search: string, _type: SearchType) {
+  throw "not implemention";
+}
+
+export async function getAppByRouteId(routeId: number) {
+  return await db.query.apps.findFirst({
+    where: and(eq(apps.routeId, routeId), eq(apps.status, AppStatus.Enabled)),
+  });
 }

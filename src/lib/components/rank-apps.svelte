@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { RankTypes, type AppDisplayType } from '$lib/share/app.js';
+	import { RankTypes, type AppEntityType } from '$lib/share/app.js';
 	import { ChevronUp, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
 	import { debounceTime } from 'rxjs';
 
-	let { initList }: { initList: AppDisplayType[] } = $props();
+	let { initList }: { initList: AppEntityType[] } = $props();
 
 	let first = true;
 	let rankType = $state(RankTypes.Week);
-	let rankApps = $state(initList.map((app) => ({ ...app, rate: +app.rate }) as AppDisplayType));
+	let rankApps = $state(initList.map((app) => ({ ...app })));
 	let top3Apps = $derived(rankApps.slice(0, 3));
 	let restApps = $derived(rankApps.slice(3));
 	let loading = $state(false);
@@ -22,11 +22,11 @@
 		}
 
 		loading = true;
-		const subscription = get<AppDisplayType[]>(`/api/apps/ranks?type=${rankType}`)
+		const subscription = get<AppEntityType[]>(`/api/apps/ranks?type=${rankType}`)
 			.pipe(debounceTime(500))
 			.subscribe({
-				next: (data: AppDisplayType[]) => {
-					rankApps = data.map((app: any) => ({ ...app, rate: +app.rate }) as AppDisplayType);
+				next: (data: AppEntityType[]) => {
+					rankApps = data.map((app: any) => ({ ...app, rate: +app.rate }) as AppEntityType);
 					loading = false;
 				},
 				error: (e) => {
@@ -50,7 +50,7 @@
 		{@render loadingView()}
 	{/if}
 	<div class="mb-4 flex items-center justify-between">
-		<h2 class="text-2xl font-bold">{m['app.ai.rank']()}</h2>
+		<h2 class="text-primary-to-accent text-2xl font-bold">{m['app.ai.rank']()}</h2>
 		<div class="flex space-x-2">
 			<button
 				class={['btn btn-sm btn-primary', rankType === RankTypes.Week ? '' : 'btn-outline']}

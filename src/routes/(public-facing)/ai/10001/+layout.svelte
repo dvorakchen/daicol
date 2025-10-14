@@ -1,7 +1,7 @@
 <!-- ai generate figure -->
 <script lang="ts">
 
-	let { children, data } = $props();
+	let { children } = $props();
 </script>
 
 {@render children()}

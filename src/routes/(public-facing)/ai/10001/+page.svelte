@@ -1,7 +1,10 @@
 <script>
-	import OneImg2OneImg from '$lib/components/apps/1-img-2-1-img.svelte';
+	import OneImgToOneImg from '$lib/components/apps/1-img-to-1-img.svelte';
 
-	const ROUTE_ID = 10001;
+
+	let { data } = $props();
 </script>
 
-<OneImg2OneImg appName='手办生成' />
+<OneImgToOneImg app={data.app} />
+
+<div class="mb-32"></div>

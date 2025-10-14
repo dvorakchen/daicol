@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { type AppDisplayType } from '$lib/share/app.js';
+	import { type AppEntityType } from '$lib/share/app.js';
 	import { Eye, Star } from 'lucide-svelte';
 
 	import RankApps from '$lib/components/rank-apps.svelte';
@@ -13,30 +13,32 @@
 </script>
 
 <Navbar userSignInInfo={data.userSignInInfo} />
-<main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl">
+<main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl xl:max-w-7xl">
 	<section>
-		<h1 class="text-4xl font-bold">{m['app.ai.hot']()}</h1>
+		<h1
+			class="text-primary-to-accent text-4xl font-bold"
+		>
+			{m['app.ai.hot']()}
+		</h1>
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-3 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-2 lg:grid-cols-5"
 		>
 			{#each data.hotApps as app}
-				{@render appCard({ ...app, rate: +app.rate } as AppDisplayType)}
+				{@render appCard(app)}
 			{/each}
 		</div>
 	</section>
 
 	<section class="rounded-xl bg-base-200 p-4">
-		<RankApps
-			initList={data.rankApps.map((app) => ({ ...app, rate: +app.rate }) as AppDisplayType)}
-		/>
+		<RankApps initList={data.rankApps} />
 	</section>
 	<section class="rounded-xl bg-base-200 p-4">
-		<h1 class="text-2xl font-bold">{m['app.ai.latest']()}</h1>
+		<h1 class="text-primary-to-accent text-2xl font-bold">{m['app.ai.latest']()}</h1>
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
 		>
 			{#each data.hotApps.slice(0, 6) as app}
-				{@render appCard({ ...app, rate: +app.rate } as AppDisplayType)}
+				{@render appCard(app)}
 			{/each}
 		</div>
 		<div class="mt-4 text-center">
@@ -46,7 +48,7 @@
 </main>
 <Footer />
 
-{#snippet appCard(apps: AppDisplayType)}
+{#snippet appCard(apps: AppEntityType)}
 	<div
 		class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
 	>

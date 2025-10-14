@@ -6,7 +6,7 @@
 </script>
 
 <Navbar userSignInInfo={data.userSignInInfo} />
-<div class="p-2 lg:max-w-6xl mx-auto">
+<div class="mx-auto p-2 lg:max-w-6xl xl:max-w-7xl">
 	{@render children()}
 </div>
 <Footer />

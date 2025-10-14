@@ -20,12 +20,24 @@ export enum RankTypes {
   Total = "Total",
 }
 
-export type AppDisplayType = {
-  routeId: number;
-  icon: string;
+export type AppEntityType = {
+  id: number;
   name: string;
-  description: string;
+  points: number;
+  status: string;
+  createAt: Date;
+  updateAt: Date;
+  routeId: number;
   category: string;
-  rate: number;
+  tags: string[];
+  keywords: string[];
+  description: string;
+  seoKeywords: string[];
+  seoDescription: string;
+  model: string;
+  source: string;
+  icon: string;
+  barImg: string;
+  rate: string;
   useCount: number;
 };
