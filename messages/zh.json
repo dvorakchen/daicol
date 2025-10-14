@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "title": "袋口 AI",
   "home": "首页",
+  "seo_description": "各种 AI 工具，基于 AI 技术，支持一键生成，适用于动漫、游戏、设计创作。",
   "sign_in": "登录",
   "sign_out": "登出",
   "avatar": "头像",
@@ -46,5 +47,6 @@
   "app.ai.generate.drag_and_drop_or_upload_image": "拖拽图片到这里或点击选择图片",
   "app.ai.generate.choose_image_under_mb": "Please choose an image under {size}MB.",
   "app.ai.generate.error.sensitive_content": "素材包含敏感内容，请更换",
-  "app.ai.generate.error.use_count_limit": "API 使用次数已达上限，请联系管理员"
+  "app.ai.generate.error.use_count_limit": "API 使用次数已达上限，请联系管理员",
+  "app.ai.generate.error.occured_please_contact_administrator": "发生错误，请联系管理员"
 }

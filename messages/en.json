@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "title": "Daicol AI",
   "home": "Home",
+  "seo_description": "These diverse AI-powered tools enable one-click content generation for creating anime, games, and designs",
   "sign_in": "Sign in",
   "sign_out": "Sign out",
   "avatar": "avatar",
@@ -39,12 +40,13 @@
   "app.ai.detail.use_it_immediately": "Use It Immediately",
   "app.ai.detail.hot_apps": "Hot AI Apps",
   "app.ai.detail.category_rank": "Category Rank",
-  "app.ai.detail.original_photo": "Original Phone",
-  "app.ai.detail.handled_photo": "Handled Phone",
+  "app.ai.detail.original_photo": "Original Photo",
+  "app.ai.detail.handled_photo": "Handled Photo",
   "app.ai.generate.generate_it": "Generate It",
   "app.ai.generate.generating": "Generating",
   "app.ai.generate.drag_and_drop_or_upload_image": "Drag & drop image or click here",
   "app.ai.generate.choose_image_under_mb": "Please choose an image under {size}MB.",
   "app.ai.generate.error.sensitive_content": "Image Sensitive Content Detected",
-  "app.ai.generate.error.use_count_limit": "Use count limit reached"
+  "app.ai.generate.error.use_count_limit": "Use count limit reached",
+  "app.ai.generate.error.occured_please_contact_administrator": "Error Occured, Please Contact The Administrator"
 }

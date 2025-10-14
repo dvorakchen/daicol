@@ -5,6 +5,7 @@
 	import MagicHandling from '$lib/components/loading-handling/magic-handling.svelte';
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
 	import { postFile } from '$lib/client/net/http';
+	import { toastMan } from '$lib/client/universal/toast.svelte';
 
 	let { routeId } = $props();
 
@@ -25,12 +26,12 @@
 
 		postFile(`/api/generator/1-img-to-1-img/${routeId}`, [image]).subscribe({
 			next: (data) => {
-				console.log('result');
-				console.log(data);
+				handledImageLink = (data as { url: string }) .url;
 				generating = false;
 			},
 			error: (e) => {
 				console.error(e);
+				toastMan.add('error', `${m['app.ai.generate.error.occured_please_contact_administrator']()}: ${e.response.message}`)
 				generating = false;
 			}
 		});

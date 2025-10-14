@@ -6,12 +6,14 @@ import {
   text,
   timestamp,
   varchar,
+  uuid
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { UserStatus } from "../../../share/user.ts";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
+  authId: uuid('auth_id'),
   userName: varchar("user_name", { length: 64 }).notNull().default(""),
   phoneNumber: varchar("phone_number", { length: 16 }).notNull().default("")
     .unique(),

@@ -2,19 +2,42 @@ import { db } from "$lib/server/db/index.ts";
 import { and, desc, eq, gte, inArray, SQL, sql } from "drizzle-orm";
 import { apps } from "$lib/server/db/schema/apps.ts";
 import logger from "$lib/server/log.ts";
-import { AppStatus, RankTypes } from "$lib/share/app.ts";
+import { AppStatus, RankTypes, type AppEntityTypeWithPrompt } from "$lib/share/app.ts";
 import { visitHistories } from "../db/schema/visit_histories.ts";
 import type { SearchType } from "$lib/share/search.ts";
 
+const COLUMNS_WITHOUT_PROMPT = {
+  id: true,
+  name: true,
+  points: true,
+  status: true,
+  createAt: true,
+  updateAt: true,
+  routeId: true,
+  category: true,
+  tags: true,
+  keywords: true,
+  description: true,
+  seoKeywords: true,
+  seoDescription: true,
+  model: true,
+  source: true,
+  icon: true,
+  barImg: true,
+  rate: true,
+  useCount: true,
+};
+
 export async function getHotApps(count: number = 10) {
   const hotApps = await db.query.apps.findMany({
+    columns: COLUMNS_WITHOUT_PROMPT,
     where: and(eq(apps.status, AppStatus.Enabled)),
     orderBy: [desc(apps.createAt), desc(apps.rate), desc(apps.useCount)],
     limit: count,
   });
 
   logger.info(`get hot apps: ${hotApps.length}`);
-  return hotApps;
+  return hotApps as AppEntityTypeWithPrompt[];
 }
 
 const RANK_APPS_COUNT = 10;
@@ -48,11 +71,11 @@ export async function getRankApps(rankType: RankTypes) {
 
     const customOrder = sql`CASE ${apps.id} ${caseStatements} END`;
 
-    rankApps = await db
-      .select()
-      .from(apps)
-      .where(inArray(apps.id, appIdList))
-      .orderBy(customOrder);
+    rankApps = await db.query.apps.findMany({
+      columns: COLUMNS_WITHOUT_PROMPT,
+      where:inArray(apps.id, appIdList),
+      orderBy: customOrder
+    });
   }
 
   if (rest > 0) {
@@ -65,7 +88,7 @@ export async function getRankApps(rankType: RankTypes) {
   );
   rankApps = rankApps ?? [];
 
-  return rankApps;
+  return rankApps as AppEntityTypeWithPrompt[];
 }
 
 async function getWeekRankApps() {
@@ -119,6 +142,14 @@ export function searchApps(_search: string, _type: SearchType) {
 
 export async function getAppByRouteId(routeId: number) {
   return await db.query.apps.findFirst({
+      columns: COLUMNS_WITHOUT_PROMPT,
+
     where: and(eq(apps.routeId, routeId), eq(apps.status, AppStatus.Enabled)),
   });
+}
+
+export async function getPrompt(routeId: number) {
+  return (await db.query.apps.findFirst({
+    where: eq(apps.routeId, routeId)
+  }))?.prompt ?? '';
 }

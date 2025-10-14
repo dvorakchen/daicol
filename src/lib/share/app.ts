@@ -20,7 +20,7 @@ export enum RankTypes {
   Total = "Total",
 }
 
-export type AppEntityType = {
+export type AppEntityTypeWithPrompt = {
   id: number;
   name: string;
   points: number;

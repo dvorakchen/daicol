@@ -3,13 +3,13 @@
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { Search } from 'lucide-svelte';
-	import type { UserSignInInfo } from '$lib/share/user';
+	// import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
 
-	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
-	let isSignedIn = $derived(Boolean(userSignInInfo.id));
+	// let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
+	// let isSignedIn = $derived(Boolean(userSignInInfo.id));
 
 	let signInURL = $state('/signin');
 	let searchValue = $state('');
@@ -27,8 +27,8 @@
 </script>
 
 <div class="navbar flex-col gap-2 bg-transparent shadow">
-	<div class="flex h-full w-full">
-		<a class="btn grow justify-start pl-1 text-xl btn-ghost sm:grow-0 sm:pl-3" href="/">
+	<div class="flex h-full w-full items-center max-w-7xl">
+		<a class="btn grow justify-start pl-1 text-xl btn-ghost sm:grow-0" href="/">
 			<Logo />
 			{m.title()}</a
 		>

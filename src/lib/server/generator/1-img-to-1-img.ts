@@ -43,13 +43,13 @@ export async function generate(file: File, prompt: string): Promise<string> {
       "OutputImageSensitiveContentDetected",
       "InputImageSensitiveContentDetected",
     ]);
-    let errorMsg = m["app.ai.generate.error.use_count_limit"]();
+    let errorMsg = json.error.code ?? '';
 
-    if (errorCodes.has(json.error.code ?? "")) {
-      errorMsg = m["app.ai.generate.error.sensitive_content"]();;
-    } else if ((json.error.code ?? "") === "QuotaExceeded") {
+    if (errorCodes.has(errorMsg)) {
+      errorMsg = m["app.ai.generate.error.sensitive_content"]();
+    } else if ((errorMsg) === "QuotaExceeded") {
       logger.error("doubao api out of limits!");
-    } else if ((json.error.code ?? "") === "AuthenticationError") {
+    } else if ((errorMsg) === "AuthenticationError") {
       logger.error("doubao api key error");
     }
 

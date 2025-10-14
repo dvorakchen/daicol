@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { RankTypes, type AppEntityType } from '$lib/share/app.js';
+	import { RankTypes, type AppEntityTypeWithPrompt } from '$lib/share/app.js';
 	import { ChevronUp, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
 	import { debounceTime } from 'rxjs';
 
-	let { initList }: { initList: AppEntityType[] } = $props();
+	let { initList }: { initList: AppEntityTypeWithPrompt[] } = $props();
 
 	let first = true;
 	let rankType = $state(RankTypes.Week);
@@ -22,11 +22,11 @@
 		}
 
 		loading = true;
-		const subscription = get<AppEntityType[]>(`/api/apps/ranks?type=${rankType}`)
+		const subscription = get<AppEntityTypeWithPrompt[]>(`/api/apps/ranks?type=${rankType}`)
 			.pipe(debounceTime(500))
 			.subscribe({
-				next: (data: AppEntityType[]) => {
-					rankApps = data.map((app: any) => ({ ...app, rate: +app.rate }) as AppEntityType);
+				next: (data: AppEntityTypeWithPrompt[]) => {
+					rankApps = data.map((app: any) => ({ ...app, rate: +app.rate }) as AppEntityTypeWithPrompt);
 					loading = false;
 				},
 				error: (e) => {

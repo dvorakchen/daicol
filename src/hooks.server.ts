@@ -53,25 +53,25 @@ const themeHandle: Handle = ({ event, resolve }) => {
 	});
 };
 
-/**
- * refresh the JWT if the JWT is valid
- */
-const refreshAuth: Handle = ({ event, resolve }) => {
-	const response = resolve(event);
+// /**
+//  * refresh the JWT if the JWT is valid
+//  */
+// const refreshAuth: Handle = ({ event, resolve }) => {
+// 	const response = resolve(event);
 
-	// refresh
-	const token = event.cookies.get(JWT_COOKIE_KEY) ?? '';
-	if (isJwtValid(token)) {
-		const sub = tryGetPayloadSub(token);
-		if (sub) {
-			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
-			setJWTCookie(event.cookies, token);
-		}
-	}
+// 	// refresh
+// 	const token = event.cookies.get(JWT_COOKIE_KEY) ?? '';
+// 	if (isJwtValid(token)) {
+// 		const sub = tryGetPayloadSub(token);
+// 		if (sub) {
+// 			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+// 			setJWTCookie(event.cookies, token);
+// 		}
+// 	}
 
-	//  check protecting route, return 401 if need auth
+// 	//  check protecting route, return 401 if need auth
 
-	return response;
-};
+// 	return response;
+// };
 
-export const handle = sequence(themeHandle, paraglideHandle, refreshAuth);
+export const handle = sequence(themeHandle, paraglideHandle, /*refreshAuth*/);

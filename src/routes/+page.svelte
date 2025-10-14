@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { type AppEntityType } from '$lib/share/app.js';
+	import { type AppEntityTypeWithPrompt } from '$lib/share/app.js';
 	import { Eye, Star } from 'lucide-svelte';
 
 	import RankApps from '$lib/components/rank-apps.svelte';
@@ -48,7 +48,7 @@
 </main>
 <Footer />
 
-{#snippet appCard(apps: AppEntityType)}
+{#snippet appCard(apps: AppEntityTypeWithPrompt)}
 	<div
 		class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
 	>

@@ -9,7 +9,7 @@ export async function load({ }: RequestEvent) {
   const hotApps = await getHotApps(HOME_PAGE_HOT_APPS_COUNT);
 
   const rankApps = await getRankApps(RankTypes.Total);
-
+  
   return {
     hotApps,
     rankApps

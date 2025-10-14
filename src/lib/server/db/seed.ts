@@ -5,7 +5,7 @@ import { UserPermissions } from "$lib/share/user.ts";
 import { env } from "$env/dynamic/private";
 import { apps } from "$lib/server/db/schema/apps.ts";
 import { AppCategories, AppStatus } from "$lib/share/app.ts";
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export async function plantingSeed() {
   logger.info(`plainting database seed`);
@@ -20,6 +20,7 @@ export async function plantingSeed() {
     const USERNAME = "ADMIN";
     const PHONE_NUMBER = env.INIT_ADMIN_PHONE;
     await tx.insert(users).values({
+      authId: '42a290bf-5b9c-4f9a-a49f-14a458273d89',
       userName: USERNAME,
       phoneNumber: PHONE_NUMBER,
       permissions: [UserPermissions.BaseAccess, UserPermissions.AdminAccess],
@@ -38,18 +39,23 @@ export async function plantingSeed() {
     logger.info("table apps has not data, plainting");
 
     for (const item of initApps) {
-      await tx.insert(apps).values(item);
+      const existApp = await tx.query.apps.findFirst({
+        where: eq(apps.routeId, item.routeId)
+      })
+
+      if (!existApp) {
+        await tx.insert(apps).values(item);
+      }
     }
   });
 }
-
 const initApps = [
   {
     routeId: 10001,
     name: "手办生成",
     category: AppCategories.CreativeDesign,
     keywords: ["手办生成", "大香蕉", "Nano Banana"],
-    description: "用任意图片生成逼真手办",
+    description: "用任意图片生成真实手办",
     seoKeywords: [
       "doubao-seedream",
       "Nano Banana",
@@ -68,13 +74,14 @@ const initApps = [
       "Nano Banana 手办生成与创意设计应用！利用顶尖AI技术，将您的想法一键转化为高精度3D手办模型。实现个性化手办定制、动漫周边设计和虚拟模型创作。您的专属AI建模工作室，让创意直达3D打印！",
     model: "seedream-4",
     source: "豆包",
-    icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
-    barImg: "",
-    rate: sql`'0.0'::numeric`,
-    useCount: 0,
+    icon: "/imgs/10001/icon.png",
+    barImg: "/imgs/10001/banner.png",
+    rate: sql`'5.0'::numeric`,
+    useCount: 1450,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["3D", "AI建模", "手办", "定制", "创意"],
+    prompt: "Create a 1/7 scale commercialized figurine of the characters in the picture, in a realistic style, in a real environment. The figurine is placed on a computer desk. The figurine has a round transparent acrylic base, with no text on the base. The content on the computer screen is a 3D modeling process of this figurine. Next to the computer screen is a toy packaging box, designed in a style reminisc",
   },
   {
     routeId: 10002,
@@ -97,11 +104,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 2800,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["壁纸", "高清", "AI绘画", "个性化", "手机"],
+    prompt: "",
   },
   {
     routeId: 10003,
@@ -123,11 +131,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1900,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["Logo", "品牌", "商业", "AI设计", "矢量"],
+    prompt: "",
   },
   {
     routeId: 10004,
@@ -149,11 +158,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 850,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["漫画", "二次元", "分镜", "故事板", "草稿"],
+    prompt: "",
   },
   {
     routeId: 10005,
@@ -175,11 +185,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 3500,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["插画", "艺术", "风格转换", "油画", "AI"],
+    prompt: "",
   },
   {
     routeId: 10006,
@@ -200,11 +211,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1200,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["室内设计", "家居", "装修", "效果图", "灵感"],
+    prompt: "",
   },
   {
     routeId: 10007,
@@ -225,11 +237,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 650,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["字体", "艺术字", "书法", "设计", "排版"],
+    prompt: "",
   },
   {
     routeId: 10008,
@@ -250,11 +263,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 400,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["纹理", "PBR", "3D", "游戏", "无缝"],
+    prompt: "",
   },
   {
     routeId: 10009,
@@ -275,11 +289,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 950,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["情绪", "抽象", "艺术", "心理", "色彩"],
+    prompt: "",
   },
   {
     routeId: 10010,
@@ -300,11 +315,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1700,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["海报", "广告", "营销", "创意", "合成"],
+    prompt: "",
   },
   {
     routeId: 10011,
@@ -325,11 +341,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 2100,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["虚拟形象", "头像", "二次元", "卡通", "IP"],
+    prompt: "",
   },
   {
     routeId: 10012,
@@ -350,11 +367,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 700,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["文字特效", "艺术字", "纹理", "材质", "海报"],
+    prompt: "",
   },
   {
     routeId: 10013,
@@ -375,11 +393,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 350,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["建筑", "概念设计", "草图", "景观", "AI"],
+    prompt: "",
   },
   {
     routeId: 10014,
@@ -400,11 +419,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1100,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["配色", "色彩", "设计", "UI", "品牌"],
+    prompt: "",
   },
   {
     routeId: 10015,
@@ -425,11 +445,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 900,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["摄影", "后期", "景深", "虚化", "照片"],
+    prompt: "",
   },
   {
     routeId: 10016,
@@ -450,11 +471,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 250,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["抽象", "几何", "极简", "艺术", "AI"],
+    prompt: "",
   },
   {
     routeId: 10017,
@@ -475,11 +497,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 4500,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["卡通", "二次元", "动漫", "滤镜", "头像"],
+    prompt: "",
   },
   {
     routeId: 10018,
@@ -500,11 +523,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1600,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["排版", "布局", "设计", "平面", "海报"],
+    prompt: "",
   },
   {
     routeId: 10019,
@@ -525,11 +549,12 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 500,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["产品", "渲染", "3D", "概念", "工业设计"],
+    prompt: "",
   },
   {
     routeId: 10020,
@@ -550,10 +575,11 @@ const initApps = [
     source: "豆包",
     icon: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
     barImg: "",
-    rate: sql`'0.0'::numeric`,
+    rate: sql`'4.5'::numeric`,
     useCount: 1400,
     points: 1,
     status: AppStatus.Enabled,
     tags: ["像素", "PixelArt", "复古", "游戏", "艺术"],
+    prompt: "",
   },
 ];
