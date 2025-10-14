@@ -4,6 +4,9 @@
 	import UploadFile from '$lib/components/upload-file.svelte';
 	import MagicHandling from '$lib/components/loading-handling/magic-handling.svelte';
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
+	import { postFile } from '$lib/client/net/http';
+
+	let { routeId } = $props();
 
 	let image = $state(null as null | File);
 	let generating = $state(false);
@@ -19,6 +22,18 @@
 			return;
 		}
 		generating = true;
+
+		postFile(`/api/generator/1-img-to-1-img/${routeId}`, [image]).subscribe({
+			next: (data) => {
+				console.log('result');
+				console.log(data);
+				generating = false;
+			},
+			error: (e) => {
+				console.error(e);
+				generating = false;
+			}
+		});
 	}
 </script>
 
@@ -44,7 +59,9 @@
 		{/if}
 	</div>
 	<div>
-		<div class="mx-auto max-w-md overflow-hidden rounded-lg md:max-w-xl flex items-center justify-center min-h-full">
+		<div
+			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg md:max-w-xl"
+		>
 			{#if handledImageLink}
 				<img src={handledImageLink} alt="Handled" />
 			{:else}

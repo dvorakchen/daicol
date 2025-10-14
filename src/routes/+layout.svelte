@@ -5,18 +5,18 @@
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import ToastMsg from '$lib/components/toast-msg.svelte';
 	import { onMount } from 'svelte';
-	import { invalidate } from '$app/navigation';
+	// import { invalidate } from '$app/navigation';
 
 	let { children } = $props();
 
 	onMount(() => {
-		const interval = setInterval(() => {
-			invalidate('/api/users/sign-in-info');
-		}, 1000 * 30);
+		// const interval = setInterval(() => {
+		// 	invalidate('/api/users/sign-in-info');
+		// }, 1000 * 30);
 
-		return () => {
-			clearInterval(interval);
-		};
+		// return () => {
+		// 	clearInterval(interval);
+		// };
 	});
 </script>
 

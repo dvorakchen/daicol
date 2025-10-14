@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SignOut from '$lib/components/sign-out.svelte';
+	// import SignOut from '$lib/components/sign-out.svelte';
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { Search } from 'lucide-svelte';
@@ -36,7 +36,7 @@
 			{@render search()}
 		</div>
 		<div class="flex-none space-x-2">
-			{#if isSignedIn === true}
+			<!-- {#if isSignedIn === true}
 				<div class="dropdown dropdown-end">
 					<div tabindex="0" role="button" class="btn avatar btn-circle btn-ghost btn-sm">
 						<div class="w-10 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
@@ -64,7 +64,7 @@
 				<span class="loading loading-spinner text-primary"></span>
 			{:else}
 				<a class="btn btn-primary" href={signInURL}>{m.sign_in()}</a>
-			{/if}
+			{/if} -->
 
 			<ThemeController />
 		</div>

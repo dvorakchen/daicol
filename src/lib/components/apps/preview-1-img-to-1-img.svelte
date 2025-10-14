@@ -7,7 +7,7 @@
 
 <div class="grid grid-cols-4 grid-rows-1">
 	<div>
-		<enhanced:img src={original} alt="Original Photo" />
+		<enhanced:img src={original} alt="Original" />
 	</div>
 	<div class="flex items-center justify-center">
 		<span class="flex font-bold">
@@ -26,6 +26,6 @@
 		</span>
 	</div>
 	<div>
-		<enhanced:img src={handled} alt="Handled Photo" />
+		<enhanced:img src={handled} alt="Handled" />
 	</div>
 </div>

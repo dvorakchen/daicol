@@ -43,7 +43,7 @@
 			<Preview1ImgTo1Img original={originalPhoto} handled={originalPhoto} />
 
 			<div class="divider divider-secondary"></div>
-			<Generator1ImgTo1Img />
+			<Generator1ImgTo1Img routeId={app.routeId} />
 		</div>
 		<div class="space-y-6">
 			<AppInfo />
