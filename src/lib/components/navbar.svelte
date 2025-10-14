@@ -11,12 +11,12 @@
 	// let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
 	// let isSignedIn = $derived(Boolean(userSignInInfo.id));
 
-	let signInURL = $state('/signin');
+	// let signInURL = $state('/signin');
 	let searchValue = $state('');
 	let loading = $state(false);
 
 	$effect(() => {
-		signInURL = `/signin?${QS_REDIRECT_KEY}=${page.url.pathname}${page.url.search}`;
+		// signInURL = `/signin?${QS_REDIRECT_KEY}=${page.url.pathname}${page.url.search}`;
 		searchValue = (page.url.searchParams.get('s') ?? '').trim();
 		loading = false;
 	});
@@ -27,7 +27,7 @@
 </script>
 
 <div class="navbar flex-col gap-2 bg-transparent shadow">
-	<div class="flex h-full w-full items-center max-w-7xl">
+	<div class="flex h-full w-full max-w-7xl items-center">
 		<a class="btn grow justify-start pl-1 text-xl btn-ghost sm:grow-0" href="/">
 			<Logo />
 			{m.title()}</a

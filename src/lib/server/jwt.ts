@@ -34,6 +34,7 @@ export function isJwtValid(token: string): boolean {
 		jwt.verify(token, env.JWT_KEY!);
 		return true;
 	} catch (e) {
+		logger.error(e);
 		return false;
 	}
 }

@@ -2,16 +2,16 @@ import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server.js';
 import { sequence } from '@sveltejs/kit/hooks';
 import {
-	isJwtValid,
+	// isJwtValid,
 	JWT_COOKIE_KEY,
-	setJWTCookie,
-	signJWT,
+	// setJWTCookie,
+	// signJWT,
 	tryGetPayloadSub
 } from '$lib/server/jwt.ts';
 import type { UserAttributes } from '$lib/share/user.ts';
 import { env } from '$env/dynamic/private';
 import logger from '$lib/server/log.ts';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
 import { getUserById } from '$lib/server/repo/users.ts';
 
@@ -74,4 +74,4 @@ const themeHandle: Handle = ({ event, resolve }) => {
 // 	return response;
 // };
 
-export const handle = sequence(themeHandle, paraglideHandle, /*refreshAuth*/);
+export const handle = sequence(themeHandle, paraglideHandle /*refreshAuth*/);

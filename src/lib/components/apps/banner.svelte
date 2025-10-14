@@ -3,16 +3,12 @@
 	import type { AppEntityTypeWithPrompt } from '$lib/share/index.ts';
 	import { Forward, MessageCircle, Star } from 'lucide-svelte';
 
-	let { app }: {app: AppEntityTypeWithPrompt} = $props();
+	let { app }: { app: AppEntityTypeWithPrompt } = $props();
 </script>
 
 <div class="overflow-hidden rounded-xl bg-base-200 shadow-sm">
 	<div class="relative h-48 md:h-64">
-		<img
-			class="h-full w-full object-cover"
-			src={app.barImg}
-			alt="冷艳写真"
-		/>
+		<img class="h-full w-full object-cover" src={app.barImg} alt="冷艳写真" />
 		<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 		<div class="absolute bottom-0 left-0 p-6 text-white">
 			<div class="flex flex-col items-start">

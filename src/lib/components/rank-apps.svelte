@@ -26,7 +26,7 @@
 			.pipe(debounceTime(500))
 			.subscribe({
 				next: (data: AppEntityTypeWithPrompt[]) => {
-					rankApps = data.map((app: any) => ({ ...app, rate: +app.rate }) as AppEntityTypeWithPrompt);
+					rankApps = data;
 					loading = false;
 				},
 				error: (e) => {
@@ -68,7 +68,7 @@
 	</div>
 	<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 		<div class="grid grid-cols-3 gap-4 lg:col-span-1">
-			{#each top3Apps as app, i}
+			{#each top3Apps as app, i (app.routeId)}
 				<div
 					class="col-span-3 overflow-hidden rounded-xl border border-base-100 bg-base-100 shadow-md"
 				>
@@ -119,7 +119,7 @@
 				<div class="col-span-1 font-medium">{m['app.ai.rank.table_head.trand']()}</div>
 			</div>
 			<div class="divide-y divide-base-200">
-				{#each restApps as app, i}
+				{#each restApps as app, i (app.routeId)}
 					<div class="grid grid-cols-10 items-center px-4 py-3 transition-colors hover:bg-base-100">
 						<div class="col-span-1 pl-1 font-medium text-primary">{i + 4}</div>
 						<div class="col-span-4 flex items-center">

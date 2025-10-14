@@ -1,12 +1,12 @@
 <script>
-	import { m } from "$lib/paraglide/messages";
-	import { Star } from "lucide-svelte";
-
+	import { m } from '$lib/paraglide/messages';
+	import { Star } from 'lucide-svelte';
 </script>
+
 <div class="overflow-hidden rounded-xl bg-secondary/10 shadow-sm">
 	<div class="border-b border-secondary/10 bg-secondary/10 px-5 py-3">
 		<h3 class="flex items-center text-lg font-bold">
-			{m["app.ai.detail.hot_apps"]()}
+			{m['app.ai.detail.hot_apps']()}
 		</h3>
 	</div>
 	<div class="divide-y divide-secondary/10">

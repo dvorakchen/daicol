@@ -26,12 +26,15 @@
 
 		postFile(`/api/generator/1-img-to-1-img/${routeId}`, [image]).subscribe({
 			next: (data) => {
-				handledImageLink = (data as { url: string }) .url;
+				handledImageLink = (data as { url: string }).url;
 				generating = false;
 			},
 			error: (e) => {
 				console.error(e);
-				toastMan.add('error', `${m['app.ai.generate.error.occured_please_contact_administrator']()}: ${e.response.message}`)
+				toastMan.add(
+					'error',
+					`${m['app.ai.generate.error.occured_please_contact_administrator']()}: ${e.response.message}`
+				);
 				generating = false;
 			}
 		});

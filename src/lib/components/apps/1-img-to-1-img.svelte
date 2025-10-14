@@ -33,8 +33,8 @@
 <main class="mx-auto px-4 py-6 md:py-8">
 	<div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
 		<div class="flex flex-col lg:col-span-2">
-			<Banner {app}/>
-			<div class="flex w-full flex-col rounded-xl md:p-6 md:shadow-sm my-4">
+			<Banner {app} />
+			<div class="my-4 flex w-full flex-col rounded-xl md:p-6 md:shadow-sm">
 				<h1 class="text-lg font-bold">{m['app.ai.detail.use_it_immediately']()}</h1>
 			</div>
 
@@ -44,7 +44,7 @@
 			<Generator1ImgTo1Img routeId={app.routeId} />
 		</div>
 		<div class="space-y-6">
-			<AppInfo {app}/>
+			<AppInfo {app} />
 
 			<SameCategoryRank />
 

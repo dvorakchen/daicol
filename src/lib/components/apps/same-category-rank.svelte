@@ -1,11 +1,11 @@
 <script>
-	import { m } from "$lib/paraglide/messages";
-	import { ChevronRight, Star } from "lucide-svelte";
-
+	import { m } from '$lib/paraglide/messages';
+	import { ChevronRight, Star } from 'lucide-svelte';
 </script>
+
 <div class="overflow-hidden rounded-xl shadow-sm">
 	<div class="border-b border-secondary/10 bg-secondary/10 px-5 py-3">
-		<h3 class="flex items-center text-lg font-bold">{m["app.ai.detail.category_rank"]()}</h3>
+		<h3 class="flex items-center text-lg font-bold">{m['app.ai.detail.category_rank']()}</h3>
 	</div>
 	<div class="divide-y divide-secondary/10">
 		<div class="flex items-center bg-secondary/5 p-4">

@@ -31,16 +31,6 @@
 	});
 
 	const SEND_CAPTCHA_CLOCK_KEY = 'SEND_CAPTCHA_CLOCK_KEY';
-	function initClock() {
-		// timestamp, seconds
-		const preClock = localStorage.getItem(SEND_CAPTCHA_CLOCK_KEY);
-		if (preClock) {
-			const rest = Math.floor(DateTime.utc().toSeconds() - +preClock);
-			if (rest < COUNTDOWN) {
-				startCountDown(COUNTDOWN - rest);
-			}
-		}
-	}
 
 	async function onSendCaptcha() {
 		if (!phoneRegex.test(phone)) {

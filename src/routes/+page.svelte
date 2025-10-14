@@ -12,18 +12,17 @@
 	let { data } = $props();
 </script>
 
-<Navbar userSignInInfo={data.userSignInInfo} />
+<Navbar />
+<!-- <Navbar userSignInInfo={data.userSignInInfo} /> -->
 <main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl xl:max-w-7xl">
 	<section>
-		<h1
-			class="text-primary-to-accent text-4xl font-bold"
-		>
+		<h1 class="text-primary-to-accent text-4xl font-bold">
 			{m['app.ai.hot']()}
 		</h1>
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-3 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-2 lg:grid-cols-5"
 		>
-			{#each data.hotApps as app}
+			{#each data.hotApps as app (app.routeId)}
 				{@render appCard(app)}
 			{/each}
 		</div>
@@ -37,7 +36,7 @@
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
 		>
-			{#each data.hotApps.slice(0, 6) as app}
+			{#each data.hotApps.slice(0, 6) as app (app.routeId)}
 				{@render appCard(app)}
 			{/each}
 		</div>

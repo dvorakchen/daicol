@@ -3,5 +3,5 @@
 </script>
 
 <div class="w-8">
-	<img src='/logo.png' alt={m.title()} />
+	<img src="/logo.png" alt={m.title()} />
 </div>
