@@ -1,6 +1,9 @@
 <script>
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronRight, Star } from 'lucide-svelte';
+
+	let { routeId } = $props();
+	
 </script>
 
 <div class="overflow-hidden rounded-xl shadow-sm">

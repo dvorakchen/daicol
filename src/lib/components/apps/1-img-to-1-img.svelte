@@ -46,7 +46,7 @@
 		<div class="space-y-6">
 			<AppInfo {app} />
 
-			<SameCategoryRank />
+			<SameCategoryRank routeId={app.routeId} />
 
 			<HotApps />
 		</div>
