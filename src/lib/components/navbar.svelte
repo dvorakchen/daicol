@@ -7,6 +7,7 @@
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
+	import ChangeLang from './change-lang.svelte';
 
 	// let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
 	// let isSignedIn = $derived(Boolean(userSignInInfo.id));
@@ -35,7 +36,7 @@
 		<div class="mx-2 hidden w-32 flex-1 items-center justify-center sm:flex sm:w-48 md:w-68">
 			{@render search()}
 		</div>
-		<div class="flex-none space-x-2">
+		<div class="flex-none">
 			<!-- {#if isSignedIn === true}
 				<div class="dropdown dropdown-end">
 					<div tabindex="0" role="button" class="btn avatar btn-circle btn-ghost btn-sm">
@@ -66,6 +67,7 @@
 				<a class="btn btn-primary" href={signInURL}>{m.sign_in()}</a>
 			{/if} -->
 
+			<ChangeLang />
 			<ThemeController />
 		</div>
 	</div>
