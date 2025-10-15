@@ -11,12 +11,21 @@
 
 	let image = $state(null as null | File);
 	let generating = $state(false);
-	let preivewDailog: HTMLDialogElement;
-
 	let handledImageLink = $state(null as null | string);
+
+	let preivewDailog: HTMLDialogElement;
+	let originalImgDiv: HTMLDivElement;
+	let handledImgDiv: HTMLDivElement;
 
 	function afterSelectImage(file: File) {
 		image = file;
+	}
+
+	function afterImageLoaded() {
+		originalImgDiv?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center'
+		});
 	}
 
 	async function onGenerate() {
@@ -29,6 +38,10 @@
 			next: (data) => {
 				handledImageLink = (data as { url: string }).url;
 				generating = false;
+				handledImgDiv?.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center'
+				});
 			},
 			error: (e) => {
 				console.error(e);
@@ -51,9 +64,11 @@
 	}
 </script>
 
-<div class="grid grid-cols-3 grid-rows-1">
-	<div>
-		<UploadFile {afterSelectImage} />
+<div class="flex flex-col gap-4 md:flex-row justify-between">
+	<div class="grow md:max-w-2xs">
+		<div class="max-x-full" bind:this={originalImgDiv}>
+			<UploadFile {afterSelectImage} {afterImageLoaded} />
+		</div>
 	</div>
 	<div class="flex items-center justify-center">
 		{#if generating}
@@ -68,13 +83,14 @@
 				disabled={generating}
 			>
 				{m['app.ai.generate.generate_it']()}
-				<span class="w-5"> <ArrowRight /></span>
+				<span class="w-5 rotate-90 md:rotate-0"> <ArrowRight /></span>
 			</button>
 		{/if}
 	</div>
-	<div>
+	<div class="grow md:max-w-2xs">
 		<div
-			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg md:max-w-xl"
+			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg"
+			bind:this={handledImgDiv}
 		>
 			{#if handledImageLink}
 				<div class="flex flex-col gap-1">
