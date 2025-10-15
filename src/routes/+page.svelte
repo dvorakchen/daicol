@@ -10,6 +10,7 @@
 	import { QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/search.js';
 
 	let { data } = $props();
+
 </script>
 
 <Navbar />

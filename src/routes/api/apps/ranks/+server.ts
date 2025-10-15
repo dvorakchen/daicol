@@ -2,9 +2,12 @@ import { json, type RequestEvent } from '@sveltejs/kit';
 import { RankTypes } from '$lib/share/app.ts';
 import { getRankApps } from '$lib/server/repo/apps.ts';
 import logger from '$lib/server/log.ts';
+import { QS_SEARCH_TYPE_KEY } from '$lib/share/search.ts';
 
 export async function GET({ url }: RequestEvent) {
-	const rankTypeQS = (url.searchParams.get('type') ?? RankTypes.Total).trim().toLowerCase();
+	const rankTypeQS = (url.searchParams.get(QS_SEARCH_TYPE_KEY) ?? RankTypes.Total)
+		.trim()
+		.toLowerCase();
 
 	logger.info(`API handle rankType: ${rankTypeQS}`);
 

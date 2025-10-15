@@ -1,9 +1,14 @@
 import { db } from '$lib/server/db/index.ts';
-import { and, desc, eq, gte, inArray, SQL, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, SQL, sql, notInArray } from 'drizzle-orm';
 import { apps } from '$lib/server/db/schema/apps.ts';
 import logger from '$lib/server/log.ts';
-import { AppStatus, RankTypes, type AppEntityTypeWithPrompt } from '$lib/share/app.ts';
-import { visitHistories } from '../db/schema/visit_histories.ts';
+import {
+	AppCategories,
+	type AppEntityTypeWithPrompt,
+	AppStatus,
+	RankTypes
+} from '$lib/share/app.ts';
+import { visitHistories } from '$lib/server/db/schema/visit_histories.ts';
 import type { SearchType } from '$lib/share/search.ts';
 
 const COLUMNS_WITHOUT_PROMPT = {
@@ -28,10 +33,17 @@ const COLUMNS_WITHOUT_PROMPT = {
 	useCount: true
 };
 
-export async function getHotApps(count: number = 10) {
+export async function getHotApps(count: number = 10, excludeIds: number[] = []) {
+	const baseCondition = eq(apps.status, AppStatus.Enabled);
+	 let exclusionCondition = undefined;
+
+    if (excludeIds.length > 0) {
+        exclusionCondition = notInArray(apps.id, excludeIds);
+    }
+	
 	const hotApps = await db.query.apps.findMany({
 		columns: COLUMNS_WITHOUT_PROMPT,
-		where: and(eq(apps.status, AppStatus.Enabled)),
+		where: and(baseCondition, exclusionCondition),
 		orderBy: [desc(apps.createAt), desc(apps.rate), desc(apps.useCount)],
 		limit: count
 	});
@@ -63,8 +75,9 @@ export async function getRankApps(rankType: RankTypes) {
 	}
 
 	let rankApps;
+	let appIdList: number[] = [];
 	if (appIdArray.length > 0) {
-		const appIdList = appIdArray.map((t) => t.appId);
+		appIdList = appIdArray.map((t) => t.appId);
 		const caseStatements = appIdList
 			.map((id, index) => sql`WHEN ${id} THEN ${index}`)
 			.reduce((acc, current) => sql`${acc} ${current}`);
@@ -80,7 +93,7 @@ export async function getRankApps(rankType: RankTypes) {
 
 	if (rest > 0) {
 		rankApps = rankApps ?? [];
-		rankApps.push(...(await getHotApps(rest)));
+		rankApps.push(...(await getHotApps(rest, appIdList)));
 	}
 
 	logger.info(`get rank apps: type: ${rankType}, apps: ${JSON.stringify(rankApps)}`);
@@ -133,6 +146,16 @@ async function getTotalRankApps() {
 		.groupBy(visitHistories.appId)
 		.orderBy(desc(count))
 		.limit(RANK_APPS_COUNT);
+}
+
+export async function getRankAppsByCategory(category: AppCategories) {
+	const APPS_LIMIT = 5;
+	return (await db.query.apps.findMany({
+		columns: COLUMNS_WITHOUT_PROMPT,
+		where: and(eq(apps.category, category), eq(apps.status, AppStatus.Enabled)),
+		orderBy: desc(apps.rate),
+		limit: APPS_LIMIT
+	})) as AppEntityTypeWithPrompt[];
 }
 
 export function searchApps(search: string, type: SearchType) {
