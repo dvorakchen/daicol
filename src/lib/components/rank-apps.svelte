@@ -4,6 +4,7 @@
 	import { ChevronUp, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
 	import { debounceTime } from 'rxjs';
+	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 
 	let { initList }: { initList: AppEntityTypeWithPrompt[] } = $props();
 
@@ -47,7 +48,11 @@
 
 <div class="relative w-full">
 	{#if loading}
-		{@render loadingView()}
+		<div
+			class="item-center absolute inset-0 top-12 flex w-full items-center justify-center bg-base-100/50 backdrop-blur-xs rounded-2xl"
+		>
+			<BikeLoading />
+		</div>
 	{/if}
 	<div class="mb-4 flex items-center justify-between">
 		<h2 class="text-primary-to-accent text-2xl font-bold">{m['app.ai.rank']()}</h2>
@@ -141,11 +146,3 @@
 		</div>
 	</div>
 </div>
-
-{#snippet loadingView()}
-	<div
-		class="item-center absolute inset-0 top-12 flex w-full justify-center bg-base-300/50 backdrop-blur-xs"
-	>
-		<span class="loading -mt-16 loading-xl loading-spinner text-primary"></span>
-	</div>
-{/snippet}
