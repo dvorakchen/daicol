@@ -35,12 +35,12 @@ const COLUMNS_WITHOUT_PROMPT = {
 
 export async function getHotApps(count: number = 10, excludeIds: number[] = []) {
 	const baseCondition = eq(apps.status, AppStatus.Enabled);
-	 let exclusionCondition = undefined;
+	let exclusionCondition = undefined;
 
-    if (excludeIds.length > 0) {
-        exclusionCondition = notInArray(apps.id, excludeIds);
-    }
-	
+	if (excludeIds.length > 0) {
+		exclusionCondition = notInArray(apps.id, excludeIds);
+	}
+
 	const hotApps = await db.query.apps.findMany({
 		columns: COLUMNS_WITHOUT_PROMPT,
 		where: and(baseCondition, exclusionCondition),

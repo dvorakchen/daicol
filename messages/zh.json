@@ -11,6 +11,8 @@
 	"comment": "评论",
 	"share": "分享",
 	"collection": "收藏",
+	"preview": "预览",
+	"download": "下载",
 	"sign_in.phone_number": "手机号",
 	"sign_in.phone_number.hint": "手机号为11位数字",
 	"sign_in.code": "验证码",

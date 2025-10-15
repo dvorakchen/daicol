@@ -11,6 +11,7 @@
 
 	let image = $state(null as null | File);
 	let generating = $state(false);
+	let preivewDailog: HTMLDialogElement;
 
 	let handledImageLink = $state(null as null | string);
 
@@ -38,6 +39,15 @@
 				generating = false;
 			}
 		});
+	}
+
+	function onPreview() {
+		if (handledImageLink === null) {
+			preivewDailog?.close();
+			return;
+		}
+
+		preivewDailog?.show();
 	}
 </script>
 
@@ -67,10 +77,30 @@
 			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg md:max-w-xl"
 		>
 			{#if handledImageLink}
-				<img src={handledImageLink} alt="Handled" />
+				<div class="flex flex-col">
+					<div>
+						<a href={handledImageLink} download class="btn btn-sm btn-primary">{m.download()}</a>
+						<button class="btn btn-sm btn-secondary" onclick={onPreview}>{m.preview()}</button>
+					</div>
+					<button onclick={onPreview} class="cursor-pointer">
+						<img src={handledImageLink} alt="Handled" />
+					</button>
+				</div>
 			{:else}
 				<ImagePlaceholder />
 			{/if}
 		</div>
 	</div>
 </div>
+
+<dialog bind:this={preivewDailog} class="modal">
+	<div class="modal-box">
+		<form method="dialog">
+			<button class="btn absolute top-2 right-2 btn-circle btn-ghost btn-sm">✕</button>
+		</form>
+		<img src={handledImageLink} alt="Preview" />
+	</div>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
+</dialog>

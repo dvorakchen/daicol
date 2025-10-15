@@ -11,6 +11,8 @@
 	"comment": "Comment",
 	"share": "Share",
 	"collection": "Collection",
+	"preview": "Preview",
+	"download": "Download",
 	"sign_in.phone_number": "Phone number",
 	"sign_in.phone_number.hint": "Must be 11 digits",
 	"sign_in.code": "Code",

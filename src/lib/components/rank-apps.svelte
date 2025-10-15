@@ -49,7 +49,7 @@
 <div class="relative w-full">
 	{#if loading}
 		<div
-			class="item-center absolute inset-0 top-12 flex w-full items-center justify-center bg-base-100/50 backdrop-blur-xs rounded-2xl"
+			class="item-center absolute inset-0 top-12 flex w-full items-center justify-center rounded-2xl bg-base-100/50 backdrop-blur-xs"
 		>
 			<BikeLoading />
 		</div>
