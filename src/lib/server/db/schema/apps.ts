@@ -8,10 +8,6 @@ export const apps = pgTable('apps', {
 	name: varchar('name', { length: 64 }).notNull().unique().default(''),
 	category: varchar('category', { length: 32 }).notNull().default(''),
 	tags: varchar('tags', { length: 32 }).array().notNull().default([]),
-	keywords: varchar('keywords', { length: 256 })
-		.array()
-		.notNull()
-		.default(sql`'{}'::varchar[]`),
 	description: varchar('description', { length: 256 }).notNull().default(''),
 	seoKeywords: varchar('seo_keywords', { length: 256 })
 		.array()
@@ -23,7 +19,7 @@ export const apps = pgTable('apps', {
 	prompt: text('prompt').notNull().default(''),
 	icon: varchar('icon', { length: 256 }).notNull().default(''),
 	barImg: varchar('bar_img', { length: 256 }).notNull().default(''),
-	rate: numeric('rate', { precision: 5, scale: 2 }).notNull().default('0.0'),
+	rate: numeric('rate', { precision: 5, scale: 1 }).notNull().default('0.0'),
 	useCount: integer('use_count').notNull().default(0),
 	points: integer('points').notNull().default(0),
 	status: varchar('status', { length: 32 }).notNull().default(AppStatus.Enabled),

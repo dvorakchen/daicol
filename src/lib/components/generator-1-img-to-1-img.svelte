@@ -77,7 +77,7 @@
 			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg md:max-w-xl"
 		>
 			{#if handledImageLink}
-				<div class="flex flex-col">
+				<div class="flex flex-col gap-1">
 					<div>
 						<a href={handledImageLink} download class="btn btn-sm btn-primary">{m.download()}</a>
 						<button class="btn btn-sm btn-secondary" onclick={onPreview}>{m.preview()}</button>
@@ -96,7 +96,7 @@
 <dialog bind:this={preivewDailog} class="modal">
 	<div class="modal-box">
 		<form method="dialog">
-			<button class="btn absolute top-2 right-2 btn-circle btn-ghost btn-sm">✕</button>
+			<button class="btn absolute top-2 right-2 btn-circle btn-sm">✕</button>
 		</form>
 		<img src={handledImageLink} alt="Preview" />
 	</div>
