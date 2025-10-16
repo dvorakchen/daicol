@@ -6,7 +6,7 @@
 </script>
 
 <div class="grid grid-cols-4 grid-rows-1">
-	<div>
+	<div class="flex items-center">
 		<enhanced:img src={original} alt="Original" />
 	</div>
 	<div class="flex items-center justify-center">
