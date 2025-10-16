@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { type AppEntityTypeWithPrompt } from '$lib/share/app.js';
+	import { type AppEntityTypeWithoutPrompt } from '$lib/share/app.js';
 	import { Eye, Star } from 'lucide-svelte';
 
 	import RankApps from '$lib/components/rank-apps.svelte';
 	import Footer from '$lib/components/footer.svelte';
 	import More from '$lib/components/more.svelte';
 	import { QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/search.js';
+	import RecommendApps from '$lib/components/recommend-apps.svelte';
 
 	let { data } = $props();
 </script>
@@ -16,16 +17,7 @@
 <!-- <Navbar userSignInInfo={data.userSignInInfo} /> -->
 <main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl xl:max-w-7xl">
 	<section>
-		<h1 class="text-primary-to-accent text-4xl font-bold">
-			{m['app.ai.hot']()}
-		</h1>
-		<div
-			class="-mx-2 grid grid-cols-3 grid-rows-3 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-2 lg:grid-cols-5"
-		>
-			{#each data.hotApps as app (app.routeId)}
-				{@render appCard(app)}
-			{/each}
-		</div>
+		<RecommendApps apps={data.recommendApps} />
 	</section>
 
 	<section class="rounded-xl bg-base-200 p-4">
@@ -47,7 +39,7 @@
 </main>
 <Footer />
 
-{#snippet appCard(apps: AppEntityTypeWithPrompt)}
+{#snippet appCard(apps: AppEntityTypeWithoutPrompt)}
 	<div
 		class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
 	>

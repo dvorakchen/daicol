@@ -3,12 +3,12 @@
 	import { Bot, House } from 'lucide-svelte';
 	import AppInfo from '$lib/components/apps/app-info.svelte';
 	import Banner from '$lib/components/apps/banner.svelte';
-	import SameCategoryRank from './same-category-rank.svelte';
+	import SameCategoryRank from '$lib/components/apps/same-category-rank.svelte';
 	import HotApps from './hot-apps.svelte';
-	import Preview1ImgTo1Img from './preview-1-img-to-1-img.svelte';
-	import Generator1ImgTo1Img from '../generator-1-img-to-1-img.svelte';
+	import Preview1ImgTo1Img from '$lib/components/apps/preview-1-img-to-1-img.svelte';
+	import Generator1ImgTo1Img from '$lib/components/generator-1-img-to-1-img.svelte';
 
-	let { app, original, handled } = $props();
+	let { app } = $props();
 </script>
 
 <div class="breadcrumbs text-sm">
@@ -38,7 +38,7 @@
 				<h1 class="text-lg font-bold">{m['app.ai.detail.use_it_immediately']()}</h1>
 			</div>
 
-			<Preview1ImgTo1Img {original} {handled} />
+			<Preview1ImgTo1Img original={app.originImg} handled={app.handledImg} />
 
 			<div class="divider divider-secondary"></div>
 			<Generator1ImgTo1Img routeId={app.routeId} />

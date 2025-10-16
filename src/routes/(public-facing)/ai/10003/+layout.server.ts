@@ -1,11 +1,11 @@
 import { error } from '@sveltejs/kit';
 import { getAppByRouteId } from '$lib/server/repo/apps.ts';
-import type { AppEntityTypeWithPrompt } from '$lib/share/index.ts';
+import type { AppEntityTypeWithoutPrompt } from '$lib/share/index.ts';
 
 const ROUTE_ID = 10003;
 
 export async function load() {
-	const app = (await getAppByRouteId(ROUTE_ID)) as AppEntityTypeWithPrompt;
+	const app = (await getAppByRouteId(ROUTE_ID)) as AppEntityTypeWithoutPrompt;
 
 	if (!app) {
 		return error(404);

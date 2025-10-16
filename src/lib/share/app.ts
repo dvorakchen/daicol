@@ -20,7 +20,7 @@ export enum RankTypes {
 	Total = 'Total'
 }
 
-export type AppEntityTypeWithPrompt = {
+export type AppEntityTypeWithoutPrompt = {
 	id: number;
 	name: string;
 	points: number;
@@ -36,6 +36,8 @@ export type AppEntityTypeWithPrompt = {
 	seoDescription: string;
 	model: string;
 	source: string;
+	originImg: string;
+	handledImg: string;
 	icon: string;
 	barImg: string;
 	rate: string;

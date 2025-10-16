@@ -5,7 +5,7 @@ import logger from '$lib/server/log.ts';
 // import { env } from '$env/dynamic/private';
 import { apps } from '$lib/server/db/schema/apps.ts';
 import { eq } from 'drizzle-orm';
-import apps10001_10050 from "$lib/server/db/apps-seed/10001-10050.ts";
+import apps10001_10050 from '$lib/server/db/apps-seed/10001-10050.ts';
 
 export async function plantingSeed() {
 	logger.info(`plainting database seed`);
@@ -42,6 +42,4 @@ export async function plantingSeed() {
 		}
 	});
 }
-const initApps = [
-	...apps10001_10050
-];
+const initApps = [...apps10001_10050];

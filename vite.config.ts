@@ -2,7 +2,6 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { enhancedImages } from '@sveltejs/enhanced-img';
 
 export default defineConfig({
 	plugins: [
@@ -13,7 +12,6 @@ export default defineConfig({
 			disableAsyncLocalStorage: true
 		}),
 		tailwindcss(),
-		enhancedImages(),
 		sveltekit()
 	],
 	test: {

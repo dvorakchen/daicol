@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { get } from '$lib/client/net/http.ts';
 	import { m } from '$lib/paraglide/messages';
-	import type { AppEntityTypeWithPrompt } from '$lib/share/index.ts';
+	import type { AppEntityTypeWithoutPrompt } from '$lib/share/index.ts';
 	import { Star } from 'lucide-svelte';
 	import { Subscription } from 'rxjs';
 	import { onDestroy } from 'svelte';
@@ -13,9 +13,9 @@
 		sub?.unsubscribe();
 	});
 
-	function getHotApps(): Promise<AppEntityTypeWithPrompt[]> {
+	function getHotApps(): Promise<AppEntityTypeWithoutPrompt[]> {
 		return new Promise((resolve, reject) => {
-			sub = get<AppEntityTypeWithPrompt[]>(`/api/apps/hot`).subscribe({
+			sub = get<AppEntityTypeWithoutPrompt[]>(`/api/apps/hot`).subscribe({
 				next: (data) => {
 					resolve(data);
 				},

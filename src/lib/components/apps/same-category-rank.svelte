@@ -2,7 +2,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronRight, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
-	import { type AppEntityTypeWithPrompt } from '$lib/share/index.ts';
+	import { type AppEntityTypeWithoutPrompt } from '$lib/share/index.ts';
 	import type { Subscription } from 'rxjs';
 	import { onDestroy } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
@@ -14,9 +14,9 @@
 		sub?.unsubscribe();
 	});
 
-	function getCategoryRanking(): Promise<AppEntityTypeWithPrompt[]> {
+	function getCategoryRanking(): Promise<AppEntityTypeWithoutPrompt[]> {
 		return new Promise((resolve, reject) => {
-			sub = get<AppEntityTypeWithPrompt[]>(
+			sub = get<AppEntityTypeWithoutPrompt[]>(
 				`/api/apps/ranks/category?category=${category}`
 			).subscribe({
 				next: (data) => {
