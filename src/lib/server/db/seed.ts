@@ -29,13 +29,6 @@ export async function plantingSeed() {
 	// });
 
 	await db.transaction(async (tx) => {
-		const count = await tx.$count(apps);
-		if (count > 0) {
-			logger.info('table apps already has data, skip plainting');
-			return;
-		}
-		logger.info('table apps has not data, plainting');
-
 		for (const item of initApps) {
 			const existApp = await tx.query.apps.findFirst({
 				where: eq(apps.routeId, item.routeId)
@@ -44,6 +37,8 @@ export async function plantingSeed() {
 			if (!existApp) {
 				await tx.insert(apps).values(item);
 			}
+
+			logger.info(`Seed app routeId: ${item.routeId} exists: ${Boolean(existApp)}`);
 		}
 	});
 }

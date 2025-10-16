@@ -20,6 +20,13 @@ This project used:
 
 ## Developing
 
+set the .env file,
+
+```sh
+deno install --allow-scripts=npm:sharp,npm:@tailwindcss/oxide
+deno task db:push
+```
+
 ```sh
 deno task dev -- --open
 ```
