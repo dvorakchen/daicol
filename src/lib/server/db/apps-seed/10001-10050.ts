@@ -1,0 +1,266 @@
+import { AppCategories, AppStatus } from '$lib/share/app.ts';
+import { sql } from 'drizzle-orm';
+
+const appSeeds = [
+    {
+        routeId: 10001,
+        name: '手办生成',
+        category: AppCategories.CreativeDesign,
+        description: '用任意图片生成真实手办',
+        seoKeywords: [
+            'doubao-seedream',
+            'Nano Banana',
+            '手办生成',
+            'AI手办',
+            '创意设计',
+            '3D模型生成',
+            '个性化手办',
+            '虚拟模型',
+            '动漫周边设计',
+            '模型定制',
+            'AI建模',
+            '3D打印'
+        ],
+        seoDescription:
+            'Nano Banana 手办生成与创意设计应用！利用顶尖AI技术，将您的想法一键转化为高精度3D手办模型。实现个性化手办定制、动漫周边设计和虚拟模型创作。您的专属AI建模工作室，让创意直达3D打印！',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10001/icon.webp',
+        barImg: '/imgs/10001/banner.webp',
+        rate: sql`'5.0'::numeric`,
+        useCount: 230,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['手办'],
+        prompt:
+            'Create a 1/7 scale commercialized figurine of the characters in the picture, in a realistic style, in a real environment. The figurine is placed on a computer desk. The figurine has a round transparent acrylic base, with no text on the base. The content on the computer screen is a 3D modeling process of this figurine. Next to the computer screen is a toy packaging box, designed in a style reminisc'
+    },
+    {
+        routeId: 10002,
+        name: '日式四宫格漫画',
+        category: AppCategories.CreativeDesign,
+        description: '使用人物图片生成日式四宫格漫画',
+        seoKeywords: [
+            '豆包AI',
+            '四宫格漫画',
+            '日式漫画',
+            'AI漫画',
+            '漫画生成器',
+            '创意设计',
+            '漫画分镜',
+            '故事创作',
+            '漫画应用',
+            '动漫风格',
+            '视觉叙事'
+        ],
+        seoDescription:
+            '日式四宫格漫画 & 创意设计 神器！一键将文字想法转化为日系动漫风四格漫画。快速生成漫画分镜，轻松进行故事创作和视觉叙事。你的专属AI漫画生成器，让创意无限放大！',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10002/icon.webp',
+        barImg: '/imgs/10002/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 219,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['漫画'],
+        prompt:
+            '四宫格，将原图主体转换成四宫格漫画分镜布局，日式少年漫画风格（类似 Jump 系笔触），每格呈现不同生动表情（包含惊讶张嘴、傲娇瞪眼、害羞带红晕、兴奋怒吼等神态），搭配漫画特效元素（速度线、日文拟声词 、感叹符号 “!!！” 等），四格中间交汇处有爱心边框嵌套原图主体的完整抠图形象，整体为手绘漫画质感、色彩鲜亮，AI 生成宫格漫画形式。'
+    },
+    {
+        routeId: 10003,
+        name: '冷艳写真',
+        category: AppCategories.EnhanceImages,
+        description: '使用人物图片生成冷艳风格的写真',
+        seoKeywords: [
+            '豆包AI',
+            '冷艳写真',
+            '创意设计',
+            'AI写真',
+            '艺术照生成',
+            '赛博朋克',
+            '极简主义',
+            '风格化人像',
+            'AI P图',
+            '虚拟模特',
+            '摄影应用'
+        ],
+        seoDescription:
+            '冷艳写真 & 创意设计 专属应用！一键生成高级感、赛博朋克、极简主义等风格化人像。告别复杂P图，用AI快速打造独一无二的冷艳写真和艺术照。您的虚拟模特和设计灵感库！',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10003/icon.webp',
+        barImg: '/imgs/10003/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 210,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['美图'],
+        prompt:
+            '使用参考图片人物的脸;写实风格人像摄影，纯欲风格，乌黑黑长直发女性，厚齐刘海，发丝顺滑自然、光泽感清晰；浅灰色纹理上衣，黑色精致颈饰（黑色蕾丝颈链+黑色小吊坠），姿势冷艳：双臂交叉于身前，姿态优雅冷艳，微微侧身，头微微上扬，眼神微俯视镜头，散发冷艳高傲气场；肤质细腻光滑，五官精致立体；妆容突出：漂亮眼妆，纤长睫毛，高光鼻梁，雾面口红，眼神冷艳神秘，带压迫感；背景由多幅黑白动漫人物插画构成，风格各异，眼神或灵动或冷峻，与主体相互映衬；现实与二次元融合氛围，打破次元壁，奇幻感与真实感共存；柔和光线，高清质感，整体饱和度低，偏冷色调时尚写真氛围，9:16比例，主体写实。'
+    },
+    {
+        routeId: 10004,
+        name: '地标建筑',
+        category: AppCategories.CreativeDesign,
+        description: '用任意图片的主体生成地标建筑',
+        seoKeywords: [
+            '豆包AI',
+            '地标建筑设计',
+            '创意设计',
+            '建筑概念图',
+            'AI建筑生成',
+            '城市规划',
+            '未来建筑',
+            '景观设计',
+            '建筑可视化',
+            'AI绘图',
+            '设计灵感'
+        ],
+        seoDescription:
+            '地标建筑 & 创意设计 专属工具！一键生成震撼的未来建筑和城市地标概念图。快速获取建筑设计灵感，轻松实现景观设计和建筑可视化。您的专属AI建筑生成器，激发无限创意，革新城市规划！',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10004/icon.webp',
+        barImg: '/imgs/10004/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 210,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['地标', '建筑'],
+        prompt:
+            '帮我生成图片：图片中的主体放大成巨大，场景是建筑工地，主体有脚手架环绕，脚手架上有工人在活动.原比例.主体写实'
+    },
+    {
+        routeId: 10005,
+        name: '清醒系阳光特写',
+        category: AppCategories.EnhanceImages,
+        description: '生成人物在阳光下的清醒系阳光特写',
+        seoKeywords: [
+            '萌萌少女特写',
+            '细肌十肤',
+            '真实质感',
+            '魅惑高冷',
+            '清醒系阳光',
+            '微仰视',
+            '散发飘动',
+            '眼神闪光',
+            '极蓝噪点',
+            '蓝白色通透',
+            '脸部细节',
+            'AI写真'
+        ],
+        seoDescription:
+            '【细肌十肤·魅惑高冷少女特写】 真实质感AI写真，微仰视捕捉少女脸部特写。清醒系阳光背景，散乱发丝随风飘动，眼神闪烁魅惑高冷。画面具备极蓝噪点和蓝白色通透的电影级画质。',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10005/icon.webp',
+        barImg: '/imgs/10005/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 214,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['美图', '阳光'],
+        prompt:
+            '帮我生成图片：采用细肌”十肤真实质感的风格，画面中展现了一个不改变原图形象的萌萌少女的脸部特写，通过微仰视的镜头角度进行呈现。人物微微抬并且人物不占太多画面。背景营造出清醒系且阳光的场景氛围，少女有着散乱的头发风飘动的感觉，发型不变，发丝随风飘动，不改变原片发色。她的眼神闪闪发光450其中带着阳光和魅惑的情绪，尽显魅惑高冷的气质。画面着重句勒了少女的面部细节高先处理十分讲究，同时画面虽现出带有影机极蓝噪点的画质，并且有着蓝白色通送效果。原比例'
+    },
+    {
+        routeId: 10006,
+        name: 'BJD娃娃',
+        category: AppCategories.EnhanceImages,
+        description: '生成蓝色湿发BJD娃娃人物',
+        seoKeywords: [
+            'BJD娃娃少女',
+            '妖冶特写',
+            '细腻皮肤真实质感',
+            '腹黑高冷',
+            '俯视角度',
+            '暗色系阴郁',
+            '湿发粘脸',
+            '危险眷恋眼神',
+            '极蓝噪点',
+            '强烈蓝白色曝光',
+            '面部细节刻画',
+            'AI艺术肖像'
+        ],
+        seoDescription:
+            '【BJD娃娃·腹黑妖冶特写】 采用细腻皮肤真实质感风格，以俯视角度呈现BJD娃娃般妖冶少女的脸部特写。背景暗色阴郁，湿漉长发粘附于脸。少女眼神朦胧，透出危险与眷恋的腹黑高冷气质。画面强调极致面部细节，融合极蓝噪点和强烈蓝白色曝光，营造独特的电影感艺术肖像',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10006/icon.webp',
+        barImg: '/imgs/10006/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 213,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['BJD娃娃少女', '美图', '阴郁', '蓝色'],
+        prompt:
+            '使用图片人物的脸，帮我生成图片:采用细腻皮肤真实质感的风格，画面中展现了一个bjd娃娃形象的妖治少少女的脸部特写，通过俯视的镜头角度进行虽现。背景为暗色，营造出暗色系且阴郁的场景氛围，少女有着散乱的湿漉漉的长发， 发丝粘在脸上，不改变原片发色。他的眼神胧，其中带着危险和眷恋的情绪，尽显腹黑高冷的气质。画面着重句勒了少女的面部细节，高先处理十分讲究，同时画面虽现出带有摄影机极蓝噪点的画质，并且有着强烈的蓝白色曝先效果。原比例。'
+    },
+    {
+        routeId: 10007,
+        name: '宫崎骏画风',
+        category: AppCategories.CreativeDesign,
+        description: '将图片转为宫崎骏动画的风格',
+        seoKeywords: [
+            '宫崎骏画风转换',
+            '吉卜力风格滤镜',
+            'AI动画风格化',
+            '人物转宫崎骏',
+            '背景转吉卜力',
+            '手部细节动画化',
+            '衣着一致性转换',
+            '高清二次元手绘'
+        ],
+        seoDescription:
+            '一键将您的照片转换为宫崎骏动画画风！AI智能保持人物风格完全一致。体验高质量吉卜力风格滤镜，生成专属高清二次元动画图。',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10007/icon.webp',
+        barImg: '/imgs/10007/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 203,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['漫画', '动画', '宫崎骏'],
+        prompt: '转为宫崎骏动画的画风，人物、手部、背景，衣着保持一致'
+    },
+    {
+        routeId: 10008,
+        name: '森林人像写真',
+        category: AppCategories.EnhanceImages,
+        description: '生成极具艺术感的楚辞山鬼主题人像写真',
+        seoKeywords: [["楚辞山鬼写真", "暗黑森林人像AI", "油画质感梦核写真", "高级感艺术人像生成", "强光影对比AI艺术", "UE5电影级质感人像", "意识流惊悚美学", "AI绘画高清Prompt"]],
+        seoDescription: '生成极具艺术感的楚辞山鬼主题人像写真。融合油画质感、梦核美学与惊悚元素，实现强光影对比、微距面部聚焦和UE5电影级质感。满足您对高级、意识流AI艺术的创作需求。',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10008/icon.webp',
+        barImg: '/imgs/10008/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 199,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['森林', '写真', '艺术', '楚辞山鬼'],
+        prompt: '参考图片人物的脸。昏暗的森林里，人像写真，全身相，虚实变化，光影交错。楚辞山鬼，长头发，超长耳坠，碎发，超多条细长飞舞的发带，宽松纱衣，露出锁骨肩膀，原始，野性，生命力。线条清晰，明暗对比，超高清，高级感，面部特写，最高画质，朦胧感，微距镜头，面部阴影，面部聚焦，丰满，垂眸，凌乱发丝，高质量，油画质感，细腻肌理，仙气灵气围绕着，油画渲染效果。HDR写实质感，不合逻辑，珠光，反光，暗夜，抽象，意识流，梦核，光线暗、能见度低，有噪点暗角。艺术感强。画面有辉光、耀光、雾感，融合惊悚与梦核元素，梦核美学，数字噪音与失真效果，从错误中寻找创意，对现有系统的颠覆与重塑，强烈的光影对比，仰镜头，强烈的对比色碰撞，惊艳，意识流，随机背景，柔和侧光渲染，写实，失真故障质感暗金色点缀，空间交错、电影镜头、(真实感: 1.5)，柔和的色彩，（鱼眼: 1.1)，全景航拍，微光，宿命感，华丽，曜变，UE5渲染，电影级质感，胶片质感。'
+    },
+    {
+        routeId: 10009,
+        name: '森林人像写真',
+        category: AppCategories.EnhanceImages,
+        description: '生成极具艺术感的楚辞山鬼主题人像写真',
+        seoKeywords: [["楚辞山鬼写真", "暗黑森林人像AI", "油画质感梦核写真", "高级感艺术人像生成", "强光影对比AI艺术", "UE5电影级质感人像", "意识流惊悚美学", "AI绘画高清Prompt"]],
+        seoDescription: '生成极具艺术感的楚辞山鬼主题人像写真。融合油画质感、梦核美学与惊悚元素，实现强光影对比、微距面部聚焦和UE5电影级质感。满足您对高级、意识流AI艺术的创作需求。',
+        model: 'seedream-4',
+        source: '字节跳动',
+        icon: '/imgs/10009/icon.webp',
+        barImg: '/imgs/10009/banner.webp',
+        rate: sql`'4.5'::numeric`,
+        useCount: 199,
+        points: 1,
+        status: AppStatus.Enabled,
+        tags: ['森林', '写真', '艺术', '楚辞山鬼'],
+        prompt: '参考图片人物的脸。昏暗的森林里，人像写真，全身相，虚实变化，光影交错。楚辞山鬼，长头发，超长耳坠，碎发，超多条细长飞舞的发带，宽松纱衣，露出锁骨肩膀，原始，野性，生命力。线条清晰，明暗对比，超高清，高级感，面部特写，最高画质，朦胧感，微距镜头，面部阴影，面部聚焦，丰满，垂眸，凌乱发丝，高质量，油画质感，细腻肌理，仙气灵气围绕着，油画渲染效果。HDR写实质感，不合逻辑，珠光，反光，暗夜，抽象，意识流，梦核，光线暗、能见度低，有噪点暗角。艺术感强。画面有辉光、耀光、雾感，融合惊悚与梦核元素，梦核美学，数字噪音与失真效果，从错误中寻找创意，对现有系统的颠覆与重塑，强烈的光影对比，仰镜头，强烈的对比色碰撞，惊艳，意识流，随机背景，柔和侧光渲染，写实，失真故障质感暗金色点缀，空间交错、电影镜头、(真实感: 1.5)，柔和的色彩，（鱼眼: 1.1)，全景航拍，微光，宿命感，华丽，曜变，UE5渲染，电影级质感，胶片质感。'
+    }
+];
+
+export default appSeeds;
