@@ -38,6 +38,7 @@ export async function addHistory(routeId: number, accessType: AccessType) {
 			} else {
 				await tx.insert(visitHistories).values({
 					appId: app.id,
+					visitCount: 1,
 					accessType
 				});
 			}

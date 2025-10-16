@@ -22,6 +22,7 @@
 	"sign_in.error.invalid": "手机号或验证码格式有误",
 	"sign_in.error.invalid_phone": "无效手机号",
 	"sign_in.error.no_code": "验证码错误，请重新发送",
+	"sign_in.success": "登录成功",
 	"captcha.sent_error": "发送验证码失败，请重试",
 	"search_ai": "搜索想要的 AI",
 	"goto_home_page": "前往主页",

@@ -22,6 +22,7 @@
 	"sign_in.error.invalid": "invalid phone or code format",
 	"sign_in.error.invalid_phone": "invalid phone",
 	"sign_in.error.no_code": "invalid code, please resend",
+	"sign_in.success": "Sign In Success",
 	"captcha.sent_error": "Sent code error, please retry",
 	"search_ai": "Search AI you want",
 	"goto_home_page": "Goto home page",

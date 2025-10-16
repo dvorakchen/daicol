@@ -21,7 +21,7 @@
 		post(`/api/users/sign-in`, formData).subscribe({
 			next: () => {
 				loading = false;
-				toastMan.add('success', '登录成功');
+				toastMan.add('success', m['sign_in.success']());
 				redirectTo();
 			},
 			error: (e) => {
