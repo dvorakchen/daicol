@@ -16,6 +16,7 @@
 	let loading = $state(false);
 
 	$effect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		rankType;
 		if (first) {
 			first = false;

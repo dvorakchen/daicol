@@ -14,6 +14,7 @@ import { UserStatus } from '../../../share/user.ts';
 export const users = pgTable('users', {
 	id: serial('id').primaryKey(),
 	authId: uuid('auth_id'),
+	authGroups: varchar('auth_groups', { length: 512 }).notNull().default(''),
 	userName: varchar('user_name', { length: 64 }).notNull().default(''),
 	phoneNumber: varchar('phone_number', { length: 16 }).notNull().default('').unique(),
 	email: varchar('email', { length: 64 }).notNull().default(''),

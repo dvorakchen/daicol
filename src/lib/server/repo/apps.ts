@@ -158,9 +158,8 @@ export async function getRankAppsByCategory(category: AppCategories) {
 	})) as AppEntityTypeWithPrompt[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function searchApps(search: string, type: SearchType) {
-	let _ = search;
-	_ = type;
 	throw 'not implemention';
 }
 

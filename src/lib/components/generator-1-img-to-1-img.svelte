@@ -64,7 +64,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4 md:flex-row justify-between">
+<div class="flex flex-col justify-between gap-4 md:flex-row">
 	<div class="grow md:max-w-2xs">
 		<div class="max-x-full" bind:this={originalImgDiv}>
 			<UploadFile {afterSelectImage} {afterImageLoaded} />

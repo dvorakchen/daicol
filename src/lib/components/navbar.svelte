@@ -5,7 +5,7 @@
 	import { Search } from 'lucide-svelte';
 	// import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
-	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
+	import { /*QS_REDIRECT_KEY,*/ QS_SEARCH_KEY } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
 	import ChangeLang from './change-lang.svelte';
 
