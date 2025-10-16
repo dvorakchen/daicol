@@ -1,23 +1,23 @@
 <script lang="ts">
-	// import SignOut from '$lib/components/sign-out.svelte';
+	import SignOut from '$lib/components/sign-out.svelte';
 	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { Search } from 'lucide-svelte';
-	// import type { UserSignInInfo } from '$lib/share/user';
+	import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
-	import { /*QS_REDIRECT_KEY,*/ QS_SEARCH_KEY } from '$lib/share';
+	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
 	import ChangeLang from './change-lang.svelte';
 
-	// let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
-	// let isSignedIn = $derived(Boolean(userSignInInfo.id));
+	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
+	let isSignedIn = $derived(Boolean(userSignInInfo.id));
 
-	// let signInURL = $state('/signin');
+	let signInURL = $state('/signin');
 	let searchValue = $state('');
 	let loading = $state(false);
 
 	$effect(() => {
-		// signInURL = `/signin?${QS_REDIRECT_KEY}=${page.url.pathname}${page.url.search}`;
+		signInURL = `/signin?${QS_REDIRECT_KEY}=${page.url.pathname}${page.url.search}`;
 		searchValue = (page.url.searchParams.get('s') ?? '').trim();
 		loading = false;
 	});
@@ -37,7 +37,7 @@
 			{@render search()}
 		</div>
 		<div class="flex-none">
-			<!-- {#if isSignedIn === true}
+			{#if isSignedIn === true}
 				<div class="dropdown dropdown-end">
 					<div tabindex="0" role="button" class="btn avatar btn-circle btn-ghost btn-sm">
 						<div class="w-10 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
@@ -65,7 +65,7 @@
 				<span class="loading loading-spinner text-primary"></span>
 			{:else}
 				<a class="btn btn-primary" href={signInURL}>{m.sign_in()}</a>
-			{/if} -->
+			{/if}
 
 			<ChangeLang />
 			<ThemeController />

@@ -46,7 +46,6 @@ describe('/+page.svelte', () => {
 			name: 'send captcha'
 		});
 
-		// localStorage.clear();
 		// button disabled by default
 		await expect.element(sendCaptcha).toBeDisabled();
 

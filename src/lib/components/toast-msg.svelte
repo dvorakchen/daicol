@@ -10,7 +10,7 @@
 	};
 </script>
 
-<div class="toast-top toast-end toast top-16">
+<div class="toast toast-end toast-top top-16">
 	{#each toastMan.list as [id, { msg, toastType }] (id)}
 		<div class="alert {typeToClass[toastType]}" out:fly={{ x: 200, duration: 500 }}>
 			<span>{msg}</span>

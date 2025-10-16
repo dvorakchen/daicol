@@ -7,17 +7,17 @@
 	import { m } from '$lib/paraglide/messages.js';
 	import { MetaTags } from 'svelte-meta-tags';
 	import { env } from '$env/dynamic/public';
-	// import { invalidate } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
 
 	let { children } = $props();
 
 	onMount(() => {
-		// const interval = setInterval(() => {
-		// 	invalidate('/api/users/sign-in-info');
-		// }, 1000 * 30);
-		// return () => {
-		// 	clearInterval(interval);
-		// };
+		const interval = setInterval(() => {
+			invalidate('/api/users/sign-in-info');
+		}, 1000 * 30);
+		return () => {
+			clearInterval(interval);
+		};
 	});
 </script>
 

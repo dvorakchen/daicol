@@ -2,16 +2,16 @@ import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server.js';
 import { sequence } from '@sveltejs/kit/hooks';
 import {
-	// isJwtValid,
+	isJwtValid,
 	JWT_COOKIE_KEY,
-	// setJWTCookie,
-	// signJWT,
+	setJWTCookie,
+	signJWT,
 	tryGetPayloadSub
 } from '$lib/server/jwt.ts';
 import type { UserAttributes } from '$lib/share/user.ts';
 import { env } from '$env/dynamic/private';
 import logger from '$lib/server/log.ts';
-// import { DateTime } from 'luxon';
+import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
 import { getUserById } from '$lib/server/repo/users.ts';
 import { addHistory } from '$lib/server/repo/histories.ts';
@@ -55,26 +55,26 @@ const themeHandle: Handle = ({ event, resolve }) => {
 	});
 };
 
-// /**
-//  * refresh the JWT if the JWT is valid
-//  */
-// const refreshAuth: Handle = ({ event, resolve }) => {
-// 	const response = resolve(event);
+/**
+ * refresh the JWT if the JWT is valid
+ */
+const refreshAuth: Handle = ({ event, resolve }) => {
+	const response = resolve(event);
 
-// 	// refresh
-// 	const token = event.cookies.get(JWT_COOKIE_KEY) ?? '';
-// 	if (isJwtValid(token)) {
-// 		const sub = tryGetPayloadSub(token);
-// 		if (sub) {
-// 			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
-// 			setJWTCookie(event.cookies, token);
-// 		}
-// 	}
+	// refresh
+	const token = event.cookies.get(JWT_COOKIE_KEY) ?? '';
+	if (isJwtValid(token)) {
+		const sub = tryGetPayloadSub(token);
+		if (sub) {
+			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+			setJWTCookie(event.cookies, token);
+		}
+	}
 
-// 	//  check protecting route, return 401 if need auth
+	// TODO: check protecting route, return 401 if need auth
 
-// 	return response;
-// };
+	return response;
+};
 
 const recordHistoryHandle: Handle = async ({ event, resolve }) => {
 	const regex = /^\/ai\/(\d{5})\/?$/;
@@ -88,4 +88,4 @@ const recordHistoryHandle: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle = sequence(themeHandle, paraglideHandle /*refreshAuth*/, recordHistoryHandle);
+export const handle = sequence(themeHandle, paraglideHandle, refreshAuth, recordHistoryHandle);

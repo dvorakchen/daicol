@@ -13,8 +13,7 @@
 	let { data } = $props();
 </script>
 
-<Navbar />
-<!-- <Navbar userSignInInfo={data.userSignInInfo} /> -->
+<Navbar userSignInInfo={data.userSignInInfo} />
 <main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl xl:max-w-7xl">
 	<section>
 		<RecommendApps apps={data.recommendApps} />

@@ -1,7 +1,7 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { generate as generate1ImgTo1Img } from '$lib/server/generator/1-img-to-1-img.ts';
-import { getPrompt } from '$lib/server/repo/apps';
+import { getPrompt } from '$lib/server/repo/apps.ts';
 
 export async function POST({ request, params }: RequestEvent) {
 	const routeId = params['routeid'];
