@@ -20,7 +20,6 @@ export async function plantingSeed() {
 		const USERNAME = 'ADMIN';
 		const PHONE_NUMBER = env.INIT_ADMIN_PHONE;
 		await tx.insert(users).values({
-			authId: '42a290bf-5b9c-4f9a-a49f-14a458273d89',
 			userName: USERNAME,
 			phoneNumber: PHONE_NUMBER,
 			permissions: [UserPermissions.BaseAccess, UserPermissions.AdminAccess]

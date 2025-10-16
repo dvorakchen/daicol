@@ -61,7 +61,7 @@ export async function getHotApps(count: number = 10, excludeIds: number[] = []) 
 	});
 
 	logger.info(`get hot apps: ${hotApps.length}`);
-	return hotApps as AppEntityTypeWithoutPrompt[];
+	return (hotApps as AppEntityTypeWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
 const RANK_APPS_COUNT = 10;
@@ -111,7 +111,7 @@ export async function getRankApps(rankType: RankTypes) {
 	logger.info(`get rank apps: type: ${rankType}, apps: ${JSON.stringify(rankApps)}`);
 	rankApps = rankApps ?? [];
 
-	return rankApps as AppEntityTypeWithoutPrompt[];
+	return (rankApps as AppEntityTypeWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
 async function getWeekRankApps() {
