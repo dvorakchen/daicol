@@ -127,7 +127,7 @@ const appSeeds = [
 			'地标建筑 & 创意设计 专属工具！一键生成震撼的未来建筑和城市地标概念图。快速获取建筑设计灵感，轻松实现景观设计和建筑可视化。您的专属AI建筑生成器，激发无限创意，革新城市规划！',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original.webp',
+		originImg: '/imgs/original-snoopy.webp',
 		handledImg: '/imgs/10004/handled.webp',
 		icon: '/imgs/10004/icon.webp',
 		barImg: '/imgs/10004/banner.webp',
