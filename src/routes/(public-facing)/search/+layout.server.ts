@@ -3,8 +3,6 @@ import { QS_SEARCH_KEY, QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/index.
 import logger from '$lib/server/log.ts';
 import { searchApps } from '$lib/server/repo/apps.ts';
 
-export const prerender = false;
-
 export async function load({ url }: RequestEvent) {
 	const sp = url.searchParams;
 	const search = (sp.get(QS_SEARCH_KEY) ?? '').trim().toLowerCase();
