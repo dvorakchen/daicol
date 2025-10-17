@@ -12,6 +12,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - ~/data/daicol/postgres:/var/lib/postgresql/data
   app:
     build:
       context: .
@@ -29,7 +31,3 @@ services:
       VOLCENGINE_API_KEY: 
       PUBLIC_HOST: https://localhost:3000/
       PUBLIC_BEIAN_NUMBER: 苏@BEIAN_NUMBER
-
-
-# volumes:
-#   db_data:
