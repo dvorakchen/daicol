@@ -8,5 +8,5 @@ export async function callGenerate(
 ): Promise<string[]> {
 	logger.info(`generate 1-img-to-multi-img`);
 
-	return (await douBaoApi([file], prompt, maxImages));
+	return await douBaoApi([file], prompt, maxImages);
 }
