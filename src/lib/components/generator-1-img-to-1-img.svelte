@@ -6,6 +6,7 @@
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
 	import { postFile } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
+	import SingleImgPreviewable from './single-img-previewable.svelte';
 
 	let { routeId } = $props();
 
@@ -13,7 +14,8 @@
 	let generating = $state(false);
 	let handledImageLink = $state(null as null | string);
 
-	let preivewDailog: HTMLDialogElement;
+	let openPreview = $state(false);
+
 	let originalImgDiv: HTMLDivElement;
 	let handledImgDiv: HTMLDivElement;
 
@@ -56,11 +58,11 @@
 
 	function onPreview() {
 		if (handledImageLink === null) {
-			preivewDailog?.close();
+			openPreview = false;
 			return;
 		}
 
-		preivewDailog?.show();
+		openPreview = true;
 	}
 </script>
 
@@ -98,9 +100,7 @@
 						<a href={handledImageLink} download class="btn btn-sm btn-primary">{m.download()}</a>
 						<button class="btn btn-sm btn-secondary" onclick={onPreview}>{m.preview()}</button>
 					</div>
-					<button onclick={onPreview} class="cursor-pointer">
-						<img src={handledImageLink} alt="Handled" />
-					</button>
+					<SingleImgPreviewable imageLink={handledImageLink} open={openPreview} />
 				</div>
 			{:else}
 				<ImagePlaceholder />
@@ -108,15 +108,3 @@
 		</div>
 	</div>
 </div>
-
-<dialog bind:this={preivewDailog} class="modal">
-	<div class="modal-box">
-		<form method="dialog">
-			<button class="btn absolute top-2 right-2 btn-circle btn-sm">✕</button>
-		</form>
-		<img src={handledImageLink} alt="Preview" />
-	</div>
-	<form method="dialog" class="modal-backdrop">
-		<button>close</button>
-	</form>
-</dialog>

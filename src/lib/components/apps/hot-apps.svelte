@@ -49,7 +49,7 @@
 						<div class="text-xs text-gray-500">{app.category}</div>
 					</div>
 					<div class="flex items-center text-xs text-amber-500">
-						<span class="w-5"><Star size="sm" /></span>
+						<span class="w-4"><Star size="sm" /></span>
 						<span class="ml-1 text-gray-600">{app.rate}</span>
 					</div>
 				</div>

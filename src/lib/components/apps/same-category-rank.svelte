@@ -55,7 +55,7 @@
 							>{app.name}</a
 						>
 						<div class="mt-0.5 flex items-center text-xs text-amber-500">
-							<span class="w-5"><Star size="sm" /> </span><span class="ml-1 text-gray-600"
+							<span class="w-4"><Star size="sm" /> </span><span class="ml-1 text-gray-600"
 								>{app.rate}</span
 							>
 						</div>

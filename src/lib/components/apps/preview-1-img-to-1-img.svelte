@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import SingleImgPreviewable from '../single-img-previewable.svelte';
 
 	let { original, handled } = $props();
 </script>
@@ -26,6 +27,6 @@
 		</span>
 	</div>
 	<div>
-		<img src={handled} alt="Handled" />
+		<SingleImgPreviewable imageLink={handled} />
 	</div>
 </div>
