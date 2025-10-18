@@ -2,6 +2,14 @@
 	let { imageLink, open = false } = $props();
 	let preivewDailog: HTMLDialogElement;
 
+	$effect(() => {
+		if (open) {
+			preivewDailog?.show();
+		} else {
+			preivewDailog?.close();
+		}
+	});
+
 	function onPreview() {
 		if (imageLink === null) {
 			preivewDailog?.close();

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
-	import SingleImgPreviewable from '../single-img-previewable.svelte';
+	import SingleImgPreviewable from '$lib/components/previewers/single-img-previewable.svelte';
 
 	let { original, handled } = $props();
 </script>

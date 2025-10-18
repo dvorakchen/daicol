@@ -1,6 +1,6 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
-import { callGenerate as generate1ImgTo1Img } from '$lib/server/generator/1-img-to-1-img.ts';
+import { callGenerate as generate1ImgToMutliImg } from '$lib/server/generator/1-img-to-multi-img.ts';
 import { getPrompt } from '$lib/server/repo/apps.ts';
 
 export async function POST({ request, params }: RequestEvent) {
@@ -19,7 +19,7 @@ export async function POST({ request, params }: RequestEvent) {
 	}
 
 	const prompt = await getPrompt(+routeId);
-	const url = await generate1ImgTo1Img(file, prompt);
+	const urls = await generate1ImgToMutliImg(file, prompt);
 
-	return json({ url });
+	return json({ urls });
 }

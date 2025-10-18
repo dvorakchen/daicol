@@ -6,7 +6,7 @@
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
 	import { postFile } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
-	import SingleImgPreviewable from './single-img-previewable.svelte';
+	import SingleImgPreviewable from '$lib/components/previewers/single-img-previewable.svelte';
 
 	let { routeId } = $props();
 
@@ -62,6 +62,8 @@
 			return;
 		}
 
+		// neccessary! reset open previewer
+		openPreview = false;
 		openPreview = true;
 	}
 </script>

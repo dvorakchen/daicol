@@ -6,7 +6,7 @@
 	import SameCategoryRank from '$lib/components/apps/same-category-rank.svelte';
 	import HotApps from './hot-apps.svelte';
 	import Preview1ImgTo1Img from '$lib/components/apps/preview-1-img-to-1-img.svelte';
-	import Generator1ImgTo1Img from '$lib/components/generator-1-img-to-1-img.svelte';
+	import Generator1ImgTo1Img from '$lib/components/generator-box/generator-1-img-to-1-img.svelte';
 
 	let { app } = $props();
 </script>
