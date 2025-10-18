@@ -363,6 +363,37 @@ const appSeeds = [
     prompt:
       "生成大头贴四宫格漫画，每张照片中的人物有不同的夸张表情和动作，每一格的背景为不相同拍摄大头贴的彩色可爱环境。",
   },
+  {
+    routeId: 10012,
+    name: "时尚冰箱写真",
+    category: AppCategories.EnhanceImages,
+    description: "生成忧郁克制时尚摄影",
+    seoKeywords: [
+      "清冷时尚特写",
+      "忧郁克制时尚摄影",
+      "报纸吊带设计",
+      "三分法构图人像",
+      "冰箱冷白光剪影",
+      "低胸露脐时尚",
+      "侧脸低头特写",
+      "鸭舌帽造型摆拍",
+    ],
+    seoDescription:
+      "清冷克制的时尚大片。三分法构图特写，报纸吊带搭配鸭舌帽，在冰箱冷白光前形成剪影氛围。完美侧脸，眼神忧郁，营造出高级的清冷时尚感。",
+    model: "seedream-4",
+    source: "字节跳动",
+    originImg: "/imgs/original-asian-gril.webp",
+    handledImg: "/imgs/10012/handled.webp",
+    icon: "/imgs/10012/icon.webp",
+    barImg: "/imgs/10012/banner.webp",
+    rate: sql`'4.5'::numeric`,
+    useCount: 189,
+    points: 1,
+    status: AppStatus.Enabled,
+    tags: ["忧郁", "摄影", "时尚", "冰箱"],
+    prompt:
+      "使用参考图片人物的脸。这是一张三分法构图的完美杰作，微微俯拍视角，上半身特写，侧身站立，上身紧贴冰箱，主体侧脸，主体轻微低头，不看镜头，主体的脸型和身材不变，主体穿着报纸做成的紧身时尚吊带，超级短款设计，低胸半球设计，露出肚脐，很凸显身材。戴着一个米白色的鸭舌帽，帽沿微微向下快挡住眼睛，在冰箱前摆拍，背景是一个立式冰箱，环境光暗，冰箱门开着，冰箱中有一些啤酒和饮料。冰箱自然的冷白光很亮，照射主体，形成轻微剪影效果的氛围感，能看清主体的侧脸，眼神有点忧郁。总体体现出清冷感。营造忧郁而克制的时尚氛围。",
+  },
 ];
 
 export default appSeeds;
