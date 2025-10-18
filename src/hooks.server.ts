@@ -66,12 +66,13 @@ const refreshAuth: Handle = ({ event, resolve }) => {
 	if (isJwtValid(token)) {
 		const sub = tryGetPayloadSub(token);
 		if (sub) {
+			event.locals.userId = sub;
 			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
 			setJWTCookie(event.cookies, token);
 		}
 	}
 
-	// TODO: check protecting route, return 401 if need auth
+	// TODO: check protecting route, return 401 if need auth and locals.userId undefined
 
 	return response;
 };
