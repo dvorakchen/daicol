@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: daicol
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U user -d postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,11 +23,11 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       DATABASE_URL: postgres://user:password@db:5432/daicol
       JWT_KEY: your-secret-jwt-key
       INIT_ADMIN_PHONE: 13012011000
-      VOLCENGINE_API_KEY: 
+      VOLCENGINE_API_KEY:
       PUBLIC_HOST: https://localhost:3000/
       PUBLIC_BEIAN_NUMBER: 苏@BEIAN_NUMBER

@@ -30,7 +30,7 @@
 	</ul>
 </div>
 
-<main class="mx-auto px-4 py-6 md:py-8">
+<main class="mx-auto py-2">
 	<div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
 		<div class="flex flex-col lg:col-span-2">
 			<Banner {app} />

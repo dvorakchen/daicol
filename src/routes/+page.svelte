@@ -22,7 +22,7 @@
 	<section class="rounded-xl bg-base-200 p-4">
 		<RankApps initList={data.rankApps} />
 	</section>
-	<section class="rounded-xl bg-base-200 p-4">
+	<section class="rounded-xl">
 		<h1 class="text-primary-to-accent text-2xl font-bold">{m['app.ai.latest']()}</h1>
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
