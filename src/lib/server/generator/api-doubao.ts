@@ -33,7 +33,7 @@ export async function generate(
 ): Promise<string[]> {
 	logger.info(`images: ${images}`);
 
-	const imgBase64s = [];
+	const imgBase64s: string[] = [];
 	for (const img of images) {
 		const ext = img.name.split('.').at(-1);
 		logger.info('file extension name: ' + ext);
@@ -41,7 +41,7 @@ export async function generate(
 		const buf = await img.arrayBuffer();
 
 		const base64Image = Buffer.from(buf).toString('base64');
-		imgBase64s.push(base64Image);
+		imgBase64s.push(`data:image/${ext};base64,${base64Image}`);
 	}
 
 	const response = await fetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', {
@@ -55,7 +55,7 @@ export async function generate(
 			prompt: prompt,
 			image: imgBase64s,
 			size: '2K',
-			sequential_image_generation: maxImages === 1 ? 'disabled' : 'auto',
+			sequential_image_generation: maxImages <= 1 ? 'disabled' : 'auto',
 			sequential_image_generation_options: {
 				max_images: maxImages
 			},
