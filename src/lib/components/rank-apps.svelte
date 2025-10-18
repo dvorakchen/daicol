@@ -100,7 +100,9 @@
 									>{app.category}</span
 								>
 								<div class="ml-2 flex items-center text-sm text-amber-500">
-									<Star /> <span class="ml-1">{app.rate}</span>
+									<span class="w-4">
+										<Star size="sm" />
+									</span> <span class="ml-1">{app.rate}</span>
 								</div>
 							</div>
 						</div>
@@ -135,7 +137,9 @@
 						</div>
 						<div class="col-span-2 text-sm text-gray-500">{app.category}</div>
 						<div class="col-span-2 flex items-center text-sm text-amber-500">
-							<Star />
+							<span class="w-4">
+								<Star size="sm" />
+							</span>
 							<span class="ml-1">{app.rate}</span>
 						</div>
 						<div class="col-span-1 text-green-500">

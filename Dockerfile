@@ -17,6 +17,7 @@ RUN deno task build
 
 RUN rm ./static -rf
 
+ENV PORT=3000
 EXPOSE 3000
 
 CMD deno task db:push && deno run -E -N -S -R ./build/index.js

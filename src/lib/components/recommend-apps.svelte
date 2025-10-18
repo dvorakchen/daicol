@@ -63,10 +63,10 @@
 				</div>
 				<div class="flex items-center justify-between">
 					<div class="flex items-center text-sm text-amber-500">
-						<span class="w-5">
+						<span class="w-3 md:w-4">
 							<Star size="sm" />
 						</span>
-						<span class="ml-1">{app.rate}</span>
+						<span class="ml-1 text-sm">{app.rate}</span>
 					</div>
 					<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"
 						>{app.useCount}
