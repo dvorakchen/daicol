@@ -9,6 +9,7 @@
 
 	let { category } = $props();
 	let sub: Subscription;
+	let appsPromise = getCategoryRanking();
 
 	onDestroy(() => {
 		sub?.unsubscribe();
@@ -35,7 +36,7 @@
 		<h3 class="flex items-center text-lg font-bold">{m['app.ai.detail.category_rank']()}</h3>
 	</div>
 	<div class="divide-y divide-secondary/10">
-		{#await getCategoryRanking()}
+		{#await appsPromise}
 			<div class="flex justify-center pt-4">
 				<BikeLoading />
 			</div>
