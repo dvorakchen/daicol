@@ -2,6 +2,7 @@
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { Image } from 'lucide-svelte';
+	import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 
 	let {
 		afterSelectImage = undefined,
@@ -22,8 +23,6 @@
 	});
 
 	function onchange(ev: Event) {
-		const MB_SIZE = 10; // 10MB
-
 		const input = ev.target as HTMLInputElement;
 		if ((input.files?.length ?? 0) <= 0) {
 			return;
@@ -31,8 +30,11 @@
 
 		const file = input.files![0];
 
-		if (file.size > MB_SIZE * 1024 * 1024) {
-			toastMan.add('warning', m['app.ai.generate.choose_image_under_mb']({ size: MB_SIZE }));
+		if (file.size > UPLOAD_IMAGE_MAX_SIZE) {
+			toastMan.add(
+				'warning',
+				m['app.ai.generate.choose_image_under_mb']({ size: UPLOAD_IMAGE_MAX_SIZE / 1024 / 1024 })
+			);
 			return;
 		}
 		uploadImage = file;

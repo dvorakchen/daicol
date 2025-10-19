@@ -6,3 +6,5 @@ export const themePrefer = {
 	light: 'corporate',
 	dark: 'sunset'
 } as const;
+
+export const UPLOAD_IMAGE_MAX_SIZE = 10 * 1024 * 1024;
