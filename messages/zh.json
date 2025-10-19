@@ -25,6 +25,7 @@
 	"sign_in.success": "登录成功",
 	"captcha.sent_error": "发送验证码失败，请重试",
 	"search_ai": "搜索想要的 AI",
+	"search_ai.look_around": "随便看看",
 	"goto_home_page": "前往主页",
 	"app.ai.hot": "热门 AI",
 	"app.ai.recommend": "推荐",

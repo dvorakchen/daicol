@@ -25,6 +25,7 @@
 	"sign_in.success": "Sign In Success",
 	"captcha.sent_error": "Sent code error, please retry",
 	"search_ai": "Search AI you want",
+	"search_ai.look_around": "Look around",
 	"goto_home_page": "Goto home page",
 	"app.ai.hot": "Hot AI",
 	"app.ai.recommend": "Recommend",

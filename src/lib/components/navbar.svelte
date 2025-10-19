@@ -87,7 +87,7 @@
 			<input
 				type="search"
 				name={QS_SEARCH_KEY}
-				placeholder={m.search_ai()}
+				placeholder={m['search_ai.look_around']()}
 				value={searchValue}
 			/></label
 		>
