@@ -487,6 +487,38 @@ const appSeeds = [
     tags: ["玩偶", "挂件"],
     prompt: "转换为毛绒玩偶挂件，去除背景",
   },
+  {
+    routeId: 10016,
+    name: "宝丽来照片墙",
+    category: AppCategories.CreativeDesign,
+    description: "电影平面旅行场景照片墙",
+    seoKeywords: [
+      "8K电影照片墙",
+      "宝丽来旅行照片",
+      "法罗群岛圣托里尼",
+      "冰岛摩洛哥摄影",
+      "哈苏135mm",
+      "柯达Vision3 250D",
+      "lomography颗粒",
+      "AI照片墙生成",
+      "超逼真电影感",
+    ],
+    seoDescription:
+      "生成超逼真8K电影平面照片墙，包含50张宝丽来旅行场景照片（法罗群岛、圣托里尼等）。采用哈苏、柯达Vision3胶片风格，捕捉温暖触感的光影与日记细节。",
+    model: "seedream-4",
+    source: "字节跳动",
+    originImg: "/imgs/original-asian-gril.webp",
+    handledImg: "/imgs/10016/handled.webp",
+    icon: "/imgs/10016/icon.webp",
+    barImg: "/imgs/10016/banner.webp",
+    rate: sql`'4.5'::numeric`,
+    useCount: 189,
+    points: 1,
+    status: AppStatus.Enabled,
+    tags: ["旅行", "照片墙"],
+    prompt:
+      "使用参考图中人物的脸，生成超逼真的8K 电影平面照片墙，包含50张宝丽来照片，照片里展现参考人物在旅行场景中的场景﹣﹣法罗群岛、圣托里尼岛、冰岛、日本、摩洛哥、瑞士阿尔卑斯山、巴厘岛、巴黎、纽约﹣﹣具有独特的灯光、手写标题、日记和欢乐；哈苏135mm、柯达 Vision3 250D、lomography 颗粒、温暖的触觉真实感、充满活力和生机。人物只在照片墙内的宝丽来照片中出现，不显示在照片墙前方",
+  },
 ];
 
 export default appSeeds;
