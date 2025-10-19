@@ -48,6 +48,7 @@
 	"app.ai.detail.category_rank": "Category Ranking",
 	"app.ai.detail.original_photo": "Original Photo",
 	"app.ai.detail.handled_photo": "Handled Photo",
+	"app.ai.detail.relation_recommand": "Relation Recommamd",
 	"app.ai.generate.generate_it": "Generate It",
 	"app.ai.generate.generating": "Generating",
 	"app.ai.generate.drag_and_drop_or_upload_image": "Drag & drop image or click here",
