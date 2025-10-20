@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { type AppEntityTypeWithoutPrompt } from '$lib/share/app.js';
-	import { Eye, Star } from 'lucide-svelte';
-
 	import RankApps from '$lib/components/rank-apps.svelte';
 	import Footer from '$lib/components/footer.svelte';
 	import More from '$lib/components/more.svelte';
 	import { QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/search.js';
 	import RecommendApps from '$lib/components/recommend-apps.svelte';
+	import AppCard from '$lib/components/app-card.svelte';
 
 	let { data } = $props();
 </script>
@@ -28,7 +26,7 @@
 			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
 		>
 			{#each data.hotApps.slice(0, 6) as app (app.routeId)}
-				{@render appCard(app)}
+				<AppCard {app} />
 			{/each}
 		</div>
 		<div class="mt-4 text-center">
@@ -37,39 +35,3 @@
 	</section>
 </main>
 <Footer />
-
-{#snippet appCard(apps: AppEntityTypeWithoutPrompt)}
-	<div
-		class="relative overflow-hidden rounded-lg bg-base-100 shadow-md nth-[10]:hidden sm:nth-[9]:hidden lg:nth-[10]:block lg:nth-[9]:block"
-	>
-		<a href={`/ai/${apps.routeId}`}
-			><img src={apps.icon} alt={apps.name} class="aspect-video w-full object-cover" /></a
-		>
-		<div class="flex items-center justify-between bg-base-100 px-1 py-2 sm:block sm:px-2">
-			<h3 class="truncate font-semibold">
-				<a href={`/ai/${apps.routeId}`} class="link">{apps.name}</a>
-			</h3>
-			<div class="tooltip block tooltip-primary" data-tip={apps.description}>
-				<div
-					class="mt-1 hidden max-w-full min-w-0 items-center truncate text-sm whitespace-nowrap text-gray-500 sm:block"
-				>
-					{apps.description}
-				</div>
-			</div>
-			<div class="flex items-center justify-between">
-				<div class="flex items-center text-sm text-amber-500">
-					<span class="w-3 md:w-4">
-						<Star size="sm" />
-					</span>
-					<span class="ml-1">{apps.rate}</span>
-				</div>
-				<span class="hidden items-center gap-2 text-xs text-gray-500 sm:flex"
-					>{apps.useCount}
-					<span class="w-5">
-						<Eye size="xs" />
-					</span>
-				</span>
-			</div>
-		</div>
-	</div>
-{/snippet}
