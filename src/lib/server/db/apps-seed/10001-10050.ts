@@ -382,7 +382,7 @@ const appSeeds = [
 			'清冷克制的时尚大片。三分法构图特写，报纸吊带搭配鸭舌帽，在冰箱冷白光前形成剪影氛围。完美侧脸，眼神忧郁，营造出高级的清冷时尚感。',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original-asian-gril.webp',
+		originImg: '/imgs/original-asian-girl.webp',
 		handledImg: '/imgs/10012/handled.webp',
 		icon: '/imgs/10012/icon.webp',
 		barImg: '/imgs/10012/banner.webp',
@@ -445,7 +445,7 @@ const appSeeds = [
 			'8K写实大师级AI绘画，移除原背景并完美保留人物外貌特征。生成超广角宏大场景：夏日晴空下的梦幻城堡、镜面地面、玫瑰花构成的巨型壁画。捕捉人物近景与壁画全景的震撼融合。',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original-asian-gril.webp',
+		originImg: '/imgs/original-asian-girl.webp',
 		handledImg: '/imgs/10014/handled.webp',
 		icon: '/imgs/10014/icon.webp',
 		barImg: '/imgs/10014/banner.webp',
@@ -507,7 +507,7 @@ const appSeeds = [
 			'生成超逼真8K电影平面照片墙，包含50张宝丽来旅行场景照片（法罗群岛、圣托里尼等）。采用哈苏、柯达Vision3胶片风格，捕捉温暖触感的光影与日记细节。',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original-asian-gril.webp',
+		originImg: '/imgs/original-asian-girl.webp',
 		handledImg: '/imgs/10016/handled.webp',
 		icon: '/imgs/10016/icon.webp',
 		barImg: '/imgs/10016/banner.webp',
@@ -698,7 +698,7 @@ const appSeeds = [
 			'探索一组三宫格海边胶片写真：傍晚沙滩，人物身着白衬衣，捕捉风中凌乱发丝。富士胶片般粗粝冷调，过度曝光与柔和光线，营造文艺、自我探索的独特氛围。',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original-asian-gril.webp',
+		originImg: '/imgs/original-asian-girl.webp',
 		handledImg: '/imgs/10022/handled.webp',
 		icon: '/imgs/10022/icon.webp',
 		barImg: '/imgs/10022/banner.webp',
@@ -709,6 +709,126 @@ const appSeeds = [
 		tags: ['三宫格', '海边', '胶片', '电影'],
 		prompt:
 			"帮我生成图片，一组三宫格胶片质感艺术感写真图，场景为海边沙滩、天空、傍晚。图中人物和参考图一致，人物和脸不变，衣服为白色衬衣。第一张为近景，上半身背影，风吹起头发，发丝凌乱，添加中英字幕“山的后面是什么？-What's beyond the mountain?-”；第二张为中景，人物手持一束花束，侧身站立于海边，看向手中的花，风吹起头发，发丝凌乱，添加中英字幕“你不用告诉我-You don't have to tell me-”；第三张为大特写，人物脸部位于画面偏左侧，风吹起头发，发丝凌乱，添加中英字幕“我会自己去看-I will go see for myself-”。整体色调清冷，带有富士胶片效果，过度曝光，画面粗粝且色调偏冷，暗部细节保留完整，高光区域呈现自然晕化、均采用柔和漫射光，无明显硬边阴影，营造出文艺且充满自我探索情绪的氛围，三张图合成一个三宫格，字幕位于底部居中，比例2:3。"
+	},
+	{
+		routeId: 10023,
+		name: '粉色猫妖少女',
+		category: AppCategories.EnhanceImages,
+		description: '麻花辫与樱花粉色森系服饰，眼神单纯的猫妖少女特写',
+		seoKeywords: [
+			"猫妖少女", "幻想森系服饰", "长发麻花辫", "樱花粉色服装", "珠光纱藤蔓", "AI绘画少女", "超高清人物特写", "复古层叠细节", "神秘微光氛围"
+		],
+		seoDescription:
+			'超高清AI生成：皮肤白皙、眼神单纯的猫妖少女特写。描绘其粗长麻花辫与樱花粉色森系服饰，点缀藤蔓花朵，营造神秘微光、清透色彩的幻想风格视觉盛宴。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-asian-girl.webp',
+		handledImg: '/imgs/10023/handled.webp',
+		icon: '/imgs/10023/icon.webp',
+		barImg: '/imgs/10023/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['猫妖', '粉色', '森系', '写真'],
+		prompt:
+			"一位皮肤白皙、眼神单纯可爱的长发猫妖少女，编着一条粗长麻花辫垂到脚踝，发丝凌乱，身着樱花粉色短款幻想风格森系服饰搭配层叠长片珠光纱，身上缠绕着细细藤蔓、小小枝叶花朵，白色背景，人物特写，幻想风格，浅景深，光斑，光影对比，神秘、微光氛围，服装繁复细节、复古、层层叠叠风格，超高清、面部高清，清透、色彩饱满有层次"
+	},
+	{
+		routeId: 10024,
+		name: '甜美草莓主题动物',
+		category: AppCategories.EnhanceImages,
+		description: '甜美温馨的草莓主题场景草莓蛋糕和动物',
+		seoKeywords: [
+			"可爱宠物", "草莓主题", "甜美风格", "宠物摄影", "温馨场景", "红色蝴蝶结", "草莓裙子", "毛绒玩具", "创意图片", "生日祝福", "宠物萌照", "白色线条元素", "卡通宠物", "节日礼物"
+		],
+		seoDescription:
+			'发现超萌可爱宠物！头戴红色蝴蝶结，身穿草莓裙，坐在草莓座椅上，营造甜美温馨的草莓主题场景。配有“BABY”草莓蛋糕和“Sweet Strawberry”文字，是您寻找创意宠物萌照或生日祝福图片的理想选择！',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10024/handled.webp',
+		icon: '/imgs/10024/icon.webp',
+		barImg: '/imgs/10024/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['动物', '草莓', '甜美', '宠物'],
+		prompt:
+			"可爱宠物，头戴红色大蝴蝶结发箍，身穿草莓图案白色小裙子，歪头微笑 wink 张嘴，在红与米色拼接的背景上，坐在一个大型的草莓毛绒座椅上，抱着一个草莓毛绒玩具，周围有草莓蛋糕毛绒玩具（写有“BABY”）、草莓毛绒玩具，还有文字“!wish you happy everyay!”“Sweet Strawberry”，白色线条元素，甜美草莓主题，温馨场景"
+	},
+	{
+		routeId: 10025,
+		name: '日杂复古杂志',
+		category: AppCategories.CreativeDesign,
+		description: '极致日杂复古杂志风海报设计',
+		seoKeywords: [
+			"日杂复古海报", "胶片颗粒感海报", "莫兰迪深蓝色海报", "LUCAS杂志标题", "猫咪耳机复古风", "高级复古海报设计", "强制透视海报", "橙红撞色设计"
+		],
+		seoDescription:
+			'极致日杂复古杂志风海报设计：莫兰迪深蓝色背景搭配橙红巨大“LUCAS”标题，营造胶片颗粒感的高级复古氛围。主体为戴耳机猫咪，运用强制透视，强调“Seize The moment”！',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10025/handled.webp',
+		icon: '/imgs/10025/icon.webp',
+		barImg: '/imgs/10025/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['动物', '日式', '杂志', '宠物', '复古'],
+		prompt:
+			"日杂复古杂志风海报，复古胶片颗粒感，主色调为莫兰迪深蓝色背景，搭配橙红巨大杂志标题字“LUCAS”，底部下方有小字“Seize The moment”，主体为只露出上半身的猫咪，向右半侧着脸，带着有线耳机听歌，头部上方留出三分之一空间，优雅，高级，复古，强制透视"
+	},
+	{
+		routeId: 10026,
+		name: '宠物证件照九宫格',
+		category: AppCategories.CreativeDesign,
+		description: '极致日杂复古杂志风海报设计',
+		seoKeywords: [
+			"动物证件照九宫格", "白色背景宠物照", "宠物多表情证件照", "宠物无边框照片", "九宫格证件照制作", "宠物表情包证件照", "AI宠物照片生成"
+		],
+		seoDescription:
+			'生成白色背景的宠物九宫格证件照！捕捉宠物各种可爱表情，无边界线条设计，完美用于社交分享或制作专属宠物卡片。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10026/handled.webp',
+		icon: '/imgs/10026/icon.webp',
+		barImg: '/imgs/10026/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['动物', '证件照', '九宫格', '宠物'],
+		prompt:
+			"生成白色背景的，九宫格，宠物证件照，各种表情，不要有边界线条"
+	},
+	{
+		routeId: 10027,
+		name: '宠物麦当劳主题照',
+		category: AppCategories.CreativeDesign,
+		description: '为您的爱宠定制专属麦当劳主题写真',
+		seoKeywords: [
+			"宠物麦当劳主题照", "麦当劳宠物摄影", "宠物定制场景", "可爱宠物麦当劳", "宠物公仔合影", "麦当劳主题背景", "宠物创意写真", "萌宠麦当劳帽子"
+		],
+		seoDescription:
+			'为您的爱宠定制专属麦当劳主题写真！宠物置身于麦当劳背景，搭配系列贴纸、公仔，戴上麦当劳帽子，在毛绒窝中可爱看向镜头。打造萌趣十足的宠物创意摄影！',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10027/handled.webp',
+		icon: '/imgs/10027/icon.webp',
+		barImg: '/imgs/10027/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['动物', '摄影', '麦当劳', '宠物'],
+		prompt:
+			"帮我把背景改成麦当劳背景 墙上贴着一些麦当劳系列贴纸或者海报 地毯要麦当劳系列配色 旁边放着麦当劳系列公仔 宠物头上带麦当劳系列帽子做出可爱的表情看着镜头身上衣服可以改变 表情可爱，宠物窝变成麦当劳系列毛绒样子"
 	}
 ];
 

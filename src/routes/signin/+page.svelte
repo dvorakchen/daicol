@@ -1,5 +1,5 @@
 <script lang="ts">
-	import signInImage from '$lib/assets/sign-in-side-background.jpg';
+	import signInImage from '$lib/assets/sign-in-side-background.webp';
 	import SignIn from '$lib/components/sign-in.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import Logo from '$lib/components/logo.svelte';

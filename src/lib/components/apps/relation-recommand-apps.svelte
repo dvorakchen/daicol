@@ -33,7 +33,7 @@
 		<BikeLoading />
 	</div>
 {:then apps}
-	<div class="grid grid-cols-4 grid-rows-2">
+	<div class="grid grid-cols-4 grid-rows-2 gap-2">
 		{#each apps as app (app.routeId)}
 			<AppCard {app} />
 		{/each}
