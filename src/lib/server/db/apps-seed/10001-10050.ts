@@ -932,6 +932,29 @@ const appSeeds = [
 		status: AppStatus.Enabled,
 		tags: ['写真', '韩式', '时尚', '女性'],
 		prompt: '将图一人物的脸替换到图二人物的脸，要能够明显看出是图一的人物，其他不变'
+	},
+	{
+		routeId: 10030,
+		name: '黏宝耄耋富贵图',
+		category: AppCategories.CreativeDesign,
+		description: '中国水墨画宠物扑蝴蝶',
+		seoKeywords: [
+			"中国水墨画", "水彩晕染", "宠物扑蝴蝶", "牡丹花开", "溪水潺潺", "诗意留白", "国画杰作", "黏宝耄耋富贵图", "书法印章", "中式美学", "4K高清水墨画"
+		],
+		seoDescription:
+			'欣赏一幅杰作级的中国水墨画，以水彩晕染技法描绘宠物扑蝴蝶的活泼场景。牡丹盛开，小溪潺潺，诗意留白尽显传统美学。作品题有“黏宝耄耋富贵图”隶书书法并印有中国风印章。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10030/handled.webp',
+		icon: '/imgs/10030/icon.webp',
+		barImg: '/imgs/10030/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['耄耋', '动物', '宠物', '水墨画'],
+		prompt: '帮我生成图片：中国水墨画风格，采用水彩晕染技法，呈现柔和细腻的渐变效果，图中宠物正调皮地用爪子扑着翩翩起舞的蝴蝶，周围牡丹花草丛生，小溪潺潺流淌，盛开的牡丹富贵美丽，宠物拼命扑着，活泼可爱。宠物的毛发以柔和飘逸的墨笔勾勒呈现，牡丹摇曳生姿，蝴蝶灵动美好，通过留白营造诗意构图，尽显中国传统美学，整体氛围宁静和谐，属杰作级别，最高品质，4K（超高清），在这幅水墨画作品中有书法题词隶书字体的“黏宝耄耋富贵图”五个字，印有中国风的印章，形成了一幅完整的水墨画作品'
 	}
 ];
 
