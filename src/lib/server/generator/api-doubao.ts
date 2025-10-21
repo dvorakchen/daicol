@@ -2,6 +2,7 @@ import { env } from '$env/dynamic/private';
 import { Buffer } from 'node:buffer';
 import logger from '$lib/server/log.ts';
 import { m } from '$lib/paraglide/messages.js';
+import type { ReferenceImage } from '$lib/server/generator/index.ts';
 
 const ErrorCode = {
 	OutputImageSensitiveContentDetected: 'OutputImageSensitiveContentDetected',
@@ -27,18 +28,18 @@ export type DaoBaoResponseType = {
 };
 
 export async function generate(
-	images: File[],
+	images: ReferenceImage[],
 	prompt: string,
 	maxImages: number = 1
 ): Promise<string[]> {
-	logger.info(`images: ${images}`);
+	logger.info(`images: ${images.length}`);
 
 	const imgBase64s: string[] = [];
 	for (const img of images) {
-		const ext = img.name.split('.').at(-1);
+		const ext = img.filename.split('.').at(-1);
 		logger.info('file extension name: ' + ext);
 
-		const buf = await img.arrayBuffer();
+		const buf = img.content;
 
 		const base64Image = Buffer.from(buf).toString('base64');
 		imgBase64s.push(`data:image/${ext};base64,${base64Image}`);
