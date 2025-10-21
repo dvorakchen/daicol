@@ -931,7 +931,7 @@ const appSeeds = [
 		points: 1,
 		status: AppStatus.Enabled,
 		tags: ['写真', '韩式', '时尚', '女性'],
-		prompt: '将图一人物的脸替换到图二人物的脸'
+		prompt: '将图一人物的脸替换到图二人物的脸，要能够明显看出是图一的人物，其他不变'
 	}
 ];
 
