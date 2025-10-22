@@ -2,7 +2,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronRight, Star } from 'lucide-svelte';
 	import { get } from '$lib/client/net/http.ts';
-	import { type AppWithoutPrompt } from '$lib/share/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import type { Subscription } from 'rxjs';
 	import { onDestroy } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';

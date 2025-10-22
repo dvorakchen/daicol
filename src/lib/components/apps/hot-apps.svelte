@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { get } from '$lib/client/net/http.ts';
 	import { m } from '$lib/paraglide/messages';
-	import type { AppWithoutPrompt } from '$lib/share/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import { Star } from 'lucide-svelte';
 	import { Subscription } from 'rxjs';
 	import { onDestroy } from 'svelte';
