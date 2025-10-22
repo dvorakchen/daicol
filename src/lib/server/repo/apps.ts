@@ -289,3 +289,18 @@ export async function getRelationApps(routeId: number) {
 
 	return list;
 }
+
+export async function increaseUsedCount(routeId: number) {
+	const app = await db.query.apps.findFirst({
+		where: eq(apps.routeId, routeId)
+	});
+
+	if (app) {
+		await db
+			.update(apps)
+			.set({
+				useCount: app.useCount + 1
+			})
+			.where(eq(apps.routeId, routeId));
+	}
+}

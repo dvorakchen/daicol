@@ -15,6 +15,7 @@ import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
 import { getUserById } from '$lib/server/repo/users.ts';
 import { addHistory } from '$lib/server/repo/histories.ts';
+import { increaseUsedCount } from '$lib/server/repo/apps.ts';
 import { AccessType } from '$lib/share/app.ts';
 
 const DATABASE_URL = env.DATABASE_URL;
@@ -84,6 +85,8 @@ const recordHistoryHandle: Handle = async ({ event, resolve }) => {
 		const routeId = match[1];
 
 		await addHistory(+routeId, AccessType.PageView);
+		await increaseUsedCount(+routeId);
+		logger.info(`record routeId: ${routeId}`);
 	}
 
 	return resolve(event);

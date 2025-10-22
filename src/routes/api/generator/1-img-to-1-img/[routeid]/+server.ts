@@ -1,7 +1,7 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { callGenerate as generate1ImgTo1Img } from '$lib/server/generator/1-img-to-1-img.ts';
-import { getPrompt } from '$lib/server/repo/apps.ts';
+import { getPrompt, increaseUsedCount } from '$lib/server/repo/apps.ts';
 import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -62,6 +62,8 @@ export async function POST({ request, params }: RequestEvent) {
 
 	const prompt = await getPrompt(+routeId);
 	const url = await generate1ImgTo1Img(referFilesData, prompt);
+
+	await increaseUsedCount(+routeId)
 
 	return json({ url });
 }
