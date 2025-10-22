@@ -63,7 +63,7 @@ export async function POST({ request, params }: RequestEvent) {
 	const prompt = await getPrompt(+routeId);
 	const url = await generate1ImgTo1Img(referFilesData, prompt);
 
-	await increaseUsedCount(+routeId)
+	await increaseUsedCount(+routeId);
 
 	return json({ url });
 }

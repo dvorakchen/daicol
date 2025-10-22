@@ -20,3 +20,5 @@ export const users = pgTable('users', {
 	createAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow(),
 	updateAt: timestamp('update_at', { withTimezone: true }).notNull().defaultNow()
 });
+
+export type User = typeof users.$inferSelect;

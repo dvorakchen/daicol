@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import type { AppEntityTypeWithoutPrompt } from '$lib/share/index.ts';
+	import type { AppWithoutPrompt } from '$lib/share/index.ts';
 	import { Forward, MessageCircle, Star } from 'lucide-svelte';
 
-	let { app }: { app: AppEntityTypeWithoutPrompt } = $props();
+	let { app }: { app: AppWithoutPrompt } = $props();
 </script>
 
 <div class="overflow-hidden rounded-xl bg-base-200 shadow-sm">

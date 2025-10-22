@@ -17,3 +17,5 @@ export const visitHistories = pgTable(
 	},
 	(table) => [primaryKey({ columns: [table.appId, table.accessDate] })]
 );
+
+export type visitHistory = typeof visitHistories.$inferSelect;

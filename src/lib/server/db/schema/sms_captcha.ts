@@ -7,3 +7,5 @@ export const smsCaptcha = pgTable('sms_captcha', {
 	isUsed: boolean('is_used').notNull().default(false),
 	createAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow()
 });
+
+export type SmsCaptcha = typeof smsCaptcha.$inferSelect;

@@ -19,27 +19,3 @@ export enum RankTypes {
 	Month = 'Month',
 	Total = 'Total'
 }
-
-export type AppEntityTypeWithoutPrompt = {
-	id: number;
-	name: string;
-	points: number;
-	status: string;
-	createAt: Date;
-	updateAt: Date;
-	routeId: number;
-	category: string;
-	tags: string[];
-	keywords: string[];
-	description: string;
-	seoKeywords: string[];
-	seoDescription: string;
-	model: string;
-	source: string;
-	originImg: string;
-	handledImg: string;
-	icon: string;
-	barImg: string;
-	rate: string;
-	useCount: number;
-};

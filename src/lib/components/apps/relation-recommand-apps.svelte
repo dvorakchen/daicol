@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import type { AppEntityTypeWithoutPrompt } from '$lib/share';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/apps';
 	import { get } from '$lib/client/net/http.ts';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 	import AppCard from '../app-card.svelte';
 
-	let { app }: { app: AppEntityTypeWithoutPrompt } = $props();
+	let { app }: { app: AppWithoutPrompt } = $props();
 
 	let getApps = getRelationApps();
 
-	function getRelationApps(): Promise<AppEntityTypeWithoutPrompt[]> {
+	function getRelationApps(): Promise<AppWithoutPrompt[]> {
 		return new Promise((resolve, reject) => {
-			get<AppEntityTypeWithoutPrompt[]>(`/api/apps/relation/${app.routeId}`).subscribe({
+			get<AppWithoutPrompt[]>(`/api/apps/relation/${app.routeId}`).subscribe({
 				next: (data) => {
 					resolve(data);
 				},

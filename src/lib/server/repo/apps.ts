@@ -16,12 +16,7 @@ import {
 } from 'drizzle-orm';
 import { apps } from '$lib/server/db/schema/apps.ts';
 import logger from '$lib/server/log.ts';
-import {
-	AppCategories,
-	type AppEntityTypeWithoutPrompt,
-	AppStatus,
-	RankTypes
-} from '$lib/share/app.ts';
+import { AppCategories, type AppWithoutPrompt, AppStatus, RankTypes } from '$lib/share/app.ts';
 import { visitHistories } from '$lib/server/db/schema/visit_histories.ts';
 import { SearchType } from '$lib/share/search.ts';
 
@@ -56,7 +51,7 @@ export async function getRecommendApps(count: number = 10) {
 		limit: count
 	});
 
-	return apps as AppEntityTypeWithoutPrompt[];
+	return apps as AppWithoutPrompt[];
 }
 
 export async function getHotApps(count: number = 10, excludeIds: number[] = []) {
@@ -75,7 +70,7 @@ export async function getHotApps(count: number = 10, excludeIds: number[] = []) 
 	});
 
 	logger.info(`get hot apps: ${hotApps.length}`);
-	return (hotApps as AppEntityTypeWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
+	return (hotApps as AppWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
 const RANK_APPS_COUNT = 10;
@@ -125,7 +120,7 @@ export async function getRankApps(rankType: RankTypes) {
 	logger.info(`get rank apps: type: ${rankType}, apps: ${JSON.stringify(rankApps)}`);
 	rankApps = rankApps ?? [];
 
-	return (rankApps as AppEntityTypeWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
+	return (rankApps as AppWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
 async function getWeekRankApps() {
@@ -181,7 +176,7 @@ export async function getRankAppsByCategory(category: AppCategories) {
 		where: and(eq(apps.category, category), eq(apps.status, AppStatus.Enabled)),
 		orderBy: desc(apps.rate),
 		limit: APPS_LIMIT
-	})) as AppEntityTypeWithoutPrompt[];
+	})) as AppWithoutPrompt[];
 }
 
 export async function searchApps(search: string, type: SearchType) {
@@ -227,7 +222,7 @@ export async function searchApps(search: string, type: SearchType) {
 		limit: LIMIT
 	});
 
-	return list as AppEntityTypeWithoutPrompt[];
+	return list as AppWithoutPrompt[];
 }
 
 export async function getAppByRouteId(routeId: number) {
@@ -267,7 +262,7 @@ export async function getRelationApps(routeId: number) {
 		),
 		orderBy: [desc(apps.rate), desc(apps.useCount)],
 		limit: LIMIT
-	})) as AppEntityTypeWithoutPrompt[];
+	})) as AppWithoutPrompt[];
 
 	if (list.length < LIMIT) {
 		const ids = list.map((t) => t.id);
@@ -282,7 +277,7 @@ export async function getRelationApps(routeId: number) {
 			),
 			orderBy: [desc(apps.rate), desc(apps.useCount)],
 			limit: LIMIT - list.length
-		})) as AppEntityTypeWithoutPrompt[];
+		})) as AppWithoutPrompt[];
 
 		list.push(...extactList);
 	}

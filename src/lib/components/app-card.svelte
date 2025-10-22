@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { AppEntityTypeWithoutPrompt } from '$lib/share';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/apps';
 	import { Eye, Star } from 'lucide-svelte';
 
-	let { app }: { app: AppEntityTypeWithoutPrompt } = $props();
+	let { app }: { app: AppWithoutPrompt } = $props();
 </script>
 
 <div

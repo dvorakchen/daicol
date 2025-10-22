@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { get } from '$lib/client/net/http.ts';
-	import type { AppEntityTypeWithoutPrompt } from '$lib/share';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/apps';
 	import AppCard from '$lib/components/app-card.svelte';
 
 	let { apps } = $props();
@@ -14,7 +14,7 @@
 		}
 		loading = true;
 
-		get<AppEntityTypeWithoutPrompt[]>(`/api/apps/recommend`).subscribe({
+		get<AppWithoutPrompt[]>(`/api/apps/recommend`).subscribe({
 			next: (data) => {
 				apps = data;
 				loading = false;

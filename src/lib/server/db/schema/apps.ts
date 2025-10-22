@@ -28,3 +28,7 @@ export const apps = pgTable('apps', {
 	createAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow(),
 	updateAt: timestamp('update_at', { withTimezone: true }).notNull().defaultNow()
 });
+
+export type App = typeof apps.$inferSelect;
+
+export type AppWithoutPrompt = Omit<App, 'prompt'>;
