@@ -1,9 +1,8 @@
 import { db } from '$lib/server/db/index.ts';
-import { users } from '$lib/server/db/schema/users.ts';
+import { users, apps } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 import { UserPermissions } from '$lib/share/user.ts';
 import { env } from '$env/dynamic/private';
-import { apps } from '$lib/server/db/schema/apps.ts';
 import { eq } from 'drizzle-orm';
 import apps10001_10050 from '$lib/server/db/apps-seed/10001-10050.ts';
 

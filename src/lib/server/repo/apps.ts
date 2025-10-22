@@ -14,10 +14,9 @@ import {
 	SQL,
 	sql
 } from 'drizzle-orm';
-import { apps, type AppWithoutPrompt } from '$lib/server/db/schema/apps.ts';
+import { apps, visitHistories, type AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 import { AppCategories, AppStatus, RankTypes } from '$lib/share/app.ts';
-import { visitHistories } from '$lib/server/db/schema/visit_histories.ts';
 import { SearchType } from '$lib/share/search.ts';
 
 const COLUMNS_WITHOUT_PROMPT = {

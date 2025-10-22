@@ -5,7 +5,7 @@
 	import { get } from '$lib/client/net/http.ts';
 	import { debounceTime } from 'rxjs';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/apps';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 
 	let { initList }: { initList: AppWithoutPrompt[] } = $props();
 

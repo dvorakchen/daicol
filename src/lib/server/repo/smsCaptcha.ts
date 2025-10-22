@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/index.ts';
 import { and, eq, sql } from 'drizzle-orm';
-import { smsCaptcha } from '$lib/server/db/schema/sms_captcha.ts';
+import { smsCaptcha } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 
 export async function updateNewSmsCode(phone: string, code: string) {

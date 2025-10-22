@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { get } from '$lib/client/net/http.ts';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/apps';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import AppCard from '$lib/components/app-card.svelte';
 
 	let { apps } = $props();

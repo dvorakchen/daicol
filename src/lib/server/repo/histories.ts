@@ -1,8 +1,7 @@
 import type { AccessType } from '$lib/share/app.ts';
 import { db } from '$lib/server/db/index.ts';
 import { and, eq, sql } from 'drizzle-orm';
-import { apps } from '$lib/server/db/schema/apps.ts';
-import { visitHistories } from '$lib/server/db/schema/visit_histories.ts';
+import { apps, visitHistories } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 
 export async function addHistory(routeId: number, accessType: AccessType) {

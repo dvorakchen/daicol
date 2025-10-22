@@ -1,4 +1,4 @@
-import { users } from '$lib/server/db/schema/users.ts';
+import { users } from '$lib/server/db/schema/index.ts';
 import { db } from '$lib/server/db/index.ts';
 import { and, arrayContains, eq, sql } from 'drizzle-orm';
 import { UserPermissions, UserStatus } from '$lib/share/user.ts';
