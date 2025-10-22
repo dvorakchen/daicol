@@ -25,7 +25,7 @@
 </button>
 
 <dialog bind:this={preivewDailog} class="modal">
-	<div class="modal-box max-w-6xl w-fit">
+	<div class="modal-box w-fit max-w-6xl">
 		<form method="dialog">
 			<button class="btn absolute top-2 right-2 btn-circle btn-sm">✕</button>
 		</form>
