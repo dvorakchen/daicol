@@ -25,7 +25,7 @@
 		<div
 			class="-mx-2 grid grid-cols-3 grid-rows-2 gap-2 overflow-hidden px-2 py-4 sm:grid-cols-4 sm:grid-rows-1 lg:grid-cols-6"
 		>
-			{#each data.hotApps.slice(0, 6) as app (app.routeId)}
+			{#each data.latestApps as app (app.routeId)}
 				<AppCard {app} />
 			{/each}
 		</div>

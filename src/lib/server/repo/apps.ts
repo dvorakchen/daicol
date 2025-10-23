@@ -72,6 +72,17 @@ export async function getHotApps(count: number = 10, excludeIds: number[] = []) 
 	return (hotApps as AppWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
+export async function getLatestApps(count: number) {
+	const hotApps = await db.query.apps.findMany({
+		columns: COLUMNS_WITHOUT_PROMPT,
+		where: eq(apps.status, AppStatus.Enabled),
+		orderBy: [desc(apps.createAt)],
+		limit: count
+	});
+
+	return hotApps as AppWithoutPrompt[];
+}
+
 const RANK_APPS_COUNT = 10;
 
 export async function getRankApps(rankType: RankTypes) {
