@@ -1133,6 +1133,116 @@ const appSeeds = [
 		tags: ['鲜花', '动物', '宠物', '肖像', '草地'],
 		prompt:
 			'帮我生成图片：保持现有宠物样貌，脸不变，呈现真实质感的宠物，将宠物置于室外阳光明媚洒满的草地场景中，脖子戴着花草编制的项圈，周围环绕着黄绿白色的鲜艳鲜花，画面清新自然，背后立着一副油画，油画里是以同样草地鲜花为背景的宠物。采用原比例 9:16 构图，光影明亮，色调清新'
+	},
+	{
+		routeId: 10036,
+		name: '印象派睡莲池',
+		category: AppCategories.CreativeDesign,
+		description: '莫奈印象派睡莲池',
+		seoKeywords: ["莫奈风格转换", "印象派油画AI", "睡莲池场景生成", "主体特征不变", "莫奈笔触色彩", "睡莲池嬉戏", "高清印象派艺术照", "柔和光线氛围感"],
+		seoDescription:
+			'将您的主体特征、五官不变地融入莫奈印象派睡莲池！画面采用莫奈式笔触与色彩，光影细腻，充满自然诗意。高清生成睡莲池嬉戏场景，享受浪漫油画氛围感。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10036/handled.webp',
+		icon: '/imgs/10036/icon.webp',
+		barImg: '/imgs/10036/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['印象派', '动物', '宠物', '油画', '睡莲'],
+		prompt:
+			'保持用户原图主体基本特征、外貌、五官不变。主体在印象派经典场景中，画面采用莫奈式的笔触与色彩，笔触灵动且色彩斑斓，光线柔和富有氛围感。场景是睡莲池里，主体躺在连夜上在嬉戏，睡莲与水纹色彩丰富；整体风格是印象派油画，色彩明快，光影细腻，充满自然诗意与浪漫情调。画面清晰，画质高，高清'
+	},
+	{
+		routeId: 10037,
+		name: '梦娜丽莎抱宠',
+		category: AppCategories.CreativeDesign,
+		description: '欣赏独特的蒙娜丽莎宠物油画！',
+		seoKeywords: ["蒙娜丽莎宠物油画", "复古名画改编", "高清油画风格", "蒙娜丽莎抱动物", "经典艺术混搭", "温顺宠物画像", "创意名画", "艺术再创作"],
+		seoDescription:
+			'欣赏独特的蒙娜丽莎宠物油画！这张高清复古风格创意名画，描绘了蒙娜丽莎怀抱温顺宠物，将经典艺术与现代想象完美结合。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10037/handled.webp',
+		icon: '/imgs/10037/icon.webp',
+		barImg: '/imgs/10037/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['梦娜丽莎', '动物', '宠物', '油画', '复古'],
+		prompt:
+			'帮我生成图片，梦娜丽莎抱着图中宠物，油画风格，高清，复古风格。宠物温顺的趴在蒙娜丽莎的怀里。'
+	},
+	{
+		routeId: 10038,
+		name: '印第安风格猫咪',
+		category: AppCategories.CreativeDesign,
+		description: '史诗级印第安风格猫咪艺术写真',
+		seoKeywords: ["印第安猫咪", "鹰羽头饰猫", "部落图腾战衣", "史诗感宠物写真", "后现代古风", "虚幻5引擎画质", "高饱和色调", "深咖啡色背景", "独特肌理质感", "猫咪艺术照"],
+		seoDescription:
+			'史诗级印第安风格猫咪艺术写真：头戴鹰羽头饰，身着部落图腾战衣，于深咖啡色背景中咆哮。融合后现代与浪漫古风，呈现虚幻5引擎般的真实肌理质感与高饱和色调。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10038/handled.webp',
+		icon: '/imgs/10038/icon.webp',
+		barImg: '/imgs/10038/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['印第安', '动物', '宠物', '油画', '写真'],
+		prompt:
+			'背景换成浓郁复古深咖啡色，头戴印第安鹰羽头饰的猫，身穿饰有部落图腾的印第安风格战衣，宠物坐着，张着嘴咆哮，极具史诗感。合理构图，采用高饱和色调，洒金点缀，融合后现代主义与浪漫古风，呈现独特肌理质感，如真实写真般，似经虚幻5引擎精心打造'
+	},
+	{
+		routeId: 10039,
+		name: '宠物画室艺术家',
+		category: AppCategories.CreativeDesign,
+		description: '可爱宠物身着与水粉画',
+		seoKeywords: ["宠物画室", "水粉画宠物", "穿着宠物艺术照", "宠物肖像画", "画架宠物", "室内画室场景", "动物艺术家", "个性宠物摄影"],
+		seoDescription:
+			'创意宠物艺术照：可爱宠物身着与水粉画一致的服装，坐于画架前，背景是充满艺术氛围的室内画室，彰显个性与品味。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10039/handled.webp',
+		icon: '/imgs/10039/icon.webp',
+		barImg: '/imgs/10039/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['画室', '动物', '宠物', '艺术'],
+		prompt:
+			'帮我生成图片：仅保留宠物主体，图中宠物坐在一幅与它穿着打扮一致的水粉画前，水粉画画置于画架上，背景为室内画室环境，摆放有其他画作 。比例 3:4。原比例。'
+	},
+	{
+		routeId: 10040,
+		name: '宠物哥特风写真',
+		category: AppCategories.CreativeDesign,
+		description: '超高清宠物哥特风写实艺术照',
+		seoKeywords: ["宠物哥特风写真", "复古暗黑系宠物照", "猫咪贝雷帽蕾丝裙", "哥特式花卉摄影", "神秘复古宠物造型", "超高清写实艺术照", "暗黑华丽视觉", "宠物肖像大师级"],
+		seoDescription:
+			'超高清宠物哥特风写实艺术照：宠物头戴贝雷帽、身着蕾丝裙，置身于鲜花蝴蝶箱中，营造出神秘、复古、华丽的暗黑氛围。色彩对比鲜明，光线立体，突出完美的毛发与服饰细节。',
+		model: 'seedream-4',
+		source: '字节跳动',
+		originImg: '/imgs/original-cat.webp',
+		handledImg: '/imgs/10040/handled.webp',
+		icon: '/imgs/10040/icon.webp',
+		barImg: '/imgs/10040/banner.webp',
+		rate: sql`'4.5'::numeric`,
+		useCount: 198,
+		points: 1,
+		status: AppStatus.Enabled,
+		tags: ['哥特', '动物', '宠物', '复古', '暗黑'],
+		prompt:
+			'宠物头戴棕色贝雷帽和白色花朵装饰，穿着白色蕾丝娃娃领的黑色波浪样式的裙子，整体造型充满复古哥特风格。坐在装饰有大量鲜花、蝴蝶元素的箱子里，周围有玩偶、各色鲜花和蝴蝶装饰，营造出一种复古、神秘且略带诡异的氛围。摄影风格，搭配色彩斑斓的鲜花，再加上深色背景衬托，色彩对比鲜明，营造出神秘而华丽的视觉效果。宠物处于画面中心位置，周围的鲜花、玩偶等元素丰富了画面层次，构图紧凑且富有故事感，突出神秘复古主题。光线柔和且有明暗对比，突出小猫的面部轮廓、毛发质感以及服装细节，增强画面的立体感和神秘感，营造出浓郁的哥特式氛围。大师写实艺术照，超高清，完美构图'
 	}
 ];
 
