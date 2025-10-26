@@ -21,8 +21,8 @@ export function post<T>(url: string, body?: unknown, headers?: Headers) {
 export function postFile<T>(url: string, files: File[]) {
 	const formData = new FormData();
 
-	files.forEach((file, i) => {
-		formData.append(`file${i}`, file);
+	files.forEach((file) => {
+		formData.append(`file`, file);
 	});
 
 	return httpRequest<T>('POST', url, {}, formData);

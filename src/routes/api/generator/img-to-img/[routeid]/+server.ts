@@ -14,19 +14,25 @@ export async function POST({ request, params }: RequestEvent) {
 	logger.info(`api generate 1-img-to-1-img, routeId: ${routeId}`);
 	const formData = await request.formData();
 	logger.info(formData);
-	const file = formData.get('file0') as File | null;
-	logger.info(`file: ${file?.name}`);
+	const files = formData.getAll('file') as File[] | null;
+	logger.info(`files: ${files?.length}`);
 
-	if (file === null || file.size > UPLOAD_IMAGE_MAX_SIZE || isNaN(parseInt(routeId))) {
+	if (
+		isNaN(parseInt(routeId)) ||
+		files === null ||
+		files?.some((file) => file === null || file.size > UPLOAD_IMAGE_MAX_SIZE)
+	) {
 		return new Response(null, { status: 400 });
 	}
 
-	const referFilesData = [
-		{
+	const referFilesData = [];
+
+	for (const file of files) {
+		referFilesData.push({
 			filename: file.name,
 			content: await file.arrayBuffer()
-		} as ReferenceImage
-	];
+		} as ReferenceImage);
+	}
 
 	logger.info(`all reference images: ${referFilesData.length}`);
 

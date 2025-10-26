@@ -36,7 +36,7 @@
 		}
 		generating = true;
 
-		postFile(`/api/generator/1-img-to-1-img/${routeId}`, [image]).subscribe({
+		postFile(`/api/generator/img-to-img/${routeId}`, [image]).subscribe({
 			next: (data) => {
 				handledImageLink = (data as { url: string }).url;
 				generating = false;
