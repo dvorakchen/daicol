@@ -1,7 +1,7 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
-import { callGenerate as generate1ImgTo1Img } from '$lib/server/generator/1-img-to-1-img.ts';
-import { getPrompt, increaseUsedCount } from '$lib/server/repo/apps.ts';
+import { callGenerate as generateImgToImg } from '$lib/server/generator/img-to-img.ts';
+import { getPrompt, getReferenceImgs, increaseUsedCount } from '$lib/server/repo/apps.ts';
 import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 import type { ReferenceImage } from '$lib/server/generator/index.ts';
 
@@ -25,21 +25,32 @@ export async function POST({ request, params }: RequestEvent) {
 		return new Response(null, { status: 400 });
 	}
 
-	const referFilesData = [];
+	const referFilesData: ReferenceImage[] = [];
 
 	for (const file of files) {
+		logger.info(`filetype: ${file.type}`)
 		referFilesData.push({
-			filename: file.name,
+			mimeType: file.type,
 			content: await file.arrayBuffer()
 		} as ReferenceImage);
 	}
 
+	const referImgs = (await getReferenceImgs(+routeId)).map(
+		(img) =>
+			({
+				mimeType: img.mimeType,
+				content: img.content!.buffer
+			}) as ReferenceImage
+	);
+
+	referFilesData.push(...referImgs);
+
 	logger.info(`all reference images: ${referFilesData.length}`);
 
 	const prompt = await getPrompt(+routeId);
-	const url = await generate1ImgTo1Img(referFilesData, prompt);
+	const urls = await generateImgToImg(referFilesData, prompt);
 
 	await increaseUsedCount(+routeId);
 
-	return json({ url });
+	return json({ urls });
 }

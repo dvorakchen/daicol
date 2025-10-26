@@ -1,6 +1,6 @@
-export * from '$lib/server/generator/1-img-to-1-img.ts';
+export * from '$lib/server/generator/img-to-img.ts';
 
 export type ReferenceImage = {
-	filename: string;
+	mimeType: string;
 	content: ArrayBuffer;
 };

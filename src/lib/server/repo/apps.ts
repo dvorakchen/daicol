@@ -14,7 +14,12 @@ import {
 	SQL,
 	sql
 } from 'drizzle-orm';
-import { apps, visitHistories, type AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+import {
+	apps,
+	visitHistories,
+	type AppWithoutPrompt,
+	appReferenceImgs
+} from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 import { AppCategories, AppStatus, RankTypes } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
@@ -310,4 +315,10 @@ export async function increaseUsedCount(routeId: number) {
 	}
 }
 
-// export async function getReferenceImgs(routeId: number) {}
+export async function getReferenceImgs(routeId: number) {
+	const imgs = await db.query.appReferenceImgs.findMany({
+		where: eq(appReferenceImgs.appId, routeId)
+	});
+
+	return imgs;
+}

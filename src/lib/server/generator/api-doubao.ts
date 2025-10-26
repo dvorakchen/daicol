@@ -36,13 +36,12 @@ export async function generate(
 
 	const imgBase64s: string[] = [];
 	for (const img of images) {
-		const ext = img.filename.split('.').at(-1);
-		logger.info('file extension name: ' + ext);
+		logger.info('file mime: ' + img.mimeType);
 
 		const buf = img.content;
 
 		const base64Image = Buffer.from(buf).toString('base64');
-		imgBase64s.push(`data:image/${ext};base64,${base64Image}`);
+		imgBase64s.push(`data:${img.mimeType};base64,${base64Image}`);
 	}
 
 	const response = await fetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', {

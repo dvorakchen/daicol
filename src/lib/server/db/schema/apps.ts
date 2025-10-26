@@ -1,6 +1,7 @@
-import { integer, numeric, pgTable, text, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
-import { sql } from 'drizzle-orm';
+import { integer, numeric, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { relations, sql } from 'drizzle-orm';
 import { AppStatus } from '../../../share/app.ts';
+import { appReferenceImgs } from './app_reference_imgs.ts';
 
 export const apps = pgTable('apps', {
 	id: serial('id').primaryKey(),
@@ -28,6 +29,10 @@ export const apps = pgTable('apps', {
 	createAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow(),
 	updateAt: timestamp('update_at', { withTimezone: true }).notNull().defaultNow()
 });
+
+export const appsRelations = relations(apps, ({ many }) => ({
+	referenceImgs: many(appReferenceImgs)
+}));
 
 export type App = typeof apps.$inferSelect;
 

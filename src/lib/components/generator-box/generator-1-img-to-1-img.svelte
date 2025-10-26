@@ -38,7 +38,7 @@
 
 		postFile(`/api/generator/img-to-img/${routeId}`, [image]).subscribe({
 			next: (data) => {
-				handledImageLink = (data as { url: string }).url;
+				handledImageLink = (data as { urls: string[] }).urls[0];
 				generating = false;
 				handledImgDiv?.scrollIntoView({
 					behavior: 'smooth',
