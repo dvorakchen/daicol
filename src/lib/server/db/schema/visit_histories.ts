@@ -7,7 +7,7 @@ export const visitHistories = pgTable(
 	'visit_histories',
 	{
 		appId: integer('app_id')
-			.references(() => apps.id)
+			.references(() => apps.id, { onDelete: 'cascade' })
 			.notNull(),
 		userId: integer('user_id').references(() => users.id),
 		visitCount: integer('visitCount').notNull().default(0),

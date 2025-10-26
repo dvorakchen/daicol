@@ -904,25 +904,24 @@ const appSeeds = [
 	},
 	{
 		routeId: 10029,
-		name: '韩式时尚精致写真',
-		category: AppCategories.EnhanceImages,
-		description: '高清细腻的年轻女性肖像棕色长卷发与精致妆容',
+		name: '宠物桂花树下',
+		category: AppCategories.CreativeDesign,
+		description: '高清写实风格的宠物桂花树下照片',
 		seoKeywords: [
-			'高清女性肖像',
-			'棕色长卷发',
-			'精致妆容',
-			'钻石耳环项链',
-			'白色露肩毛衣',
-			'柔和光线',
-			'优雅氛围',
-			'细腻画质',
-			'年轻女性时尚照'
+			'宠物桂花树下',
+			'写实宠物摄影',
+			'高清宠物艺术照',
+			'桂花盛开宠物',
+			'治愈系宠物照片',
+			'慵懒姿态宠物',
+			'细腻光影宠物',
+			'宠物毛发纹理'
 		],
 		seoDescription:
-			'高清细腻的年轻女性肖像，展现棕色长卷发与精致妆容。她佩戴闪亮钻石首饰，身着白色露肩毛衣，背景简约，光线柔和，营造出优雅精致的视觉氛围。',
+			'高清写实风格的宠物桂花树下照片。捕捉宠物慵懒姿态和专注眼神，细腻光影下精准还原宠物毛发纹理与盛开桂花形态，营造温馨治愈的自然氛围。',
 		model: 'seedream-4',
 		source: '字节跳动',
-		originImg: '/imgs/original.webp',
+		originImg: '/imgs/original-cat.webp',
 		handledImg: '/imgs/10029/handled.webp',
 		icon: '/imgs/10029/icon.webp',
 		barImg: '/imgs/10029/banner.webp',
@@ -930,8 +929,9 @@ const appSeeds = [
 		useCount: 198,
 		points: 1,
 		status: AppStatus.Enabled,
-		tags: ['写真', '韩式', '时尚', '女性'],
-		prompt: '将图一人物的脸替换到图二人物的脸，要能够明显看出是图一的人物，其他不变'
+		tags: ['动物', '宠物', '桂花', '治愈'],
+		prompt:
+			'宠物趴在桂花树下，身上、头上落着黄色桂花，眼神专注，姿态慵懒。桂花盛开，绿叶繁茂，地面散落桂花，背景虚化呈自然绿意。写实风格，高清细节，细腻光影，自然色调，温馨治愈氛围。精准还原宠物的毛发纹理、桂花的形态与色彩，追求视觉上的真实感。'
 	},
 	{
 		routeId: 10030,

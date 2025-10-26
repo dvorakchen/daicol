@@ -1,6 +1,7 @@
-import { integer, numeric, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { integer, numeric, pgTable, text, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import { AppStatus } from '../../../share/app.ts';
+import { bytea } from './index.ts';
 
 export const apps = pgTable('apps', {
 	id: serial('id').primaryKey(),
@@ -16,6 +17,7 @@ export const apps = pgTable('apps', {
 	seoDescription: varchar('seo_description', { length: 1024 }).notNull().default(''),
 	model: varchar('model', { length: 64 }).notNull().default(''),
 	source: varchar('source', { length: 64 }).notNull().default(''),
+	referenceImgs: bytea('reference_imgs').array().default([]),
 	prompt: text('prompt').notNull().default(''),
 	originImg: varchar('origin_img', { length: 1024 }).notNull().default(''),
 	handledImg: varchar('handled_img', { length: 1024 }).notNull().default(''),
@@ -31,4 +33,4 @@ export const apps = pgTable('apps', {
 
 export type App = typeof apps.$inferSelect;
 
-export type AppWithoutPrompt = Omit<App, 'prompt'>;
+export type AppWithoutPrompt = Omit<App, 'prompt' | 'referenceImgs'>;
