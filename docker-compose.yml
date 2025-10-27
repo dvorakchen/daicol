@@ -16,7 +16,7 @@ services:
       - ~/data/daicol/postgres:/var/lib/postgresql/data
   app:
     build:
-      context: .
+      context: ./packages/portal/
       dockerfile: Dockerfile
     container_name: daicol-app
     depends_on:

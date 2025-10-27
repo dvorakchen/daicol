@@ -28,7 +28,7 @@ export async function POST({ request, params }: RequestEvent) {
 	const referFilesData: ReferenceImage[] = [];
 
 	for (const file of files) {
-		logger.info(`filetype: ${file.type}`)
+		logger.info(`filetype: ${file.type}`);
 		referFilesData.push({
 			mimeType: file.type,
 			content: await file.arrayBuffer()

@@ -1,0 +1,12 @@
+{
+  "name": "@daicol/image-helper",
+  "private": true,
+  "dependencies": {
+    "sharp": "^0.34.4"
+  },
+  "scripts": {
+    "test": "deno test --allow-env --allow-ffi --allow-read",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint ."
+  }
+}
