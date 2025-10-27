@@ -44,8 +44,6 @@
 		"svelte-meta-tags": "^4.4.1",
 		"tailwind-merge": "^3.3.1",
 		"tailwindcss": "^4.1.14",
-		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.46.1",
 		"vite": "^7.1.10",
 		"vitest": "^3.2.4",
 		"vitest-browser-svelte": "^1.1.0",
@@ -60,6 +58,7 @@
 		"luxon": "^3.7.2",
 		"postgres": "^3.4.7",
 		"rxjs": "^7.8.2",
-		"winston": "^3.18.3"
+		"winston": "^3.18.3",
+		"@daicol/image-helper": "0.0.1"
 	}
 }

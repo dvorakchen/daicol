@@ -9,5 +9,5 @@ Deno.test("detect type for jpeg", async () => {
 
   const output = detectImageTypeByMagicNumber(input);
 
-  assertEquals(output, 'image/jpeg')
+  assertEquals(output, "image/jpeg");
 });

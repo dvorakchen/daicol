@@ -1,6 +1,6 @@
-# Daicol
+# Daicol/Portal
 
-Dvorak's AI collection
+Dvorak's AI collection Portal
 
 This project used:
 
