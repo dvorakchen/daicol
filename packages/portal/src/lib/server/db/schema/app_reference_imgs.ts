@@ -1,6 +1,6 @@
 import { integer, pgTable, primaryKey, varchar } from 'drizzle-orm/pg-core';
 import { apps } from './apps.ts';
-import { bytea } from './index.ts';
+import { bytea } from '../custom-type.ts';
 import { relations } from 'drizzle-orm';
 
 export const appReferenceImgs = pgTable(
