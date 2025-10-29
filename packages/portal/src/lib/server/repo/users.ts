@@ -2,6 +2,7 @@ import { users } from '$lib/server/db/schema/index.ts';
 import { db } from '$lib/server/db/index.ts';
 import { and, arrayContains, eq, sql } from 'drizzle-orm';
 import { UserPermissions, UserStatus } from '$lib/share/user.ts';
+import bcrypt from 'bcryptjs';
 
 export async function createUserByPhone(phone: string) {
 	const user = await db.query.users.findFirst({
@@ -23,6 +24,7 @@ export async function createUserByPhone(phone: string) {
 			passwordHash: '',
 			profilePicture: '',
 			attributes: {},
+			permissions: [UserPermissions.BaseAccess],
 			points: NEW_USER_DEFAULT_POINTS,
 			status: UserStatus.Enabled,
 			createAt: sql`now()`,
@@ -31,6 +33,46 @@ export async function createUserByPhone(phone: string) {
 		.returning()!;
 
 	return newUser[0];
+}
+
+export async function createUserByUsername(username: string, password: string) {
+	let signUpUser;
+
+	const hashed = await bcrypt.hash(password, await bcrypt.genSalt(10));
+
+	await db.transaction(async (tx) => {
+		const user = await tx.query.users.findFirst({
+			where: eq(users.userName, username)
+		});
+
+		if (user) {
+			throw `username: ${username} already exists`;
+		}
+
+		const NEW_USER_DEFAULT_POINTS = 2;
+
+		const newUser = await tx
+			.insert(users)
+			.values({
+				userName: username,
+				hashedPassword: hashed,
+				phoneNumber: '',
+				email: '',
+				passwordHash: '',
+				profilePicture: '',
+				permissions: [UserPermissions.BaseAccess],
+				attributes: {},
+				points: NEW_USER_DEFAULT_POINTS,
+				status: UserStatus.Enabled,
+				createAt: sql`now()`,
+				updateAt: sql`now()`
+			})
+			.returning()!;
+
+		signUpUser = newUser[0];
+	});
+
+	return signUpUser;
 }
 
 export async function getUserByPhone(phone: string) {
@@ -42,6 +84,12 @@ export async function getUserByPhone(phone: string) {
 export async function getUserById(id: number) {
 	return await db.query.users.findFirst({
 		where: eq(users.id, id)
+	});
+}
+
+export async function getUserByUsername(username: string) {
+	return await db.query.users.findFirst({
+		where: eq(users.userName, username)
 	});
 }
 
