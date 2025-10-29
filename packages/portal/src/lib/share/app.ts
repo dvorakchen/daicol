@@ -19,3 +19,10 @@ export enum RankTypes {
 	Month = 'Month',
 	Total = 'Total'
 }
+
+export type GetAppFilter = {
+	routeId?: number;
+	name?: string;
+	size: number;
+	offset: number;
+};

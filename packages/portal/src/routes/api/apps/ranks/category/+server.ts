@@ -1,6 +1,6 @@
 import { error, json, type RequestEvent } from '@sveltejs/kit';
 import { AppCategories } from '$lib/share/app.ts';
-import { getRankAppsByCategory } from '$lib/server/repo/apps.ts';
+import { getRankAppsByCategory } from '$lib/server/repo/apps/index.ts';
 import logger from '$lib/server/log.ts';
 
 export async function GET({ url }: RequestEvent) {

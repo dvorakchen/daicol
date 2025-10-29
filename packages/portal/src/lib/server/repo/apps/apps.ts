@@ -14,14 +14,9 @@ import {
 	SQL,
 	sql
 } from 'drizzle-orm';
-import {
-	apps,
-	visitHistories,
-	type AppWithoutPrompt,
-	appReferenceImgs
-} from '$lib/server/db/schema/index.ts';
+import { apps, visitHistories, type AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
-import { AppCategories, AppStatus, RankTypes } from '$lib/share/app.ts';
+import { AppCategories, AppStatus, RankTypes, type GetAppFilter } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
 
 const COLUMNS_WITHOUT_PROMPT = {
@@ -248,16 +243,6 @@ export async function getAppByRouteId(routeId: number) {
 	});
 }
 
-export async function getPrompt(routeId: number) {
-	return (
-		(
-			await db.query.apps.findFirst({
-				where: eq(apps.routeId, routeId)
-			})
-		)?.prompt ?? ''
-	);
-}
-
 export async function getRelationApps(routeId: number) {
 	const LIMIT = 8;
 	const app = await db.query.apps.findFirst({
@@ -300,25 +285,22 @@ export async function getRelationApps(routeId: number) {
 	return list;
 }
 
-export async function increaseUsedCount(routeId: number) {
-	const app = await db.query.apps.findFirst({
-		where: eq(apps.routeId, routeId)
-	});
+export async function getAppsFromFilter(filter: GetAppFilter) {
+	const conditions = [];
 
-	if (app) {
-		await db
-			.update(apps)
-			.set({
-				useCount: app.useCount + 1
-			})
-			.where(eq(apps.routeId, routeId));
+	if (filter.routeId) {
+		conditions.push(eq(apps.routeId, filter.routeId!));
 	}
-}
+	if (filter.name) {
+		conditions.push(eq(apps.name, filter.name!));
+	}
 
-export async function getReferenceImgs(routeId: number) {
-	const imgs = await db.query.appReferenceImgs.findMany({
-		where: eq(appReferenceImgs.appId, routeId)
+	const list = await db.query.apps.findMany({
+		columns: COLUMNS_WITHOUT_PROMPT,
+		where: and(...conditions),
+		limit: filter.size,
+		offset: filter.offset
 	});
 
-	return imgs;
+	return list as AppWithoutPrompt[];
 }

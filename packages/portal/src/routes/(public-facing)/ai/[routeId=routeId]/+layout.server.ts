@@ -1,5 +1,5 @@
 import { error, type RequestEvent } from '@sveltejs/kit';
-import { getAppByRouteId } from '$lib/server/repo/apps.ts';
+import { getAppByRouteId } from '$lib/server/repo/apps/index.ts';
 import logger from '$lib/server/log.ts';
 import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 

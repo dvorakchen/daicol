@@ -1,6 +1,6 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { RankTypes } from '$lib/share/app.ts';
-import { getRankApps } from '$lib/server/repo/apps.ts';
+import { getRankApps } from '$lib/server/repo/apps/index.ts';
 import logger from '$lib/server/log.ts';
 import { QS_SEARCH_TYPE_KEY } from '$lib/share/search.ts';
 

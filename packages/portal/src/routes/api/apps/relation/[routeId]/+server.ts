@@ -1,6 +1,6 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import logger from '$lib/server/log.ts';
-import { getRelationApps } from '$lib/server/repo/apps.ts';
+import { getRelationApps } from '$lib/server/repo/apps/index.ts';
 
 export async function GET({ params }: RequestEvent) {
 	const routeId = params.routeId ?? '';

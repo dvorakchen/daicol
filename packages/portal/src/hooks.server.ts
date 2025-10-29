@@ -15,7 +15,7 @@ import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
 import { getUserById } from '$lib/server/repo/users.ts';
 import { addHistory } from '$lib/server/repo/histories.ts';
-import { increaseUsedCount } from '$lib/server/repo/apps.ts';
+import { increaseUsedCount } from '$lib/server/repo/apps/index.ts';
 import { AccessType } from '$lib/share/app.ts';
 
 const DATABASE_URL = env.DATABASE_URL;

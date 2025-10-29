@@ -1,4 +1,4 @@
-import { getRecommendApps } from '$lib/server/repo/apps.ts';
+import { getRecommendApps } from '$lib/server/repo/apps/index.ts';
 import { json } from '@sveltejs/kit';
 
 export async function GET() {

@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { QS_SEARCH_KEY, QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/index.ts';
-import { searchApps } from '$lib/server/repo/apps.ts';
+import { searchApps } from '$lib/server/repo/apps/index.ts';
 
 export async function load({ url }: RequestEvent) {
 	const sp = url.searchParams;

@@ -2,7 +2,6 @@ import { db } from '$lib/server/db/index.ts';
 import { users, apps } from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 import { UserPermissions } from '$lib/share/user.ts';
-import { env } from '$env/dynamic/private';
 import { eq } from 'drizzle-orm';
 import apps10001_10050 from '$lib/server/db/apps-seed/10001-10050.ts';
 
@@ -16,14 +15,15 @@ export async function plantingSeed() {
 		}
 		logger.info('table users has not data, plainting');
 
-		const USERNAME = 'ADMIN';
-		const PHONE_NUMBER = env.INIT_ADMIN_PHONE;
+		const USERNAME = 'admin';
+		// password: aaa
+		const PASSWORD_aaa = '$2b$10$9jTobG3IO5VrXxNzs4Oo3OdPen9VMk8dGq5.MrNN4MrTea4zsGmvG';
 		await tx.insert(users).values({
 			userName: USERNAME,
-			phoneNumber: PHONE_NUMBER,
+			hashedPassword: PASSWORD_aaa,
 			permissions: [UserPermissions.BaseAccess, UserPermissions.AdminAccess]
 		});
-		logger.info(`table users plainted, user_name: ${USERNAME}, phone_number: ${PHONE_NUMBER}`);
+		logger.info(`table users plainted, user_name: ${USERNAME}`);
 	});
 
 	await db.transaction(async (tx) => {

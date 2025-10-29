@@ -1,7 +1,7 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { callGenerate as generateImgToImg } from '$lib/server/generator/img-to-img.ts';
-import { getPrompt, getReferenceImgs, increaseUsedCount } from '$lib/server/repo/apps.ts';
+import { getPrompt, getReferenceImgs, increaseUsedCount } from '$lib/server/repo/apps/index.ts';
 import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 import type { ReferenceImage } from '$lib/server/generator/index.ts';
 
