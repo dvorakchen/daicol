@@ -1,5 +1,5 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from "pg";
 import * as usersSchema from './schema/users.ts';
 import * as smsCaptchaSchema from './schema/sms_captcha.ts';
 import * as appsSchema from './schema/apps.ts';
@@ -17,6 +17,8 @@ const mergedSchema = {
 	...appReferenceImgsSchema
 };
 
-const client = postgres(env.DATABASE_URL);
+const pool = new Pool({
+  connectionString: env.DATABASE_URL,
+});
 
-export const db = drizzle(client, { schema: mergedSchema });
+export const db = drizzle({client: pool, schema: mergedSchema });

@@ -11,7 +11,7 @@
 
 	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
 	let isSignedIn = $derived(Boolean(userSignInInfo.id));
-	let isAdmin = $derived(userSignInInfo.permissions.includes(UserPermissions.AdminAccess));
+	let isAdmin = $derived(userSignInInfo?.permissions?.includes(UserPermissions.AdminAccess) ?? false);
 
 	let signInURL = $state('/signin');
 	let searchValue = $state('');

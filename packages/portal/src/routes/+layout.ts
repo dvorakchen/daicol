@@ -9,7 +9,6 @@ export async function load({ fetch }: RequestEvent) {
 	}
 
 	const data = await response.json();
-
 	return {
 		userSignInInfo: data as UserSignInInfo
 	};
