@@ -1,46 +1,51 @@
 <script lang="ts">
 	import { get } from '$lib/client/net/http';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
+	import Pagination from '$lib/components/pagination.svelte';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema';
-	import type { GetAppFilter } from '$lib/share';
+	import type { GetAppFilter, PaginationList } from '$lib/share';
 	import { debounceTime, Subject, Subscription, switchMap } from 'rxjs';
 	import { onDestroy, onMount } from 'svelte';
 
-	let filterData = $state({
-		name: undefined,
-		routeId: undefined
-	} as GetAppFilter);
-	let size = $state(20);
-	let page = $state(1);
+	let pageData = $state({
+		filter: { name: undefined, routeId: undefined } as GetAppFilter,
+		page: 1
+	});
+
+	const SIZE = 20;
 	let list = $state([] as AppWithoutPrompt[]);
+	let total = $state(0);
 	let loading = $state(false);
 
-	const subject = new Subject<GetAppFilter>();
+	const subject = new Subject<{ filter: GetAppFilter; page: number }>();
 	let subscribe: Subscription;
 
 	$effect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		filterData.name;
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		filterData.routeId;
-		subject.next(filterData);
+		const {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			filter: { name, routeId },
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			page
+		} = pageData;
+
+		subject.next(pageData);
 		loading = true;
 	});
 
 	onMount(() => {
 		subscribe = subject
 			.pipe(
-				debounceTime(1_000),
+				debounceTime(500),
 				switchMap((value) => {
-					console.log(value);
-					return get<AppWithoutPrompt[]>(
-						`/api/apps?page=${page}&size=${size}&name=${value?.name ? value.name : ''}&routeId=${value?.routeId ? value.routeId : ''}`
+					return get<PaginationList<AppWithoutPrompt>>(
+						`/api/apps?page=${value.page}&size=${SIZE}&name=${value?.filter?.name ? value.filter?.name : ''}&routeId=${value?.filter?.routeId ? value?.filter?.routeId : ''}`
 					);
 				})
 			)
 			.subscribe({
 				next: (data) => {
-					list = data;
+					list = data.list;
+					total = data.total;
 					loading = false;
 				},
 				error: (e) => {
@@ -48,25 +53,41 @@
 					loading = false;
 				}
 			});
-		subject.next({ name: undefined, routeId: undefined } as GetAppFilter);
+		subject.next(pageData);
 	});
 
 	onDestroy(() => {
 		subscribe?.unsubscribe();
 	});
+
+	function onReset() {
+		pageData.filter.routeId = undefined;
+		pageData.filter.name = undefined;
+		pageData.page = 1;
+	}
+
+	function onPageChange(newPage: number) {
+		pageData.page = newPage;
+	}
+
+	function resetPage() {
+		console.log('reset page');
+		pageData.page = 1;
+	}
 </script>
 
 <main class="flex flex-col gap-4">
 	<div class="flex gap-4">
 		<label class="input">
 			<span class="label">RouteId</span>
-			<input type="text" bind:value={filterData.routeId} />
+			<input type="text" bind:value={pageData.filter.routeId} onkeydown={resetPage} />
 		</label>
 		<label class="input">
 			<span class="label">App Name</span>
-			<input type="text" bind:value={filterData.name} />
+			<input type="text" bind:value={pageData.filter.name} onkeydown={resetPage} />
 		</label>
-		<!-- <button class="btn btn-primary" onclick={onSearch}>{m.search()}</button> -->
+		<button class="btn btn-secondary" onclick={onReset}>Reset</button>
+		<a href="apps/new" class="btn btn-primary">New</a>
 	</div>
 	<div class="overflow-x-auto">
 		<table class="table table-sm">
@@ -75,25 +96,39 @@
 					<th></th>
 					<th>RouteId</th>
 					<th>Name</th>
-					<th>company</th>
-					<th>location</th>
-					<th>Last Login</th>
-					<th>Favorite Color</th>
+					<th>Category</th>
+					<th>Icon</th>
+					<th>Create At</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#if loading}
-					<BikeLoading />
+					<tr>
+						<td colspan="7">
+							<div class="flex justify-center py-8">
+								<BikeLoading />
+							</div>
+						</td>
+					</tr>
 				{:else}
 					{#each list as app, i (app.routeId)}
-						<tr>
+						<tr class=" hover:bg-base-200/50">
 							<th>{i + 1}</th>
 							<td>{app.routeId}</td>
 							<td>{app.name}</td>
-							<td>Littel, Schaden and Vandervort</td>
-							<td>Canada</td>
-							<td>12/16/2020</td>
-							<td>Blue</td>
+							<td>{app.category}</td>
+							<td>
+								<div class="avatar">
+									<div class="w-8 rounded">
+										<img src={app.icon} alt={app.name} />
+									</div>
+								</div>
+							</td>
+							<td>{app.createAt}</td>
+							<td>
+								<a class="btn btn-sm btn-primary" href={`apps/${app.routeId}`}>Edit</a>
+							</td>
 						</tr>
 					{/each}
 				{/if}
@@ -103,12 +138,14 @@
 					<th></th>
 					<th>RouteId</th>
 					<th>Name</th>
-					<th>company</th>
-					<th>location</th>
-					<th>Last Login</th>
-					<th>Favorite Color</th>
+					<th>Category</th>
+					<th>Icon</th>
+					<th>Create At</th>
+					<th>Action</th>
 				</tr>
 			</tfoot>
 		</table>
+
+		<Pagination page={pageData.page} {total} onchange={onPageChange} />
 	</div>
 </main>

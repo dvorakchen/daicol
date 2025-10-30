@@ -5,12 +5,13 @@
 	import { Search } from 'lucide-svelte';
 	import type { UserSignInInfo } from '$lib/share/user';
 	import { page } from '$app/state';
-	import { QS_REDIRECT_KEY, QS_SEARCH_KEY } from '$lib/share';
+	import { QS_REDIRECT_KEY, QS_SEARCH_KEY, UserPermissions } from '$lib/share';
 	import Logo from '$lib/components/logo.svelte';
 	import ChangeLang from './change-lang.svelte';
 
 	let { userSignInInfo }: { userSignInInfo: UserSignInInfo } = $props();
 	let isSignedIn = $derived(Boolean(userSignInInfo.id));
+	let isAdmin = $derived(userSignInInfo.permissions.includes(UserPermissions.AdminAccess));
 
 	let signInURL = $state('/signin');
 	let searchValue = $state('');
@@ -56,6 +57,13 @@
 								<span class="badge">New</span>
 							</button>
 						</li>
+						{#if isAdmin}
+							<li>
+								<a class="btn justify-between btn-ghost" href="/admax112358">
+									{m.admin_board()}
+								</a>
+							</li>
+						{/if}
 						<li>
 							<SignOut />
 						</li>

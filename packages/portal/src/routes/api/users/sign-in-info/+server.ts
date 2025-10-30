@@ -20,6 +20,7 @@ export async function GET({ cookies }: RequestEvent) {
 	return json({
 		id: user.id,
 		username: user.userName + new Date().toString(),
-		points: user.points
+		points: user.points,
+		permissions: user.permissions
 	} as UserSignInInfo);
 }

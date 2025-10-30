@@ -8,3 +8,8 @@ export const themePrefer = {
 } as const;
 
 export const UPLOAD_IMAGE_MAX_SIZE = 10 * 1024 * 1024;
+
+export type PaginationList<T> = {
+	list: T[];
+	total: number;
+};

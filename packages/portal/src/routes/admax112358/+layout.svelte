@@ -1,7 +1,10 @@
 <!-- this is the administractor page -->
 <script lang="ts">
+	import ChangeLang from '$lib/components/change-lang.svelte';
+	import SignOut from '$lib/components/sign-out.svelte';
+	import ThemeController from '$lib/components/theme-controller.svelte';
 	import { m } from '$lib/paraglide/messages';
-	import { Ellipsis, House, LayoutGrid, PanelLeftOpen } from 'lucide-svelte';
+	import { House, LayoutGrid, PanelLeftOpen } from 'lucide-svelte';
 
 	let { children } = $props();
 </script>
@@ -12,10 +15,10 @@
 		<!-- Page content here -->
 		<div class="navbar bg-base-100 shadow-sm">
 			<div class="flex-1"></div>
-			<div class="flex-none">
-				<button class="btn btn-square btn-ghost">
-					<Ellipsis />
-				</button>
+			<div class="flex-none space-x-4">
+				<ThemeController />
+				<ChangeLang />
+				<SignOut />
 			</div>
 		</div>
 		<div class="p-4">

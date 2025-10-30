@@ -3,6 +3,7 @@ import {
 	and,
 	arrayContained,
 	arrayOverlaps,
+	asc,
 	desc,
 	eq,
 	gte,
@@ -292,15 +293,18 @@ export async function getAppsFromFilter(filter: GetAppFilter) {
 		conditions.push(eq(apps.routeId, filter.routeId!));
 	}
 	if (filter.name) {
-		conditions.push(eq(apps.name, filter.name!));
+		conditions.push(like(apps.name, `%${filter.name!}%`));
 	}
 
 	const list = await db.query.apps.findMany({
 		columns: COLUMNS_WITHOUT_PROMPT,
 		where: and(...conditions),
 		limit: filter.size,
-		offset: filter.offset
+		offset: filter.offset,
+		orderBy: asc(apps.routeId)
 	});
 
-	return list as AppWithoutPrompt[];
+	const total = await db.$count(apps, and(...conditions));
+
+	return { list: list as AppWithoutPrompt[], total };
 }

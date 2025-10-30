@@ -1,5 +1,7 @@
 import { type RequestEvent, json } from '@sveltejs/kit';
 import { getAppsFromFilter } from '$lib/server/repo/apps/apps.ts';
+import type { PaginationList } from '$lib/share';
+import type { AppWithoutPrompt } from '$lib/server/db/schema';
 
 export async function GET({ url }: RequestEvent) {
 	const name = url.searchParams.get('name') ?? undefined;
@@ -16,12 +18,15 @@ export async function GET({ url }: RequestEvent) {
 
 	const offset = (page - 1) * size;
 
-	const list = await getAppsFromFilter({
+	const listAndTotal = await getAppsFromFilter({
 		name,
 		routeId: routeIdParam,
 		size,
 		offset
 	});
 
-	return json(list);
+	return json({
+		list: listAndTotal.list,
+		total: listAndTotal.total
+	} as PaginationList<AppWithoutPrompt>);
 }

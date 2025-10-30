@@ -37,4 +37,5 @@ export type UserSignInInfo = {
 	id: number;
 	username: string;
 	points: number;
+	permissions: UserPermissionValue[];
 };
