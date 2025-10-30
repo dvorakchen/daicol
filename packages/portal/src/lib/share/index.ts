@@ -13,3 +13,10 @@ export type PaginationList<T> = {
 	list: T[];
 	total: number;
 };
+
+export function enumToArray(enumObj: Record<string, string>): { value: string; label: string }[] {
+	return Object.keys(enumObj).map((key) => ({
+		value: key,
+		label: enumObj[key]
+	}));
+}

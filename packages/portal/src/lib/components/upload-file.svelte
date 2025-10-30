@@ -8,8 +8,8 @@
 		afterSelectImage = undefined,
 		afterImageLoaded = undefined
 	}: {
-		afterSelectImage: undefined | ((file: File) => void);
-		afterImageLoaded: undefined | (() => void);
+		afterSelectImage?: undefined | ((file: File) => void);
+		afterImageLoaded?: undefined | (() => void);
 	} = $props();
 
 	let inputFileEle: HTMLInputElement;
@@ -56,9 +56,9 @@
 
 <div class="mx-auto max-w-md overflow-hidden rounded-lg md:max-w-xl">
 	<div class="md:flex">
-		<button class="w-full cursor-pointer" onclick={onUploadImage}>
+		<button class="max-h-48 w-full cursor-pointer" onclick={onUploadImage}>
 			{#if previewUploadImage}
-				<img src={previewUploadImage} alt="Original" {onload} />
+				<img src={previewUploadImage} alt="Original" {onload} class="max-h-full w-auto" />
 			{:else}
 				<div
 					class="relative flex h-48 items-center justify-center rounded-lg border-2 border-primary bg-base-100 shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-xl"

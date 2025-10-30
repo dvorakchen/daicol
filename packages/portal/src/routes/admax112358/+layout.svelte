@@ -15,7 +15,10 @@
 		<!-- Page content here -->
 		<div class="navbar bg-base-100 shadow-sm">
 			<div class="flex-1"></div>
-			<div class="flex-none space-x-4">
+			<div class="flex items-center gap-4">
+				<a class="btn btn-circle btn-ghost" href="/">
+					<House />
+				</a>
 				<ThemeController />
 				<ChangeLang />
 				<SignOut />
