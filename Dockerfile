@@ -2,9 +2,6 @@ FROM docker.1ms.run/denoland/deno:latest
 
 WORKDIR /app
 
-RUN deno install --allow-read --allow-sys --allow-write --allow-env --allow-net -rfn dnrm https://deno.land/x/dnrm/mod.ts -g
-RUN dnrm use taobao
-
 # COPY ./package.json ./package.json
 # COPY ./deno.lock ./deno.lock
 # COPY ./packages/portal/deno.json ./packages/portal/deno.json
