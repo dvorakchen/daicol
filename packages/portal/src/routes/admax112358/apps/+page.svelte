@@ -4,7 +4,7 @@
 	import Pagination from '$lib/components/pagination.svelte';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema';
 	import type { GetAppFilter, PaginationList } from '$lib/share';
-	import { debounceTime, Subject, Subscription, switchMap } from 'rxjs';
+	import { debounceTime, Subject, Subscription, switchMap, tap } from 'rxjs';
 	import { onDestroy, onMount } from 'svelte';
 
 	let pageData = $state({
@@ -29,12 +29,14 @@
 		} = pageData;
 
 		subject.next(pageData);
-		loading = true;
 	});
 
 	onMount(() => {
 		subscribe = subject
 			.pipe(
+				tap(() => {
+					loading = true;
+				}),
 				debounceTime(500),
 				switchMap((value) => {
 					return get<PaginationList<AppWithoutPrompt>>(
