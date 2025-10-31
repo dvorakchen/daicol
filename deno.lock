@@ -3940,6 +3940,7 @@
       "packages/portal": {
         "packageJson": {
           "dependencies": [
+            "npm:@daicol/files-storage@0.0.1",
             "npm:@daicol/image-helper@0.0.1",
             "npm:@inlang/cli@^3.0.12",
             "npm:@inlang/paraglide-js@2.4.0",

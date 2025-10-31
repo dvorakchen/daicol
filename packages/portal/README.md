@@ -27,6 +27,17 @@ deno install --allow-scripts=npm:sharp,npm:@tailwindcss/oxide
 deno task db:push
 ```
 
+Minio
+
+```sh
+sudo docker run -p 9000:9000 -p 9090:9090 --name minio -d -e  "MINIO_ROOT_USER=minio_user" -e  "MINIO_ROOT_PASSWORD=minio_password" -v ~/data/minio:/data docker.1ms.run/minio/minio server /data --console-address ":9090" -address ":9000"
+```
+
+PostgreSQL
+```sh
+docker run -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=daicol -v ~/data/daicol/postgres:/var/lib/postgresql/data docker.1ms.run/postgres:16
+```
+
 ```sh
 deno task dev -- --open
 ```
