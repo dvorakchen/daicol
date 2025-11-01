@@ -37,6 +37,12 @@ export class Image implements Bucket {
     return this._bucket;
   }
 
+  /**
+   * store file into Minio and return the unique file name
+   * @param buf file content
+   * @param mime MINE of file
+   * @returns stored file name
+   */
   async store(buf: Buffer, mime: string): Promise<string> {
     const ext = mime.split("/").at(-1);
     const name = `${uuidv4()}.${ext}`;

@@ -2,11 +2,46 @@
 	import { enhance } from '$app/forms';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import InputTags from '$lib/components/input-tags.svelte';
-	import UploadFile from '$lib/components/upload-file.svelte';
 	import { AppCategories, enumToArray } from '$lib/share';
+	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
+	import { forkJoin } from 'rxjs';
 
 	const categoryOptions = enumToArray(AppCategories);
 
+	const refImgs: File[] = [];
+	const refImgStoreNames: string[]  = [];
+	let originImg: File | null = null;
+	const originImgStoreNames: string[]  = [];
+	let handledImg: File | null = null;
+	const handledImgStoreNames: string[]  = [];
+	let iconImg: File | null = null;
+	const iconImgStoreNames: string[]  = [];
+	let barImg: File | null = null;
+	const barImgStoreNames: string[]  = [];
+
+	async function afterSelectRefImg(file: File) {
+		refImgs.push(file);
+	}
+	async function afterSelectOriginImg(file: File) {
+		originImg=file;
+	}
+	async function afterSelectHandledImg(file: File) {
+		handledImg=file;
+	}
+	async function afterSelectIcon(file: File) {
+		iconImg=file;
+	}
+	async function afterSelectBarImg(file: File) {
+		barImg=file;
+	}
+
+	function uploadAllImages() {
+		forkJoin({
+			
+		}).subscribe({
+			
+		});
+	}
 </script>
 
 <main class="mx-auto max-w-7xl">
@@ -103,40 +138,41 @@
 			<div></div>
 			<div>
 				<span class="label">Reference Imgs</span>
-				<div class=" shadow">
-					<UploadFile />
+				<div class="max-w-80">
+					<MultiUploader max={2} required afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png, .webp"/>
+					<input type="text" hidden>
 				</div>
 
 				<input type="text" name="referenceImgs" hidden />
 			</div>
 			<div>
 				<span class="label">originImg</span>
-				<div class=" shadow">
-					<UploadFile />
+				<div class="max-w-80">
+					<MultiUploader required afterSelectFile={afterSelectOriginImg} accept=".jpg, .jpeg, .png, .webp" />
 				</div>
 
 				<input type="text" name="originImg" hidden />
 			</div>
 			<div>
 				<span class="label">handledImg</span>
-				<div class=" shadow">
-					<UploadFile />
+				<div class="max-w-80">
+					<MultiUploader required afterSelectFile={afterSelectHandledImg}  accept=".jpg, .jpeg, .png, .webp"/>
 				</div>
 
 				<input type="text" name="handledImg" hidden />
 			</div>
 			<div>
 				<span class="label">icon</span>
-				<div class=" shadow">
-					<UploadFile />
+				<div class="max-w-80">
+					<MultiUploader required afterSelectFile={afterSelectIcon} accept=".jpg, .jpeg, .png, .webp"/>
 				</div>
 
 				<input type="text" name="icon" hidden />
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
-				<div class=" shadow">
-					<UploadFile />
+				<div class="max-w-80">
+					<MultiUploader required  afterSelectFile={afterSelectBarImg} accept=".jpg, .jpeg, .png, .webp"/>
 				</div>
 
 				<input type="text" name="barImg" hidden />

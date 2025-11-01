@@ -34,8 +34,9 @@ sudo docker run -p 9000:9000 -p 9090:9090 --name minio -d -e  "MINIO_ROOT_USER=m
 ```
 
 PostgreSQL
+
 ```sh
-docker run -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=daicol -v ~/data/daicol/postgres:/var/lib/postgresql/data docker.1ms.run/postgres:16
+sudo docker run -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=daicol -v ~/data/daicol/postgres:/var/lib/postgresql/data -p 5432:5432 docker.1ms.run/postgres
 ```
 
 ```sh

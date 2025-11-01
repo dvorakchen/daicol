@@ -27,7 +27,7 @@ RUN deno task build
 
 RUN rm ./static -rf
 
-ENV BODY_SIZE_LIMIT=10M
+ENV BODY_SIZE_LIMIT=5M
 ENV PORT=3000
 EXPOSE 3000
 

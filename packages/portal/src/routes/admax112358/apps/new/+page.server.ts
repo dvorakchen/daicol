@@ -5,6 +5,6 @@ export const actions = {
 		const data = await request.formData();
 		console.log(data);
 
-		redirect(301, '/admax112358/apps/10010')
+		redirect(301, '/admax112358/apps/10010');
 	}
 };

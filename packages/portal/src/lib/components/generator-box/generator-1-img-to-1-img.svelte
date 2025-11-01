@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { ArrowRight } from 'lucide-svelte';
-	import UploadFile from '$lib/components/upload-file.svelte';
+	import UploadFile from '$lib/components/file-uploader/upload-file.svelte';
 	import MagicHandling from '$lib/components/loading-handling/magic-handling.svelte';
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
 	import { postFile } from '$lib/client/net/http';
