@@ -1,7 +1,7 @@
 import logger from '$lib/server/log.ts';
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { callGenerate as generateImgToImg } from '$lib/server/generator/img-to-img.ts';
-import { getPrompt, getReferenceImgs, increaseUsedCount } from '$lib/server/repo/apps/index.ts';
+import { getPrompt, increaseUsedCount } from '$lib/server/repo/apps/index.ts';
 import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 import type { ReferenceImage } from '$lib/server/generator/index.ts';
 
@@ -35,15 +35,15 @@ export async function POST({ request, params }: RequestEvent) {
 		} as ReferenceImage);
 	}
 
-	const referImgs = (await getReferenceImgs(+routeId)).map(
-		(img) =>
-			({
-				mimeType: img.mimeType,
-				content: img.content!.buffer
-			}) as ReferenceImage
-	);
+	// const referImgs = (await getReferenceImgs(+routeId)).map(
+	// 	(img) =>
+	// 		({
+	// 			mimeType: img.mimeType,
+	// 			content: img.content!.buffer
+	// 		}) as ReferenceImage
+	// );
 
-	referFilesData.push(...referImgs);
+	// referFilesData.push(...referImgs);
 
 	logger.info(`all reference images: ${referFilesData.length}`);
 

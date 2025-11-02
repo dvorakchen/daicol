@@ -8,9 +8,8 @@ import {
 	timestamp,
 	varchar
 } from 'drizzle-orm/pg-core';
-import { relations, sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import { AppStatus } from '../../../share/app.ts';
-import { appReferenceImgs } from './app_reference_imgs.ts';
 import { bytea } from '../custom-type.ts';
 
 export const apps = pgTable('apps', {
@@ -42,10 +41,6 @@ export const apps = pgTable('apps', {
 	updateAt: timestamp('update_at', { withTimezone: true }).notNull().defaultNow()
 });
 
-export const appsRelations = relations(apps, ({ many }) => ({
-	referenceImgs: many(appReferenceImgs)
-}));
-
 export type App = typeof apps.$inferSelect;
 
-export type AppWithoutPrompt = Omit<App, 'prompt'>;
+export type AppWithoutPrompt = Omit<App, 'prompt' | 'referenceImgs'>;

@@ -31,4 +31,4 @@ ENV BODY_SIZE_LIMIT=5M
 ENV PORT=3000
 EXPOSE 3000
 
-CMD deno task db:push && deno run -E -N -S -R ./build/index.js
+CMD deno task db:migrate && deno run -E -N -S -R ./build/index.js

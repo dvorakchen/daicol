@@ -60,10 +60,18 @@ const themeHandle: Handle = ({ event, resolve }) => {
  * refresh the JWT if the JWT is valid
  */
 const refreshAuth: Handle = ({ event, resolve }) => {
-	const response = resolve(event);
-
 	// refresh
 	const token = event.cookies.get(JWT_COOKIE_KEY) ?? '';
+
+	// TODO: check protecting route, return 401 if need auth and locals.userId undefined
+	const PROTECTED = [`/api/files`];
+	if (PROTECTED.some((t) => event.url.pathname.startsWith(t))) {
+		if (!isJwtValid(token)) {
+			return new Response('', { status: 401 });
+		}
+	}
+
+	const response = resolve(event);
 	if (isJwtValid(token)) {
 		const sub = tryGetPayloadSub(token);
 		if (sub) {
@@ -72,9 +80,6 @@ const refreshAuth: Handle = ({ event, resolve }) => {
 			setJWTCookie(event.cookies, token);
 		}
 	}
-
-	// TODO: check protecting route, return 401 if need auth and locals.userId undefined
-
 	return response;
 };
 

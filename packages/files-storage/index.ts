@@ -1,7 +1,6 @@
 import * as Minio from "minio";
 import { Buffer } from "node:buffer";
 import { v4 as uuidv4 } from "uuid";
-import fs from "node:fs/promises";
 
 export interface Bucket {
   getBucket(): string;
@@ -12,29 +11,42 @@ export interface Bucket {
    * @param mime file MIME: image/jpeg ....
    */
   store(buf: Buffer, mime: string): Promise<string>;
+
+  remove(filename: string): Promise<void>;
+getFile(name: string): Promise<Buffer<ArrayBufferLike> | null>;
+  hostname(): string;
 }
 
 export class Image implements Bucket {
   private client: Minio.Client;
 
   constructor(
-    endPoint: string,
-    port: number,
+    private endPoint: string,
+    private port: number,
     accessKey: string,
     secretKey: string,
+    private useSSL: boolean = false,
   ) {
     this.client = new Minio.Client({
       endPoint,
       port,
-      useSSL: true,
+      useSSL,
       accessKey,
       secretKey,
     });
+  }
+  remove(filename: string): Promise<void> {
+    return this.client.removeObject(this._bucket, filename);
   }
 
   private _bucket = "images";
   getBucket(): string {
     return this._bucket;
+  }
+
+  hostname(): string {
+    const protocol = this.useSSL ? "https" : "http";
+    return `${protocol}://${this.endPoint}:${this.port}/`;
   }
 
   /**
@@ -72,16 +84,25 @@ export class Image implements Bucket {
       "Content-Type": "image/jpeg",
     };
 
-    const file = await fs.readFile(buf);
-
     await this.client.putObject(
       this._bucket,
       name,
-      file,
-      file.length,
+      buf,
+      buf.length,
       metaData,
     );
 
     return name;
+  }
+
+  async getFile(name: string): Promise<Buffer<ArrayBufferLike> | null> {
+    const stream = await this.client.getObject(this._bucket, name);
+    const chunks = [];
+
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+
+    return Buffer.concat(chunks);
   }
 }

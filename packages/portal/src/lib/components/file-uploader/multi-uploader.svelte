@@ -8,14 +8,15 @@
 		afterSelectFile,
 		max = 1,
 		accept,
-		required = false,
+		required = false
 	}: {
 		afterSelectFile?: (file: File) => void;
 		max?: number;
 		accept?: string;
-		required?: boolean
+		required?: boolean;
 	} = $props();
 
+	let inputEle: HTMLInputElement;
 	let queue: File[] = $state([]);
 	let disabled = $derived(!(max && queue.length < max));
 
@@ -49,25 +50,39 @@
 		const sp = type.split('/');
 		return sp.length > 1 && sp[0] === 'image';
 	}
+
+	function onRemove(file: File) {
+		queue = queue.filter((t) => t !== file);
+		if (queue.length <= 0) {
+			inputEle.value = '';
+		}
+	}
 </script>
 
 <div class="flex flex-col gap-2 rounded border border-base-300 p-2">
 	<div class="flex min-h-8 flex-wrap gap-2">
 		{#each queue as file, i (i)}
 			<div class="avatar">
-				<div class="w-8 rounded">
+				<div class="relative w-14 rounded">
 					{#if isImage(file.type)}
 						{@render preImg(URL.createObjectURL(file))}
 					{:else}
 						<FilePlus />
 					{/if}
+					<span class="absolute top-0 right-0 z-10">
+						<button
+							class="btn btn-circle btn-ghost btn-xs"
+							type="button"
+							onclick={() => onRemove(file)}>X</button
+						>
+					</span>
 				</div>
 			</div>
 		{/each}
 	</div>
 
 	<label class="input">
-		<input type="file" multiple {onchange} {accept} {disabled} {required}/>
+		<input bind:this={inputEle} type="file" multiple {onchange} {accept} {disabled} {required} />
 		<span class="label">{max - queue.length} rest</span>
 	</label>
 </div>

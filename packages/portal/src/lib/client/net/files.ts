@@ -1,9 +1,15 @@
-import { post } from "$lib/client/net/http.ts";
+export type UploadResult = { name: string };
 
-export function upload(file: File) {
-  const formData = new FormData();
+export async function upload(file: File) {
+	const formData = new FormData();
 
-  formData.append(`file`, file);
+	formData.append(`file`, file);
 
-  return post<{ name: string }>(`/api/files`, formData, {});
+	const response = await fetch(`/api/files`, {
+		method: 'POST',
+		body: formData
+	});
+
+	const data: UploadResult = await response.json();
+	return data;
 }

@@ -4,59 +4,103 @@
 	import InputTags from '$lib/components/input-tags.svelte';
 	import { AppCategories, enumToArray } from '$lib/share';
 	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
-	import { forkJoin } from 'rxjs';
+	import { upload } from '$lib/client/net/files';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const categoryOptions = enumToArray(AppCategories);
 
+	let loading = $state(false);
 	const refImgs: File[] = [];
-	const refImgStoreNames: string[]  = [];
+	let refImgStoreNames: string[] = $state([]);
 	let originImg: File | null = null;
-	const originImgStoreNames: string[]  = [];
+	let originImgStoreNames = '';
 	let handledImg: File | null = null;
-	const handledImgStoreNames: string[]  = [];
+	let handledImgStoreNames = '';
 	let iconImg: File | null = null;
-	const iconImgStoreNames: string[]  = [];
+	let iconImgStoreNames = '';
 	let barImg: File | null = null;
-	const barImgStoreNames: string[]  = [];
+	let barImgStoreNames = '';
 
 	async function afterSelectRefImg(file: File) {
 		refImgs.push(file);
 	}
 	async function afterSelectOriginImg(file: File) {
-		originImg=file;
+		originImg = file;
 	}
 	async function afterSelectHandledImg(file: File) {
-		handledImg=file;
+		handledImg = file;
 	}
 	async function afterSelectIcon(file: File) {
-		iconImg=file;
+		iconImg = file;
 	}
 	async function afterSelectBarImg(file: File) {
-		barImg=file;
+		barImg = file;
 	}
 
-	function uploadAllImages() {
-		forkJoin({
-			
-		}).subscribe({
-			
-		});
+	async function uploadAllImages() {
+		refImgStoreNames = [];
+		for (const file of refImgs) {
+			refImgStoreNames.push((await upload(file)).name);
+		}
+
+		if (originImg) {
+			originImgStoreNames = (await upload(originImg)).name;
+		} else {
+			toastMan.add('warning', 'Need Origin Image');
+			return;
+		}
+
+		if (handledImg) {
+			handledImgStoreNames = (await upload(handledImg)).name;
+		} else {
+			toastMan.add('warning', 'Need Handled Image');
+			return;
+		}
+		if (iconImg) {
+			iconImgStoreNames = (await upload(iconImg)).name;
+		} else {
+			toastMan.add('warning', 'Need Icon Image');
+			return;
+		}
+		if (barImg) {
+			barImgStoreNames = (await upload(barImg)).name;
+		} else {
+			toastMan.add('warning', 'Need Bar Image');
+			return;
+		}
 	}
+
+	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
+		loading = true;
+
+		await uploadAllImages();
+		if (refImgStoreNames) {
+			formData.set('referenceImgs', JSON.stringify(refImgStoreNames));
+		}
+		if (originImgStoreNames) {
+			formData.set('originImg', originImgStoreNames);
+		}
+		if (handledImgStoreNames) {
+			formData.set('handledImg', handledImgStoreNames);
+		}
+		if (iconImgStoreNames) {
+			formData.set('icon', iconImgStoreNames);
+		}
+		if (barImgStoreNames) {
+			formData.set('barImg', barImgStoreNames);
+		}
+		return async ({ update }) => {
+			toastMan.add('success', 'Success');
+			loading = false;
+			await update();
+		};
+	};
 </script>
 
 <main class="mx-auto max-w-7xl">
 	<h1 class="my-8 text-lg font-bold">New App</h1>
 
-	<form
-		method="POST"
-		action="?/create"
-		use:enhance={async () => {
-			return async ({ update }) => {
-				toastMan.add('success', 'Success');
-				await update();
-			};
-		}}
-	>
+	<form method="POST" action="?/create" use:enhance={enhanceSubmitEvent}>
 		<div class="grid grid-cols-3 gap-4">
 			<div>
 				<label class="input">
@@ -68,13 +112,12 @@
 			<div>
 				<label class="input">
 					<span class="label">App Name</span>
-					<input type="text" name="appName" required />
+					<input type="text" name="name" required />
 				</label>
 			</div>
 
 			<div>
-				<select class="select" required>
-					<option disabled selected>Select Category</option>
+				<select class="select" required name="category" placeholder="Select Category">
 					{#each categoryOptions as cate (cate.value)}
 						<option value={cate.value}>{cate.label}</option>
 					{/each}
@@ -86,7 +129,7 @@
 			</div>
 
 			<div>
-				<textarea class="textarea" placeholder="Description" required></textarea>
+				<textarea class="textarea" name="description" placeholder="Description" required></textarea>
 			</div>
 
 			<div>
@@ -94,7 +137,8 @@
 			</div>
 
 			<div>
-				<textarea class="textarea" placeholder="SEO Description" required></textarea>
+				<textarea class="textarea" name="seoDescription" placeholder="SEO Description" required
+				></textarea>
 			</div>
 
 			<div>
@@ -112,14 +156,17 @@
 			</div>
 
 			<div>
-				<textarea class="textarea" placeholder="Prompt" required></textarea>
+				<textarea class="textarea" name="prompt" placeholder="Prompt" required></textarea>
 			</div>
 
 			<div>
-				<label class="input">
-					<span class="label">PromptPlugIn</span>
-					<input type="text" name="promptPlugIn" disabled />
-				</label>
+				<textarea
+					class="textarea"
+					name="promptPlugIn"
+					placeholder="promptPlugIn"
+					defaultValue={'{}'}
+					required
+				></textarea>
 			</div>
 			<div></div>
 
@@ -139,48 +186,63 @@
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader max={2} required afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png, .webp"/>
-					<input type="text" hidden>
+					<MultiUploader
+						max={2}
+						afterSelectFile={afterSelectRefImg}
+						accept=".jpg, .jpeg, .png, .webp"
+					/>
+					<input type="text" hidden />
 				</div>
-
-				<input type="text" name="referenceImgs" hidden />
 			</div>
 			<div>
 				<span class="label">originImg</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectOriginImg} accept=".jpg, .jpeg, .png, .webp" />
+					<MultiUploader
+						required
+						afterSelectFile={afterSelectOriginImg}
+						accept=".jpg, .jpeg, .png, .webp"
+					/>
 				</div>
-
-				<input type="text" name="originImg" hidden />
 			</div>
 			<div>
 				<span class="label">handledImg</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectHandledImg}  accept=".jpg, .jpeg, .png, .webp"/>
+					<MultiUploader
+						required
+						afterSelectFile={afterSelectHandledImg}
+						accept=".jpg, .jpeg, .png, .webp"
+					/>
 				</div>
-
-				<input type="text" name="handledImg" hidden />
 			</div>
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectIcon} accept=".jpg, .jpeg, .png, .webp"/>
+					<MultiUploader
+						required
+						afterSelectFile={afterSelectIcon}
+						accept=".jpg, .jpeg, .png, .webp"
+					/>
 				</div>
-
-				<input type="text" name="icon" hidden />
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader required  afterSelectFile={afterSelectBarImg} accept=".jpg, .jpeg, .png, .webp"/>
+					<MultiUploader
+						required
+						afterSelectFile={afterSelectBarImg}
+						accept=".jpg, .jpeg, .png, .webp"
+					/>
 				</div>
-
-				<input type="text" name="barImg" hidden />
 			</div>
 		</div>
 
 		<div class="my-4 flex flex-row-reverse gap-2">
-			<button class="btn btn-primary" type="submit">Submit</button>
+			<button class="btn btn-primary" type="submit" disabled={loading}>
+				Submit
+				{#if loading}
+					<span class="loading loading-spinner"></span>
+				{/if}
+			</button>
 			<button class="btn btn-secondary" type="button" onclick={() => history.back()}>Back</button>
 		</div>
 	</form>

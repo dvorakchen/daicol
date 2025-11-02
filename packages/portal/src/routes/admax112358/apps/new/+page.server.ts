@@ -1,9 +1,25 @@
-import { type RequestEvent, redirect } from '@sveltejs/kit';
+import { redirect, type RequestEvent } from '@sveltejs/kit';
+import { createApp, type CreationModel } from '$lib/server/repo/apps/create.ts';
+import logger from '$lib/server/log.ts';
 
 export const actions = {
 	create: async ({ request }: RequestEvent) => {
 		const data = await request.formData();
-		console.log(data);
+
+		const creationModel = {};
+		data.entries().forEach(([key, value]) => {
+			Object.defineProperty(creationModel, key, {
+				enumerable: true,
+				configurable: false,
+				writable: false,
+				value
+			});
+		});
+
+		logger.info(`API Create app`);
+		console.log(creationModel);
+
+		await createApp(creationModel as CreationModel);
 
 		redirect(301, '/admax112358/apps/10010');
 	}
