@@ -1,6 +1,5 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
 import { createApp, type CreationModel } from '$lib/server/repo/apps/create.ts';
-import logger from '$lib/server/log.ts';
 
 export const actions = {
 	create: async ({ request }: RequestEvent) => {
@@ -16,7 +15,6 @@ export const actions = {
 			});
 		});
 
-		logger.info(`API Create app`);
 		console.log(creationModel);
 
 		await createApp(creationModel as CreationModel);

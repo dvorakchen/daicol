@@ -1,6 +1,6 @@
 services:
   db:
-    image: docker.1ms.run/postgres
+    image: docker.1ms.run/postgres:16
     container_name: daicol-db
     restart: always
     environment:

@@ -21,7 +21,7 @@
     "npm:bcryptjs@^3.0.2": "3.0.2",
     "npm:daisyui@^5.3.7": "5.3.7",
     "npm:drizzle-kit@~0.31.5": "0.31.6_esbuild@0.25.11",
-    "npm:drizzle-orm@~0.44.7": "0.44.7_pg@8.16.3_@types+pg@8.15.6",
+    "npm:drizzle-orm@~0.44.7": "0.44.7_@types+pg@8.15.6_pg@8.16.3",
     "npm:eslint-config-prettier@^10.1.8": "10.1.8_eslint@9.38.0",
     "npm:eslint-plugin-svelte@^3.12.4": "3.12.5_eslint@9.38.0_svelte@5.43.0__acorn@8.15.0_postcss@8.5.6",
     "npm:eslint@^9.38.0": "9.38.0",
@@ -1897,24 +1897,17 @@
       "bin": true,
       "tarball": "https://registry.npmmirror.com/drizzle-kit/-/drizzle-kit-0.31.6.tgz"
     },
-    "drizzle-orm@0.44.7_pg@8.16.3": {
-      "integrity": "sha512-quIpnYznjU9lHshEOAYLoZ9s3jweleHlZIAWR/jX9gAWNg/JhQ1wj0KGRf7/Zm+obRrYd9GjPVJg790QY9N5AQ==",
-      "dependencies": [
-        "pg"
-      ],
-      "optionalPeers": [
-        "pg"
-      ]
-    },
-    "drizzle-orm@0.44.7_pg@8.16.3_@types+pg@8.15.6": {
+    "drizzle-orm@0.44.7_@types+pg@8.15.6_pg@8.16.3": {
       "integrity": "sha512-quIpnYznjU9lHshEOAYLoZ9s3jweleHlZIAWR/jX9gAWNg/JhQ1wj0KGRf7/Zm+obRrYd9GjPVJg790QY9N5AQ==",
       "dependencies": [
         "@types/pg",
-        "pg"
+        "pg",
+        "postgres"
       ],
       "optionalPeers": [
         "@types/pg",
-        "pg"
+        "pg",
+        "postgres"
       ],
       "tarball": "https://registry.npmmirror.com/drizzle-orm/-/drizzle-orm-0.44.7.tgz"
     },
@@ -3114,6 +3107,10 @@
         "xtend"
       ],
       "tarball": "https://registry.npmmirror.com/postgres-interval/-/postgres-interval-1.2.0.tgz"
+    },
+    "postgres@3.4.7": {
+      "integrity": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw==",
+      "tarball": "https://registry.npmmirror.com/postgres/-/postgres-3.4.7.tgz"
     },
     "prelude-ls@1.2.1": {
       "integrity": "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==",
