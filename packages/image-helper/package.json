@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "sharp": "^0.34.4"
+    "jimp": "^1.6.0"
   },
   "scripts": {
     "test": "deno test --allow-env --allow-ffi --allow-read",

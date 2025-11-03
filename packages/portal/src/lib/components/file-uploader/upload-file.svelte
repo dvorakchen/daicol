@@ -77,4 +77,4 @@
 	</div>
 </div>
 
-<input bind:this={inputFileEle} hidden type="file" {onchange} accept=".jpg, .jpeg, .png, .webp" />
+<input bind:this={inputFileEle} hidden type="file" {onchange} accept=".jpg, .jpeg, .png" />

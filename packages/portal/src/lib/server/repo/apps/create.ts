@@ -6,7 +6,7 @@ import { AppStatus } from '$lib/share/app.ts';
 import fileStore from '$lib/server/file-store.ts';
 import { Buffer } from 'node:buffer';
 import logger from '$lib/server/log.ts';
-import { resizeAndCompressToWebp } from '@daicol/image-helper';
+import { resizeAndCompress } from '@daicol/image-helper';
 
 export type CreationModel = Omit<
 	App,
@@ -21,13 +21,19 @@ export async function createApp(model: CreationModel) {
 	logger.info(`Create app`);
 	console.log(model);
 
-	const exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
+	let exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
 
-	logger.info(`RouteId ${model.routeId} not exists`);
 	if (exists) {
 		throw `App routeId exists: ${model.routeId}`;
 	}
+	logger.info(`RouteId ${model.routeId} not exists`);
 
+	exists = (await db.$count(apps, eq(apps.name, model.name))) > 0;
+	if (exists) {
+		throw `App name exists: ${model.routeId}`;
+	}
+	logger.info(`RouteId ${model.routeId} not exists`);
+	
 	const hostname = fileStore.hostname();
 
 	const referenceImgBuffers = await refImgs2BytesAndCompress(JSON.parse(model.referenceImgs));
@@ -71,7 +77,7 @@ async function refImgs2BytesAndCompress(refImgs: string[]): Promise<Buffer[]> {
 		}
 
 		logger.info(`Before compress: ${buf.length} bytes`);
-		buf = await resizeAndCompressToWebp(buf);
+		buf = await resizeAndCompress(buf);
 		logger.info(`After compress: ${buf.length} bytes`);
 
 		bufs.push(buf);

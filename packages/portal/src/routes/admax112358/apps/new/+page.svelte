@@ -189,7 +189,7 @@
 					<MultiUploader
 						max={2}
 						afterSelectFile={afterSelectRefImg}
-						accept=".jpg, .jpeg, .png, .webp"
+						accept=".jpg, .jpeg, .png"
 					/>
 					<input type="text" hidden />
 				</div>
@@ -200,7 +200,7 @@
 					<MultiUploader
 						required
 						afterSelectFile={afterSelectOriginImg}
-						accept=".jpg, .jpeg, .png, .webp"
+						accept=".jpg, .jpeg, .png"
 					/>
 				</div>
 			</div>
@@ -210,7 +210,7 @@
 					<MultiUploader
 						required
 						afterSelectFile={afterSelectHandledImg}
-						accept=".jpg, .jpeg, .png, .webp"
+						accept=".jpg, .jpeg, .png"
 					/>
 				</div>
 			</div>
@@ -220,7 +220,7 @@
 					<MultiUploader
 						required
 						afterSelectFile={afterSelectIcon}
-						accept=".jpg, .jpeg, .png, .webp"
+						accept=".jpg, .jpeg, .png"
 					/>
 				</div>
 			</div>
@@ -230,7 +230,7 @@
 					<MultiUploader
 						required
 						afterSelectFile={afterSelectBarImg}
-						accept=".jpg, .jpeg, .png, .webp"
+						accept=".jpg, .jpeg, .png"
 					/>
 				</div>
 			</div>

@@ -1,8 +1,8 @@
 export { detectImageTypeByMagicNumber } from "./image-type.ts";
-export { resizeAndCompressToWebp } from "./compress.ts";
+export { resizeAndCompress } from "./compress.ts";
 
 export const SupportImage = {
-  Webp: "webp",
+  // Webp: "webp",
   Png: "png",
   Jpg: "jpg",
   Jpeg: "jpeg",
