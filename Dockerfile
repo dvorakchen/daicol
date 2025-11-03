@@ -12,4 +12,4 @@ ENV BODY_SIZE_LIMIT=5M
 ENV PORT=3000
 EXPOSE 3000
 
-CMD npm run db:migrate && node ./build/index
+CMD npm run db:migrate && node ./build/index.js
