@@ -4,14 +4,12 @@ import logger from '$lib/server/log.ts';
 import { getUserById, updateUserTheme } from '$lib/server/repo/users.ts';
 
 export async function POST({ request, cookies }: RequestEvent) {
-
 	const sub = getJWTPayloadSubFromCookie(cookies);
 	if (!sub) {
 		return json({});
 	}
 
 	const { theme }: { theme: string } = await request.json();
-
 
 	const user = await getUserById(sub);
 

@@ -33,7 +33,7 @@ export async function createApp(model: CreationModel) {
 		throw `App name exists: ${model.routeId}`;
 	}
 	logger.info(`RouteId ${model.routeId} not exists`);
-	
+
 	const hostname = fileStore.hostname();
 
 	const referenceImgBuffers = await refImgs2BytesAndCompress(JSON.parse(model.referenceImgs));

@@ -186,11 +186,7 @@
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader
-						max={2}
-						afterSelectFile={afterSelectRefImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader max={2} afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png" />
 					<input type="text" hidden />
 				</div>
 			</div>
@@ -217,21 +213,13 @@
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectIcon}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required afterSelectFile={afterSelectIcon} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectBarImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required afterSelectFile={afterSelectBarImg} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 		</div>
