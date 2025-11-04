@@ -144,14 +144,14 @@
 			<div>
 				<label class="input">
 					<span class="label">Model</span>
-					<input type="text" name="model" required defaultvalue="seedream-4" />
+					<input type="text" name="model" required defaultValue="seedream-4" />
 				</label>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">Source</span>
-					<input type="text" name="source" required defaultvalue="字节跳动" />
+					<input type="text" name="source" required defaultValue="字节跳动" />
 				</label>
 			</div>
 
