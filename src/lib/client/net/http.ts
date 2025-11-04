@@ -18,6 +18,10 @@ export function post<T>(url: string, body?: unknown, headers?: Headers) {
 	return httpRequest<T>('POST', url, headers, body);
 }
 
+export function deleteHttp<T>(url: string, body?: unknown, headers?: Headers) {
+	return httpRequest<T>('DELETE', url, headers, body);
+}
+
 export function postFile<T>(url: string, files: File[]) {
 	const formData = new FormData();
 

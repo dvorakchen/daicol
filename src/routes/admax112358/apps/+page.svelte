@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { get } from '$lib/client/net/http';
+	import { deleteHttp, get } from '$lib/client/net/http';
+	import { toastMan } from '$lib/client/universal/toast.svelte';
+	import ConfirmButton from '$lib/components/confirm-button.svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 	import Pagination from '$lib/components/pagination.svelte';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema';
@@ -73,8 +75,19 @@
 	}
 
 	function resetPage() {
-		console.log('reset page');
 		pageData.page = 1;
+	}
+
+	function onDelete(routeId: number) {
+		deleteHttp(`/api/apps?routeId=${routeId}`).subscribe({
+			next: () => {
+				toastMan.add('success', `Delete Success`);
+				list = list.filter((t) => t.routeId !== routeId);
+			},
+			error: (e) => {
+				toastMan.add('error', `Delete failed`);
+			}
+		});
 	}
 </script>
 
@@ -130,6 +143,12 @@
 							<td>{app.createAt}</td>
 							<td>
 								<a class="btn btn-sm btn-primary" href={`apps/${app.routeId}`}>Edit</a>
+								<ConfirmButton
+									label={'Delete'}
+									onConfirm={() => {
+										onDelete(app.routeId);
+									}}
+								/>
 							</td>
 						</tr>
 					{/each}
