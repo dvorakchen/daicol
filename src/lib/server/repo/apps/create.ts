@@ -6,7 +6,7 @@ import { AppStatus } from '$lib/share/app.ts';
 import fileStore from '$lib/server/file-store.ts';
 import { Buffer } from 'node:buffer';
 import logger from '$lib/server/log.ts';
-import { resizeAndCompress } from '@daicol/image-helper';
+import { resizeAndCompress } from '$lib/server/image-helper/index.ts';
 
 export type CreationModel = Omit<
 	App,

@@ -23,8 +23,8 @@ This project used:
 set the .env file,
 
 ```sh
-deno install --allow-scripts=npm:sharp,npm:@tailwindcss/oxide
-deno task db:push
+deno install --allow-scripts=npm:@tailwindcss/oxide
+deno task db:migrate
 ```
 
 Minio
