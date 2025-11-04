@@ -119,7 +119,7 @@
 			<div>
 				<select class="select" required name="category" placeholder="Select Category">
 					{#each categoryOptions as cate (cate.value)}
-						<option value={cate.value}>{cate.label}</option>
+						<option value={cate.label}>{cate.label}</option>
 					{/each}
 				</select>
 			</div>
@@ -144,14 +144,14 @@
 			<div>
 				<label class="input">
 					<span class="label">Model</span>
-					<input type="text" name="model" required />
+					<input type="text" name="model" required defaultvalue="seedream-4" />
 				</label>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">Source</span>
-					<input type="text" name="source" required />
+					<input type="text" name="source" required defaultvalue="字节跳动" />
 				</label>
 			</div>
 
@@ -173,7 +173,7 @@
 			<div>
 				<label class="input">
 					<span class="label">Rate</span>
-					<input type="number" required placeholder="Rate" min="1" max="10" name="rate" />
+					<input type="text" required placeholder="Rate" name="rate" />
 				</label>
 			</div>
 			<div>
