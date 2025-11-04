@@ -84,7 +84,7 @@ export class Image implements Bucket {
 		}
 
 		const metaData = {
-			'Content-Type': 'image/jpeg'
+			'Content-Type': mime
 		};
 
 		await this.client.putObject(this._bucket, name, buf, buf.length, metaData);

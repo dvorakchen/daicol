@@ -7,6 +7,7 @@ import fileStore from '$lib/server/file-store.ts';
 import { Buffer } from 'node:buffer';
 import logger from '$lib/server/log.ts';
 import { resizeAndCompress } from '$lib/server/image-helper/index.ts';
+import { env } from '$env/dynamic/public';
 
 export type CreationModel = Omit<
 	App,
@@ -19,7 +20,6 @@ export type CreationModel = Omit<
 
 export async function createApp(model: CreationModel) {
 	logger.info(`Create app`);
-	console.log(model);
 
 	let exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
 
@@ -34,7 +34,7 @@ export async function createApp(model: CreationModel) {
 	}
 	logger.info(`RouteId ${model.routeId} not exists`);
 
-	const hostname = fileStore.hostname();
+	const STATIC_SERVER_HOST = env.PUBLIC_STATIC_SERVER_HOST;
 
 	const referenceImgBuffers = await refImgs2BytesAndCompress(JSON.parse(model.referenceImgs));
 
@@ -53,10 +53,10 @@ export async function createApp(model: CreationModel) {
 		points: model.points,
 
 		referenceImgs: referenceImgBuffers,
-		originImg: `${hostname}${fileStore.getBucket()}/${model.originImg}`,
-		handledImg: `${hostname}${fileStore.getBucket()}/${model.handledImg}`,
-		icon: `${hostname}${fileStore.getBucket()}/${model.icon}`,
-		barImg: `${hostname}${fileStore.getBucket()}/${model.barImg}`,
+		originImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.originImg}`,
+		handledImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.handledImg}`,
+		icon: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.icon}`,
+		barImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.barImg}`,
 		promptPlugIn: JSON.parse(model.promptPlugIn as string),
 		status: AppStatus.Enabled
 	} as App;
