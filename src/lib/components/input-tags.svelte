@@ -19,12 +19,26 @@
 		ev.preventDefault();
 		const input = ev.target as HTMLInputElement;
 		const value = input.value.trim();
+		let values: string[] = [];
 
-		if (tags.includes(value)) {
-			return;
+		try {
+			values = JSON.parse(value);
+		} catch(e) {
+			values = value.split(/[,，]/);
 		}
 
+		values = values.map(str => str.replace(/^['",，]+|['",，]+$/g, ''));
+
+		values.forEach(value => {
+			value = value.trim();
+			if (!value || tags.includes(value)) {
+			return;
+			} else {
 		tags.push(value);
+
+			}
+		})
+		
 		input.value = '';
 	}
 

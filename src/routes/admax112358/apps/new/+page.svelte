@@ -7,6 +7,7 @@
 	import { upload } from '$lib/client/net/files';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
+	let { data } = $props();
 	const categoryOptions = enumToArray(AppCategories);
 
 	let loading = $state(false);
@@ -105,7 +106,7 @@
 			<div>
 				<label class="input">
 					<span class="label">RouteId</span>
-					<input type="text" name="routeId" required />
+					<input type="text" name="routeId" required defaultValue={data.unusedRouteId} />
 				</label>
 			</div>
 
