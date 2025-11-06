@@ -84,7 +84,7 @@ export async function updateApp(model: CreationUpdateModel) {
 		rate: model.rate,
 		points: model.points,
 
-		referenceImgs: JSON.parse(model.referenceImgs),
+		referenceImgs: model.referenceImgs ? JSON.parse(model.referenceImgs) : [],
 		originImg: model.originImg,
 		handledImg: model.handledImg,
 		icon: model.icon,
