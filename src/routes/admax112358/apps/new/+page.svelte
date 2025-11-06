@@ -188,7 +188,6 @@
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
 					<MultiUploader max={2} afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png" />
-					<input type="text" hidden />
 				</div>
 			</div>
 			<div>
