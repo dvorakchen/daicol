@@ -3,22 +3,18 @@ import { db } from '$lib/server/db/index.ts';
 import { apps } from '$lib/server/db/schema/apps.ts';
 import { eq } from 'drizzle-orm';
 import { AppStatus } from '$lib/share/app.ts';
-import fileStore from '$lib/server/file-store.ts';
-import { Buffer } from 'node:buffer';
 import logger from '$lib/server/log.ts';
-import { resizeAndCompress } from '$lib/server/image-helper/index.ts';
-import { env } from '$env/dynamic/public';
 
-export type CreationModel = Omit<
+export type CreationUpdateModel = Omit<
 	App,
-	'id' | 'createAt' | 'updateAt' | 'status' | 'referenceImgs' | 'tags' | 'seoKeywords'
+	'id' | 'createAt' | 'updateAt' | 'status' | 'tags' | 'seoKeywords'
 > & {
 	referenceImgs: string;
 	seoKeywords: string;
 	tags: string;
 };
 
-export async function createApp(model: CreationModel) {
+export async function createApp(model: CreationUpdateModel) {
 	logger.info(`Create app`);
 
 	let exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
@@ -34,10 +30,6 @@ export async function createApp(model: CreationModel) {
 	}
 	logger.info(`RouteId ${model.routeId} not exists`);
 
-	const STATIC_SERVER_HOST = env.PUBLIC_STATIC_SERVER_HOST;
-
-	const referenceImgBuffers = await refImgs2BytesAndCompress(JSON.parse(model.referenceImgs));
-
 	const insertionModel = {
 		routeId: model.routeId,
 		name: model.name,
@@ -52,11 +44,11 @@ export async function createApp(model: CreationModel) {
 		rate: model.rate,
 		points: model.points,
 
-		referenceImgs: referenceImgBuffers,
-		originImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.originImg}`,
-		handledImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.handledImg}`,
-		icon: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.icon}`,
-		barImg: `${STATIC_SERVER_HOST}${fileStore.getBucket()}/${model.barImg}`,
+		referenceImgs: JSON.parse(model.referenceImgs),
+		originImg: model.originImg,
+		handledImg: model.handledImg,
+		icon: model.icon,
+		barImg: model.barImg,
 		promptPlugIn: JSON.parse(model.promptPlugIn as string),
 		status: AppStatus.Enabled
 	} as App;
@@ -66,24 +58,45 @@ export async function createApp(model: CreationModel) {
 	});
 }
 
-async function refImgs2BytesAndCompress(refImgs: string[]): Promise<Buffer[]> {
-	const bufs: Buffer[] = [];
+export async function updateApp(model: CreationUpdateModel) {
+	logger.info(`Update app`);
 
-	for (const filename of refImgs) {
-		logger.info(`Get image buffer: ${filename}`);
-		let buf = await fileStore.getFile(filename);
-		if (!buf) {
-			continue;
-		}
+	let exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
 
-		logger.info(`Before compress: ${buf.length} bytes`);
-		buf = await resizeAndCompress(buf);
-		logger.info(`After compress: ${buf.length} bytes`);
-
-		bufs.push(buf);
-
-		await fileStore.remove(filename);
+	if (!exists) {
+		throw `App routeId not exists: ${model.routeId}`;
 	}
 
-	return bufs;
+	exists = (await db.$count(apps, eq(apps.name, model.name))) > 0;
+	if (!exists) {
+		throw `App name not exists: ${model.routeId}`;
+	}
+
+	const updateModel = {
+		category: model.category,
+		tags: JSON.parse(model.tags),
+		description: model.description,
+		seoKeywords: JSON.parse(model.seoKeywords),
+		seoDescription: model.seoDescription,
+		model: model.model,
+		source: model.source,
+		prompt: model.prompt,
+		rate: model.rate,
+		points: model.points,
+
+		referenceImgs: JSON.parse(model.referenceImgs),
+		originImg: model.originImg,
+		handledImg: model.handledImg,
+		icon: model.icon,
+		barImg: model.barImg,
+		promptPlugIn: JSON.parse(model.promptPlugIn as string),
+		status: AppStatus.Enabled
+	} as App;
+
+	await db
+		.update(apps)
+		.set({
+			...updateModel
+		})
+		.where(eq(apps.routeId, model.routeId));
 }

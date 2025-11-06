@@ -4,226 +4,201 @@
 	import InputTags from '$lib/components/input-tags.svelte';
 	import { AppCategories, enumToArray } from '$lib/share';
 	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
-	import { upload } from '$lib/client/net/files';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import { type UploadedFile } from '$lib/client/net/files';
 
 	let { data } = $props();
 
 	const categoryOptions = enumToArray(AppCategories);
 
 	let loading = $state(false);
-	const refImgs: File[] = [];
-	let refImgStoreNames: string[] = $state([]);
-	let originImg: File | null = null;
-	let originImgStoreNames = '';
-	let handledImg: File | null = null;
-	let handledImgStoreNames = '';
-	let iconImg: File | null = null;
-	let iconImgStoreNames = '';
-	let barImg: File | null = null;
-	let barImgStoreNames = '';
-
-	async function afterSelectRefImg(file: File) {
-		refImgs.push(file);
-	}
-	async function afterSelectOriginImg(file: File) {
-		originImg = file;
-	}
-	async function afterSelectHandledImg(file: File) {
-		handledImg = file;
-	}
-	async function afterSelectIcon(file: File) {
-		iconImg = file;
-	}
-	async function afterSelectBarImg(file: File) {
-		barImg = file;
-	}
-
-	async function uploadAllImages() {
-		refImgStoreNames = [];
-		for (const file of refImgs) {
-			refImgStoreNames.push((await upload(file)).name);
-		}
-
-		if (originImg) {
-			originImgStoreNames = (await upload(originImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Origin Image');
-			return;
-		}
-
-		if (handledImg) {
-			handledImgStoreNames = (await upload(handledImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Handled Image');
-			return;
-		}
-		if (iconImg) {
-			iconImgStoreNames = (await upload(iconImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Icon Image');
-			return;
-		}
-		if (barImg) {
-			barImgStoreNames = (await upload(barImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Bar Image');
-			return;
-		}
-	}
+	let refImgStoreNames: UploadedFile[] = $state(
+		data.app.referenceImgs?.map((t) => ({ url: t }) as UploadedFile) ?? []
+	);
+	let originImg: UploadedFile[] = $state([{ url: data.app.originImg } as UploadedFile]);
+	let handledImg: UploadedFile[] = $state([{ url: data.app.handledImg } as UploadedFile]);
+	let iconImg: UploadedFile[] = $state([{ url: data.app.icon } as UploadedFile]);
+	let barImg: UploadedFile[] = $state([{ url: data.app.barImg } as UploadedFile]);
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
 
-		await uploadAllImages();
-		if (refImgStoreNames) {
-			formData.set('referenceImgs', JSON.stringify(refImgStoreNames));
+		if (refImgStoreNames.length) {
+			formData.set('referenceImgs', JSON.stringify(refImgStoreNames.map((t) => t.url)));
 		}
-		if (originImgStoreNames) {
-			formData.set('originImg', originImgStoreNames);
+		if (originImg.length > 0) {
+			formData.set('originImg', originImg[0].url);
 		}
-		if (handledImgStoreNames) {
-			formData.set('handledImg', handledImgStoreNames);
+		if (handledImg.length > 0) {
+			formData.set('handledImg', handledImg[0].url);
 		}
-		if (iconImgStoreNames) {
-			formData.set('icon', iconImgStoreNames);
+		if (iconImg.length > 0) {
+			formData.set('icon', iconImg[0].url);
 		}
-		if (barImgStoreNames) {
-			formData.set('barImg', barImgStoreNames);
+		if (barImg.length > 0) {
+			formData.set('barImg', barImg[0].url);
 		}
+
 		return async ({ update }) => {
 			toastMan.add('success', 'Success');
 			loading = false;
 			await update();
 		};
 	};
-
-	$inspect(data.app)
 </script>
 
 <main class="mx-auto max-w-7xl">
 	<h1 class="my-8 text-lg font-bold">New App</h1>
 
-	<form method="POST" action="?/create" use:enhance={enhanceSubmitEvent}>
+	<form method="POST" action="?/update" use:enhance={enhanceSubmitEvent}>
 		<div class="grid grid-cols-3 gap-4">
 			<div>
 				<label class="input">
 					<span class="label">RouteId</span>
-					<input type="text" name="routeId" required />
+					<input type="text" defaultValue={data.app.routeId} disabled />
+					<input type="text" name="routeId" required defaultValue={data.app.routeId} hidden />
 				</label>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">App Name</span>
-					<input type="text" name="name" required />
+					<input type="text" defaultValue={data.app.name} />
+					<input type="text" name="name" required defaultValue={data.app.name} hidden />
 				</label>
 			</div>
 
 			<div>
 				<select class="select" required name="category" placeholder="Select Category">
 					{#each categoryOptions as cate (cate.value)}
-						<option value={cate.label}>{cate.label}</option>
+						<option value={cate.label} selected={data.app.category === cate.label}
+							>{cate.label}</option
+						>
 					{/each}
 				</select>
 			</div>
 
 			<div>
-				<InputTags name="tags" placeholder="Tags" />
+				<InputTags name="tags" placeholder="Tags" defaultValue={data.app.tags} />
 			</div>
 
 			<div>
-				<textarea class="textarea" name="description" placeholder="Description" required></textarea>
+				<h1>Description</h1>
+				<textarea
+					class="textarea"
+					name="description"
+					placeholder="Description"
+					required
+					defaultValue={data.app.description}
+				></textarea>
 			</div>
 
 			<div>
-				<InputTags name="seoKeywords" placeholder="SEO Keywords" />
+				<InputTags
+					name="seoKeywords"
+					placeholder="SEO Keywords"
+					defaultValue={data.app.seoKeywords}
+				/>
 			</div>
 
 			<div>
-				<textarea class="textarea" name="seoDescription" placeholder="SEO Description" required
+				<h1>SEO Description</h1>
+				<textarea
+					class="textarea"
+					name="seoDescription"
+					placeholder="SEO Description"
+					required
+					defaultValue={data.app.seoDescription}
 				></textarea>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">Model</span>
-					<input type="text" name="model" required defaultValue="seedream-4" />
+					<input type="text" name="model" required defaultValue={data.app.model} />
 				</label>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">Source</span>
-					<input type="text" name="source" required defaultValue="字节跳动" />
+					<input type="text" name="source" required defaultValue={data.app.source} />
 				</label>
 			</div>
 
 			<div>
-				<textarea class="textarea" name="prompt" placeholder="Prompt" required></textarea>
+				<h1>Prompt</h1>
+				<textarea
+					class="textarea"
+					name="prompt"
+					placeholder="Prompt"
+					required
+					defaultValue={data.app.prompt}>{data.app.prompt}</textarea
+				>
 			</div>
 
 			<div>
+				<h1>Prompt PlugIn</h1>
 				<textarea
 					class="textarea"
 					name="promptPlugIn"
 					placeholder="promptPlugIn"
-					defaultValue={'{}'}
-					required
-				></textarea>
+					defaultValue={JSON.stringify(data.app.promptPlugIn)}
+					required>{JSON.stringify(data.app.promptPlugIn)}</textarea
+				>
 			</div>
 			<div></div>
 
 			<div>
 				<label class="input">
 					<span class="label">Rate</span>
-					<input type="text" required placeholder="Rate" name="rate" />
+					<input type="text" required placeholder="Rate" name="rate" defaultValue={data.app.rate} />
 				</label>
 			</div>
 			<div>
 				<label class="input">
 					<span class="label">Points</span>
-					<input type="number" required placeholder="Points" min="1" max="100" name="points" />
+					<input
+						type="number"
+						required
+						placeholder="Points"
+						min="1"
+						max="100"
+						name="points"
+						defaultValue={data.app.points}
+					/>
 				</label>
 			</div>
 			<div></div>
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader max={2} afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader max={2} accept=".jpg, .jpeg, .png" uploadedFiles={refImgStoreNames} />
 					<input type="text" hidden />
 				</div>
 			</div>
 			<div>
 				<span class="label">originImg</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectOriginImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={originImg} />
 				</div>
 			</div>
 			<div>
 				<span class="label">handledImg</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectHandledImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={handledImg} />
 				</div>
 			</div>
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectIcon} accept=".jpg, .jpeg, .png" />
+					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={iconImg} />
 				</div>
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectBarImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={barImg} />
 				</div>
 			</div>
 		</div>
@@ -235,7 +210,7 @@
 					<span class="loading loading-spinner"></span>
 				{/if}
 			</button>
-			<button class="btn btn-secondary" type="button" onclick={() => history.back()}>Back</button>
+			<a class="btn btn-secondary" href="/admax112358/apps">Back</a>
 		</div>
 	</form>
 </main>

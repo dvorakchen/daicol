@@ -1,13 +1,13 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
-import { createApp, type CreationModel } from '$lib/server/repo/apps/create.ts';
+import { updateApp, type CreationUpdateModel } from '$lib/server/repo/apps/create.ts';
 
 export const actions = {
-	create: async ({ request }: RequestEvent) => {
+	update: async ({ request }: RequestEvent) => {
 		const data = await request.formData();
 
-		const creationModel = {};
+		const updateModel = {} as CreationUpdateModel;
 		data.entries().forEach(([key, value]) => {
-			Object.defineProperty(creationModel, key, {
+			Object.defineProperty(updateModel, key, {
 				enumerable: true,
 				configurable: false,
 				writable: false,
@@ -15,8 +15,8 @@ export const actions = {
 			});
 		});
 
-		await createApp(creationModel as CreationModel);
+		await updateApp(updateModel);
 
-		redirect(301, '/admax112358/apps/10010');
+		redirect(301, `/admax112358/apps/${updateModel.routeId}`);
 	}
 };

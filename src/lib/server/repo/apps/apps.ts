@@ -15,7 +15,12 @@ import {
 	SQL,
 	sql
 } from 'drizzle-orm';
-import { apps, visitHistories, type AppWithoutPrompt, type App } from '$lib/server/db/schema/index.ts';
+import {
+	apps,
+	visitHistories,
+	type AppWithoutPrompt,
+	type App
+} from '$lib/server/db/schema/index.ts';
 import logger from '$lib/server/log.ts';
 import { AppCategories, AppStatus, RankTypes, type GetAppFilter } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
@@ -236,12 +241,18 @@ export async function searchApps(search: string, type: SearchType) {
 	return list as AppWithoutPrompt[];
 }
 
-export async function getAppByRouteId(routeId: number) {
+/**
+ *
+ * @param routeId route id
+ * @param withoutPrompt without prompt
+ * @returns
+ */
+export async function getAppByRouteId(routeId: number, withoutPrompt: boolean = true) {
 	return (await db.query.apps.findFirst({
-		columns: COLUMNS_WITHOUT_PROMPT,
+		columns: withoutPrompt ? COLUMNS_WITHOUT_PROMPT : undefined,
 
 		where: and(eq(apps.routeId, routeId), eq(apps.status, AppStatus.Enabled))
-	})) as App | undefined ;
+	})) as App | undefined;
 }
 
 export async function getRelationApps(routeId: number) {

@@ -10,7 +10,6 @@ import {
 } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import { AppStatus } from '../../../share/app.ts';
-import { bytea } from '../custom-type.ts';
 
 export const apps = pgTable('apps', {
 	id: serial('id').primaryKey(),
@@ -28,7 +27,7 @@ export const apps = pgTable('apps', {
 	source: varchar('source', { length: 64 }).notNull().default(''),
 	prompt: text('prompt').notNull().default(''),
 	promptPlugIn: jsonb('prompt-plugin').notNull().default({}),
-	referenceImgs: bytea('reference-imgs').array().default([]),
+	referenceImgs: varchar('reference-imgs').array().default([]),
 	originImg: varchar('origin_img', { length: 1024 }).notNull().default(''),
 	handledImg: varchar('handled_img', { length: 1024 }).notNull().default(''),
 	icon: varchar('icon', { length: 1024 }).notNull().default(''),

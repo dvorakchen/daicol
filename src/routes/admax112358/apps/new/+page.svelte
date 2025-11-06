@@ -4,91 +4,36 @@
 	import InputTags from '$lib/components/input-tags.svelte';
 	import { AppCategories, enumToArray } from '$lib/share';
 	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
-	import { upload } from '$lib/client/net/files';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import { type UploadedFile } from '$lib/client/net/files';
 
 	let { data } = $props();
 	const categoryOptions = enumToArray(AppCategories);
 
 	let loading = $state(false);
-	const refImgs: File[] = [];
-	let refImgStoreNames: string[] = $state([]);
-	let originImg: File | null = null;
-	let originImgStoreNames = '';
-	let handledImg: File | null = null;
-	let handledImgStoreNames = '';
-	let iconImg: File | null = null;
-	let iconImgStoreNames = '';
-	let barImg: File | null = null;
-	let barImgStoreNames = '';
-
-	async function afterSelectRefImg(file: File) {
-		refImgs.push(file);
-	}
-	async function afterSelectOriginImg(file: File) {
-		originImg = file;
-	}
-	async function afterSelectHandledImg(file: File) {
-		handledImg = file;
-	}
-	async function afterSelectIcon(file: File) {
-		iconImg = file;
-	}
-	async function afterSelectBarImg(file: File) {
-		barImg = file;
-	}
-
-	async function uploadAllImages() {
-		refImgStoreNames = [];
-		for (const file of refImgs) {
-			refImgStoreNames.push((await upload(file)).name);
-		}
-
-		if (originImg) {
-			originImgStoreNames = (await upload(originImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Origin Image');
-			return;
-		}
-
-		if (handledImg) {
-			handledImgStoreNames = (await upload(handledImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Handled Image');
-			return;
-		}
-		if (iconImg) {
-			iconImgStoreNames = (await upload(iconImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Icon Image');
-			return;
-		}
-		if (barImg) {
-			barImgStoreNames = (await upload(barImg)).name;
-		} else {
-			toastMan.add('warning', 'Need Bar Image');
-			return;
-		}
-	}
+	let refImgStoreNames: UploadedFile[] = $state([]);
+	let originImg: UploadedFile[] = $state([]);
+	let handledImg: UploadedFile[] = $state([]);
+	let iconImg: UploadedFile[] = $state([]);
+	let barImg: UploadedFile[] = $state([]);
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
 
-		await uploadAllImages();
 		if (refImgStoreNames) {
-			formData.set('referenceImgs', JSON.stringify(refImgStoreNames));
+			formData.set('referenceImgs', JSON.stringify(refImgStoreNames.map((t) => t.url)));
 		}
-		if (originImgStoreNames) {
-			formData.set('originImg', originImgStoreNames);
+		if (originImg.length > 0) {
+			formData.set('originImg', originImg[0].url);
 		}
-		if (handledImgStoreNames) {
-			formData.set('handledImg', handledImgStoreNames);
+		if (handledImg.length > 0) {
+			formData.set('handledImg', handledImg[0].url);
 		}
-		if (iconImgStoreNames) {
-			formData.set('icon', iconImgStoreNames);
+		if (iconImg.length > 0) {
+			formData.set('icon', iconImg[0].url);
 		}
-		if (barImgStoreNames) {
-			formData.set('barImg', barImgStoreNames);
+		if (barImg.length > 0) {
+			formData.set('barImg', barImg[0].url);
 		}
 		return async ({ update }) => {
 			toastMan.add('success', 'Success');
@@ -187,39 +132,31 @@
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader max={2} afterSelectFile={afterSelectRefImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader max={2} uploadedFiles={refImgStoreNames} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 			<div>
 				<span class="label">originImg</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectOriginImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required uploadedFiles={originImg} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 			<div>
 				<span class="label">handledImg</span>
 				<div class="max-w-80">
-					<MultiUploader
-						required
-						afterSelectFile={afterSelectHandledImg}
-						accept=".jpg, .jpeg, .png"
-					/>
+					<MultiUploader required uploadedFiles={handledImg} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectIcon} accept=".jpg, .jpeg, .png" />
+					<MultiUploader required uploadedFiles={iconImg} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader required afterSelectFile={afterSelectBarImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader required uploadedFiles={barImg} accept=".jpg, .jpeg, .png" />
 				</div>
 			</div>
 		</div>
@@ -231,7 +168,7 @@
 					<span class="loading loading-spinner"></span>
 				{/if}
 			</button>
-			<button class="btn btn-secondary" type="button" onclick={() => history.back()}>Back</button>
+			<a class="btn btn-secondary" href="/admax112358/apps">Back</a>
 		</div>
 	</form>
 </main>

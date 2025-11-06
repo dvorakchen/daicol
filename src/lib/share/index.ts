@@ -1,6 +1,7 @@
 export * from '$lib/share/search.ts';
 export * from '$lib/share/app.ts';
 export * from '$lib/share/user.ts';
+export * from '$lib/share/files.ts';
 
 export const themePrefer = {
 	light: 'corporate',

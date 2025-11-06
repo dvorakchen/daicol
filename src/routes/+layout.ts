@@ -5,7 +5,6 @@ export async function load({ fetch }: RequestEvent) {
 	const response = await fetch(`/api/users/sign-in-info`);
 	console.log(`+layout.server.ts, after fetch /api/users/sign-in-info`);
 
-	console.log(`${response.status}`);
 	if (!response.ok) {
 		throw error(response.status, `Failed to fetch sign-in info: ${response.statusText}`);
 	}

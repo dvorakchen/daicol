@@ -85,6 +85,7 @@
 				list = list.filter((t) => t.routeId !== routeId);
 			},
 			error: (e) => {
+				console.error(`delete fail: `, e);
 				toastMan.add('error', `Delete failed`);
 			}
 		});
@@ -144,7 +145,7 @@
 							<td>
 								<a class="btn btn-sm btn-primary" href={`apps/${app.routeId}`}>Edit</a>
 								<ConfirmButton
-									label={'Delete'}
+									label="Delete"
 									onConfirm={() => {
 										onDelete(app.routeId);
 									}}

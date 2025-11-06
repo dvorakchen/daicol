@@ -4,6 +4,7 @@
 	import { FilePlus } from 'lucide-svelte';
 	import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 	import { uploadFile, type UploadedFile, type UploadProcessEvent } from '$lib/client/net/files';
+	import { getFileMIME } from '$lib/share';
 
 	type UploadingFile = {
 		id: string;
@@ -15,13 +16,11 @@
 	};
 
 	let {
-		afterSelectFile,
 		max = 1,
 		accept,
 		required = false,
 		uploadedFiles = $bindable()
 	}: {
-		afterSelectFile?: (file: File) => void;
 		max?: number;
 		accept?: string;
 		required?: boolean;
@@ -29,6 +28,10 @@
 	} = $props();
 
 	uploadedFiles ??= [];
+	uploadedFiles.forEach((file) => {
+		file.name ??= file.url.split('/').at(-1)!;
+		file.type ??= getFileMIME(file.name);
+	});
 
 	let inputEle: HTMLInputElement;
 	let uploadingFiles: UploadingFile[] = $state([]);
@@ -54,7 +57,7 @@
 				return;
 			}
 
-			const uploadingFile: UploadingFile = {
+			let uploadingFile: UploadingFile = {
 				id: crypto.randomUUID(),
 				uploading: true,
 				loaded: 0,
@@ -69,6 +72,7 @@
 				next: (event: UploadProcessEvent) => {
 					event = event as UploadProcessEvent;
 					if (event.type === 'progress') {
+						uploadingFile = uploadingFiles.find((t) => t.id === uploadingFile.id)!;
 						uploadingFile.loaded = event.loaded ?? 0;
 						uploadingFile.total = event.total ?? 0;
 						uploadingFile.percent = event.percent ?? 0;
@@ -127,7 +131,7 @@
 				</div>
 			</div>
 		{/each}
-		{#each uploadingFiles as file, i (i)}
+		{#each uploadingFiles as file (file.id)}
 			<div class="avatar">
 				<div class="relative w-14 rounded">
 					{#if isImage(file.file.type)}
@@ -135,6 +139,14 @@
 					{:else}
 						<FilePlus />
 					{/if}
+					<progress
+						class="progress absolute bottom-0 w-full progress-primary"
+						value={file.percent}
+						max="100"
+					></progress>
+					<span class="absolute inset-0 flex items-center justify-center">
+						<div class="badge badge-soft badge-primary">{file.percent}%</div>
+					</span>
 				</div>
 			</div>
 		{/each}

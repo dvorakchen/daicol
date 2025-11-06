@@ -3,10 +3,9 @@
 
 	const customId = Math.random().toString();
 
-	let { tags = $bindable(), name = '', placeholder = '' } = $props();
-	if (!tags) {
-		tags = [];
-	}
+	let { defaultValue = [], name = '', placeholder = '' } = $props();
+	let tags = $state<string[]>(defaultValue);
+
 	let value = $derived.by(() => {
 		if (!tags) {
 			return '[]';
@@ -23,22 +22,25 @@
 
 		try {
 			values = JSON.parse(value);
-		} catch(e) {
+			if (!(values instanceof Array)) {
+				values = [values];
+			}
+		} catch (e) {
+			console.log(e);
 			values = value.split(/[,，]/);
 		}
 
-		values = values.map(str => str.replace(/^['",，]+|['",，]+$/g, ''));
+		values = values.map((str) => str.toString().replace(/^['",，]+|['",，]+$/g, ''));
 
-		values.forEach(value => {
+		values.forEach((value) => {
 			value = value.trim();
 			if (!value || tags.includes(value)) {
-			return;
+				return;
 			} else {
-		tags.push(value);
-
+				tags.push(value);
 			}
-		})
-		
+		});
+
 		input.value = '';
 	}
 
