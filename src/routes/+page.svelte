@@ -15,7 +15,7 @@
 
 <MetaTags
 	title={`${m.home()}`}
-	titleTemplate={`%s - ${m.title()}`}
+	titleTemplate={`%s - ${m.title()} ${m.prompt_less_out_of_box()}`}
 	description={m.seo_description()}
 	canonical={env.PUBLIC_HOST}
 	openGraph={{
