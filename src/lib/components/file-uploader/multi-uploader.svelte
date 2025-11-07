@@ -2,7 +2,7 @@
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { FilePlus } from 'lucide-svelte';
-	import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
+	import { getFilename, UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 	import { uploadFile, type UploadedFile, type UploadProcessEvent } from '$lib/client/net/files';
 	import { getFileMIME } from '$lib/share';
 
@@ -19,19 +19,26 @@
 		max = 1,
 		accept,
 		required = false,
-		uploadedFiles = $bindable()
+		defaultValue,
+		onFileChange
 	}: {
 		max?: number;
 		accept?: string;
 		required?: boolean;
-		uploadedFiles?: UploadedFile[];
+		defaultValue?: UploadedFile[];
+		onFileChange?: (files: UploadedFile[]) => void;
 	} = $props();
 
-	uploadedFiles ??= [];
-	uploadedFiles.forEach((file) => {
-		file.name ??= file.url.split('/').at(-1)!;
-		file.type ??= getFileMIME(file.name);
-	});
+	let uploadedFiles = $state(
+		(defaultValue ?? []).map(
+			(file) =>
+				({
+					url: file.url,
+					name: getFilename(file.url),
+					type: getFileMIME(file.url)
+				}) as UploadedFile
+		)
+	);
 
 	let inputEle: HTMLInputElement;
 	let uploadingFiles: UploadingFile[] = $state([]);
@@ -85,7 +92,8 @@
 							name: event.name ?? '',
 							type: file.type
 						};
-						uploadedFiles!.push(uploadedFile);
+						uploadedFiles.push(uploadedFile);
+						onFileChange?.(uploadedFiles);
 
 						uploadingFiles = uploadingFiles.filter((t) => t.id !== uploadingFile.id);
 					}
@@ -102,12 +110,16 @@
 	}
 
 	function isImage(type: string) {
+		if (!type) {
+			return;
+		}
 		const sp = type.split('/');
 		return sp.length > 1 && sp[0] === 'image';
 	}
 
 	function onRemove(file: UploadedFile) {
 		uploadedFiles = uploadedFiles?.filter((t) => t.url !== file.url);
+		onFileChange?.(uploadedFiles);
 	}
 </script>
 

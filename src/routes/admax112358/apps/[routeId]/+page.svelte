@@ -48,7 +48,7 @@
 </script>
 
 <main class="mx-auto max-w-7xl">
-	<h1 class="my-8 text-lg font-bold">New App</h1>
+	<h1 class="my-8 text-lg font-bold">Update App</h1>
 
 	<form method="POST" action="?/update" use:enhance={enhanceSubmitEvent}>
 		<div class="grid grid-cols-3 gap-4">
@@ -56,15 +56,15 @@
 				<label class="input">
 					<span class="label">RouteId</span>
 					<input type="text" defaultValue={data.app.routeId} disabled />
-					<input type="text" name="routeId" required defaultValue={data.app.routeId} hidden />
+					<input type="text" name="routeId" defaultValue={data.app.routeId} hidden />
 				</label>
 			</div>
 
 			<div>
 				<label class="input">
 					<span class="label">App Name</span>
-					<input type="text" defaultValue={data.app.name} />
-					<input type="text" name="name" required defaultValue={data.app.name} hidden />
+					<input type="text" defaultValue={data.app.name} disabled />
+					<input type="text" name="name" defaultValue={data.app.name} hidden />
 				</label>
 			</div>
 
@@ -173,32 +173,57 @@
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader max={2} accept=".jpg, .jpeg, .png" uploadedFiles={refImgStoreNames} />
+					<MultiUploader
+						max={2}
+						accept=".jpg, .jpeg, .png"
+						defaultValue={refImgStoreNames}
+						onFileChange={(files) => (refImgStoreNames = files)}
+					/>
 					<input type="text" hidden />
 				</div>
 			</div>
 			<div>
 				<span class="label">originImg</span>
 				<div class="max-w-80">
-					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={originImg} />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						defaultValue={originImg}
+						onFileChange={(files) => (originImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">handledImg</span>
 				<div class="max-w-80">
-					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={handledImg} />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						defaultValue={handledImg}
+						onFileChange={(files) => (handledImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={iconImg} />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						defaultValue={iconImg}
+						onFileChange={(files) => (iconImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader required accept=".jpg, .jpeg, .png" uploadedFiles={barImg} />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						defaultValue={barImg}
+						onFileChange={(files) => (barImg = files)}
+					/>
 				</div>
 			</div>
 		</div>

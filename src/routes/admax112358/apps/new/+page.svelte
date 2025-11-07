@@ -19,7 +19,6 @@
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
-
 		if (refImgStoreNames) {
 			formData.set('referenceImgs', JSON.stringify(refImgStoreNames.map((t) => t.url)));
 		}
@@ -132,31 +131,51 @@
 			<div>
 				<span class="label">Reference Imgs</span>
 				<div class="max-w-80">
-					<MultiUploader max={2} uploadedFiles={refImgStoreNames} accept=".jpg, .jpeg, .png" />
+					<MultiUploader
+						max={2}
+						accept=".jpg, .jpeg, .png"
+						onFileChange={(files) => (refImgStoreNames = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">originImg</span>
 				<div class="max-w-80">
-					<MultiUploader required uploadedFiles={originImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						onFileChange={(files) => (originImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">handledImg</span>
 				<div class="max-w-80">
-					<MultiUploader required uploadedFiles={handledImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						onFileChange={(files) => (handledImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">icon</span>
 				<div class="max-w-80">
-					<MultiUploader required uploadedFiles={iconImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						onFileChange={(files) => (iconImg = files)}
+					/>
 				</div>
 			</div>
 			<div>
 				<span class="label">Bar Img</span>
 				<div class="max-w-80">
-					<MultiUploader required uploadedFiles={barImg} accept=".jpg, .jpeg, .png" />
+					<MultiUploader
+						required
+						accept=".jpg, .jpeg, .png"
+						onFileChange={(files) => (barImg = files)}
+					/>
 				</div>
 			</div>
 		</div>

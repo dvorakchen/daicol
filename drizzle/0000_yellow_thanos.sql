@@ -11,7 +11,7 @@ CREATE TABLE "apps" (
 	"source" varchar(64) DEFAULT '' NOT NULL,
 	"prompt" text DEFAULT '' NOT NULL,
 	"prompt-plugin" jsonb DEFAULT '{}'::jsonb NOT NULL,
-	"reference-imgs" "bytea"[] DEFAULT '{}',
+	"reference-imgs" varchar[] DEFAULT '{}',
 	"origin_img" varchar(1024) DEFAULT '' NOT NULL,
 	"handled_img" varchar(1024) DEFAULT '' NOT NULL,
 	"icon" varchar(1024) DEFAULT '' NOT NULL,

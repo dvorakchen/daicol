@@ -60,3 +60,11 @@ export function getFileMIME(filename: string): string {
 
 	return MIME_MAP[ext] || DEFAULT_MIME;
 }
+
+export function getFilename(path: string): string {
+	return path.split('/').at(-1)!;
+}
+
+export function getExtensionName(path: string): string {
+	return path.split('.').at(-1)!;
+}

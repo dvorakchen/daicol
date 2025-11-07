@@ -1,5 +1,5 @@
 {
-  "id": "47224307-029b-485a-86a1-7a270db1a9b3",
+  "id": "44022ba9-daa9-4e31-90d4-b7020a6e8c82",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -92,7 +92,7 @@
         },
         "reference-imgs": {
           "name": "reference-imgs",
-          "type": "bytea[]",
+          "type": "varchar[]",
           "primaryKey": false,
           "notNull": false,
           "default": "'{}'"

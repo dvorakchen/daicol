@@ -1,107 +1,115 @@
-import { env } from '$env/dynamic/private';
-import logger from '$lib/server/log.ts';
-
-import * as Minio from 'minio';
-import { Buffer } from 'node:buffer';
-import { v4 as uuidv4 } from 'uuid';
+import { env } from "$env/dynamic/private";
+import logger from "$lib/server/log.ts";
+import * as Minio from "minio";
+import { Buffer } from "node:buffer";
+import { v4 as uuidv4 } from "uuid";
+import { getFilename } from "../share/files.ts";
 
 export interface Bucket {
-	getBucket(): string;
+  getBucket(): string;
 
-	/**
-	 * store file, return stored name
-	 * @param buf file content
-	 * @param mime file MIME: image/jpeg ....
-	 */
-	store(buf: Buffer, mime: string): Promise<string>;
+  /**
+   * store file, return stored name
+   * @param buf file content
+   * @param mime file MIME: image/jpeg ....
+   */
+  store(buf: Buffer, mime: string): Promise<string>;
 
-	remove(filename: string): Promise<void>;
-	getFile(name: string): Promise<Buffer<ArrayBufferLike> | null>;
-	hostname(): string;
+  remove(filename: string): Promise<void>;
+  removeAll(filenames: string[]): Promise<void>;
+  getFile(name: string): Promise<Buffer<ArrayBufferLike> | null>;
+  hostname(): string;
 }
 
 export class Image implements Bucket {
-	private client: Minio.Client;
+  private client: Minio.Client;
 
-	constructor(
-		private endPoint: string,
-		private port: number,
-		accessKey: string,
-		secretKey: string,
-		private useSSL: boolean = false
-	) {
-		this.client = new Minio.Client({
-			endPoint,
-			port,
-			useSSL,
-			accessKey,
-			secretKey
-		});
-	}
-	remove(filename: string): Promise<void> {
-		return this.client.removeObject(this._bucket, filename);
-	}
+  constructor(
+    private endPoint: string,
+    private port: number,
+    accessKey: string,
+    secretKey: string,
+    private useSSL: boolean = false,
+  ) {
+    this.client = new Minio.Client({
+      endPoint,
+      port,
+      useSSL,
+      accessKey,
+      secretKey,
+    });
+  }
+  remove(filename: string): Promise<void> {
+    return this.client.removeObject(this._bucket, filename);
+  }
 
-	private _bucket = 'images';
-	getBucket(): string {
-		return this._bucket;
-	}
+  async removeAll(filenames: string[]): Promise<void> {
+    for (const img of filenames) {
+      const name = getFilename(img);
+      await this.remove(name);
+    }
+  }
 
-	hostname(): string {
-		const protocol = this.useSSL ? 'https' : 'http';
-		return `${protocol}://${this.endPoint}:${this.port}/`;
-	}
+  private _bucket = "images";
+  getBucket(): string {
+    return this._bucket;
+  }
 
-	/**
-	 * store file into Minio and return the unique file name
-	 * @param buf file content
-	 * @param mime MINE of file
-	 * @returns stored file name
-	 */
-	async store(buf: Buffer, mime: string): Promise<string> {
-		const ext = mime.split('/').at(-1);
-		const name = `${uuidv4()}.${ext}`;
+  hostname(): string {
+    const protocol = this.useSSL ? "https" : "http";
+    return `${protocol}://${this.endPoint}:${this.port}/`;
+  }
 
-		const exists = await this.client.bucketExists(this._bucket);
-		if (!exists) {
-			await this.client.makeBucket(this._bucket);
-			const policy = JSON.stringify({
-				Version: '2012-10-17',
-				Statement: [
-					{
-						Sid: 'PublicRead',
-						Effect: 'Allow',
-						Principal: {
-							AWS: ['*']
-						},
-						Action: ['s3:GetObject'],
-						Resource: [`arn:aws:s3:::${this._bucket}/*`]
-					}
-				]
-			});
+  /**
+   * store file into Minio and return the unique file name
+   * @param buf file content
+   * @param mime MINE of file
+   * @returns stored file name
+   */
+  async store(buf: Buffer, mime: string): Promise<string> {
+    const ext = mime.split("/").at(-1);
+    const name = `${uuidv4()}.${ext}`;
 
-			await this.client.setBucketPolicy(this._bucket, policy);
-		}
+    const exists = await this.client.bucketExists(this._bucket);
+    if (!exists) {
+      await this.client.makeBucket(this._bucket);
+      const policy = JSON.stringify({
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Sid: "PublicRead",
+            Effect: "Allow",
+            Principal: {
+              AWS: ["*"],
+            },
+            Action: ["s3:GetObject"],
+            Resource: [`arn:aws:s3:::${this._bucket}/*`],
+          },
+        ],
+      });
 
-		const metaData = {
-			'Content-Type': mime
-		};
+      await this.client.setBucketPolicy(this._bucket, policy);
+    }
 
-		await this.client.putObject(this._bucket, name, buf, buf.length, metaData);
+    const metaData = {
+      "Content-Type": mime,
+    };
 
-		return name;
-	}
+    await this.client.putObject(this._bucket, name, buf, buf.length, metaData);
 
-	async getFile(name: string): Promise<Buffer<ArrayBufferLike> | null> {
-		const stream = await this.client.getObject(this._bucket, name);
-		const chunks = [];
+    return name;
+  }
 
-		for await (const chunk of stream) {
-			chunks.push(chunk);
-		}
+  async getFile(name: string): Promise<Buffer<ArrayBufferLike> | null> {
+    const stream = await this.client.getObject(this._bucket, name);
+    const chunks = [];
 
-		return Buffer.concat(chunks);
-	}
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+
+    return Buffer.concat(chunks);
+  }
 }
 
 const MINIO_ENDPOINT = env.MINIO_ENDPOINT;
@@ -115,11 +123,11 @@ logger.info(`MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}`);
 logger.info(`MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}`);
 
 const storeBucket: Bucket = new Image(
-	MINIO_ENDPOINT,
-	+MINIO_PORT,
-	MINIO_ACCESS_KEY,
-	MINIO_SECRET_KEY,
-	false
+  MINIO_ENDPOINT,
+  +MINIO_PORT,
+  MINIO_ACCESS_KEY,
+  MINIO_SECRET_KEY,
+  false,
 );
 
 export default storeBucket;
