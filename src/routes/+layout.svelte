@@ -4,9 +4,6 @@
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import ToastMsg from '$lib/components/toast-msg.svelte';
 	import { onMount } from 'svelte';
-	import { m } from '$lib/paraglide/messages.js';
-	import { MetaTags } from 'svelte-meta-tags';
-	import { env } from '$env/dynamic/public';
 	import { invalidate } from '$app/navigation';
 
 	let { children } = $props();
@@ -24,27 +21,6 @@
 <svelte:head>
 	<link rel="icon" href="/favicon.png" />
 </svelte:head>
-
-<MetaTags
-	title={`${m.home()}`}
-	titleTemplate={`%s - ${m.title()}`}
-	description={m.seo_description()}
-	canonical={env.PUBLIC_HOST}
-	openGraph={{
-		url: env.PUBLIC_HOST,
-		title: m.title(),
-		description: m.seo_description(),
-		images: [
-			{
-				url: `${env.PUBLIC_HOST}logo.png`,
-				width: 800,
-				height: 600,
-				alt: `${m.title()} logo`
-			}
-		],
-		siteName: m.title()
-	}}
-/>
 
 <div class="fixed z-20">
 	<ToastMsg />

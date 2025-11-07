@@ -7,9 +7,32 @@
 	import { QS_SEARCH_TYPE_KEY, SearchType } from '$lib/share/search.js';
 	import RecommendApps from '$lib/components/recommend-apps.svelte';
 	import AppCard from '$lib/components/app-card.svelte';
+	import { MetaTags } from 'svelte-meta-tags';
+	import { env } from '$env/dynamic/public';
 
 	let { data } = $props();
 </script>
+
+<MetaTags
+	title={`${m.home()}`}
+	titleTemplate={`%s - ${m.title()}`}
+	description={m.seo_description()}
+	canonical={env.PUBLIC_HOST}
+	openGraph={{
+		url: env.PUBLIC_HOST,
+		title: m.title(),
+		description: m.seo_description(),
+		images: [
+			{
+				url: `${env.PUBLIC_HOST}logo.png`,
+				width: 800,
+				height: 600,
+				alt: `${m.title()} logo`
+			}
+		],
+		siteName: m.title()
+	}}
+/>
 
 <Navbar userSignInInfo={data.userSignInInfo} />
 <main class="mx-auto min-h-screen space-y-4 px-2 py-4 lg:max-w-6xl xl:max-w-7xl">
