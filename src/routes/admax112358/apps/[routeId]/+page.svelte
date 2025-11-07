@@ -48,7 +48,10 @@
 </script>
 
 <main class="mx-auto max-w-7xl">
-	<h1 class="my-8 text-lg font-bold">Update App</h1>
+	<div class="flex items-center">
+		<h1 class="my-8 text-lg font-bold grow">Update App</h1>
+		<a class="btn btn-primary" href={`/ai/${data.app.routeId}`} target="_blank">Preview</a>
+	</div>
 
 	<form method="POST" action="?/update" use:enhance={enhanceSubmitEvent}>
 		<div class="grid grid-cols-3 gap-4">
