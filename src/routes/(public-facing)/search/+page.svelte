@@ -21,3 +21,8 @@
 		<AppCard {app} />
 	{/each}
 </div>
+<div class="text-center">
+	<button class="btn btn-accent" onclick={() => (location.href = '/search')}
+		>{m['search_ai.look_around']()}</button
+	>
+</div>

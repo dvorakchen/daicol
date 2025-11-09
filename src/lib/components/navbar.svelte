@@ -99,7 +99,8 @@
 				name={QS_SEARCH_KEY}
 				placeholder={m['search_ai.look_around']()}
 				value={searchValue}
-			/></label
-		>
+			/>
+			<button class="btn btn-xs btn-primary">{m.search()}</button>
+		</label>
 	</form>
 {/snippet}
