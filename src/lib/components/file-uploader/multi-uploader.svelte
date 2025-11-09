@@ -5,6 +5,7 @@
 	import { getFilename, UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 	import { uploadFile, type UploadedFile, type UploadProcessEvent } from '$lib/client/net/files';
 	import { getFileMIME } from '$lib/share';
+	import { dragAndDropFiles } from '$lib/client/directives/drap-and-drop.svelte';
 
 	type UploadingFile = {
 		id: string;
@@ -46,13 +47,8 @@
 	let allFileCount = $derived(uploadedFiles.length + uploadingFiles.length);
 	let disabled = $derived(!!(max && allFileCount >= max));
 
-	function onchange(ev: Event) {
-		const input = ev.target as HTMLInputElement;
-		if ((input.files?.length ?? 0) <= 0) {
-			return;
-		}
-
-		for (const file of input.files!) {
+	function selectFiles(files: FileList) {
+		for (const file of files) {
 			if (allFileCount >= max) {
 				return;
 			}
@@ -105,6 +101,15 @@
 		}
 	}
 
+	function onchange(ev: Event) {
+		const input = ev.target as HTMLInputElement;
+		if ((input.files?.length ?? 0) <= 0) {
+			return;
+		}
+
+		selectFiles(input.files!);
+	}
+
 	function onload(objURL: string) {
 		URL.revokeObjectURL(objURL);
 	}
@@ -121,9 +126,20 @@
 		uploadedFiles = uploadedFiles?.filter((t) => t.url !== file.url);
 		onFileChange?.(uploadedFiles);
 	}
+
+	function onDragFiles(files: FileList) {
+		if (files.length <= 0) {
+			return;
+		}
+
+		selectFiles(files);
+	}
 </script>
 
-<div class="flex flex-col gap-2 rounded border border-base-300 p-2">
+<div
+	class="flex flex-col gap-2 rounded border border-base-300 p-2"
+	use:dragAndDropFiles={onDragFiles}
+>
 	<div class="flex min-h-8 flex-wrap gap-2">
 		{#each uploadedFiles as file, i (i)}
 			<div class="avatar">

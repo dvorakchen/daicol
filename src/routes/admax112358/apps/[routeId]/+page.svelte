@@ -49,7 +49,7 @@
 
 <main class="mx-auto max-w-7xl">
 	<div class="flex items-center">
-		<h1 class="my-8 text-lg font-bold grow">Update App</h1>
+		<h1 class="my-8 grow text-lg font-bold">Update App</h1>
 		<a class="btn btn-primary" href={`/ai/${data.app.routeId}`} target="_blank">Preview</a>
 	</div>
 

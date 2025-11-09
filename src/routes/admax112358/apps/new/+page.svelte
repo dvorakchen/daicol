@@ -118,7 +118,7 @@
 			<div>
 				<label class="input">
 					<span class="label">Rate</span>
-					<input type="text" required placeholder="Rate" name="rate" defaultValue="4.5"/>
+					<input type="text" required placeholder="Rate" name="rate" defaultValue="4.5" />
 				</label>
 			</div>
 			<div>

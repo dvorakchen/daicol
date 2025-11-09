@@ -3,6 +3,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { Image } from 'lucide-svelte';
 	import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
+	import { dragAndDropFiles } from '$lib/client/directives/drap-and-drop.svelte';
 
 	let {
 		afterSelectImage = undefined,
@@ -22,14 +23,7 @@
 		return URL.createObjectURL(uploadImage);
 	});
 
-	function onchange(ev: Event) {
-		const input = ev.target as HTMLInputElement;
-		if ((input.files?.length ?? 0) <= 0) {
-			return;
-		}
-
-		const file = input.files![0];
-
+	function selectImage(file: File) {
 		if (file.size > UPLOAD_IMAGE_MAX_SIZE) {
 			toastMan.add(
 				'warning',
@@ -42,6 +36,17 @@
 		afterSelectImage?.(file);
 	}
 
+	function onchange(ev: Event) {
+		const input = ev.target as HTMLInputElement;
+		if ((input.files?.length ?? 0) <= 0) {
+			return;
+		}
+
+		const file = input.files![0];
+
+		selectImage(file);
+	}
+
 	function onUploadImage() {
 		inputFileEle.click();
 	}
@@ -52,11 +57,24 @@
 		}
 		afterImageLoaded?.();
 	}
+
+	function onDragFiles(files: FileList) {
+		if (files.length <= 0) {
+			return;
+		}
+
+		const file = files[0];
+		selectImage(file);
+	}
 </script>
 
 <div class="mx-auto max-w-md overflow-hidden rounded-lg md:max-w-xl">
 	<div class="md:flex">
-		<button class="max-h-48 w-full cursor-pointer" onclick={onUploadImage}>
+		<button
+			class="max-h-48 w-full cursor-pointer"
+			onclick={onUploadImage}
+			use:dragAndDropFiles={onDragFiles}
+		>
 			{#if previewUploadImage}
 				<img src={previewUploadImage} alt="Original" {onload} class="max-h-full w-auto" />
 			{:else}
