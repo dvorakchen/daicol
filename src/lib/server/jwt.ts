@@ -32,7 +32,7 @@ export function isJwtValid(token: string, key: string): boolean {
 		jwt.verify(token, key);
 		return true;
 	} catch (e) {
-		console.error(e);
+		console.error('catch isJwtValid error: ', e, ', do not need handle');
 		return false;
 	}
 }

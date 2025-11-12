@@ -7,11 +7,12 @@
 
 	let { app }: { app: AppWithoutPrompt } = $props();
 
+	const APP_COUNT = 16;
 	let getApps = getRelationApps();
 
 	function getRelationApps(): Promise<AppWithoutPrompt[]> {
 		return new Promise((resolve, reject) => {
-			get<AppWithoutPrompt[]>(`/api/apps/relation/${app.routeId}`).subscribe({
+			get<AppWithoutPrompt[]>(`/api/apps/relation/${app.routeId}?count=${APP_COUNT}`).subscribe({
 				next: (data) => {
 					resolve(data);
 				},

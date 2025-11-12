@@ -251,8 +251,7 @@ export async function getAppByRouteId(routeId: number, withoutPrompt: boolean = 
 	})) as App | undefined;
 }
 
-export async function getRelationApps(routeId: number) {
-	const LIMIT = 8;
+export async function getRelationApps(routeId: number, count: number = 8) {
 	const app = await db.query.apps.findFirst({
 		where: eq(apps.routeId, routeId)
 	});
@@ -269,10 +268,10 @@ export async function getRelationApps(routeId: number) {
 			ne(apps.id, app.id)
 		),
 		orderBy: [desc(apps.rate), desc(apps.useCount)],
-		limit: LIMIT
+		limit: count
 	})) as AppWithoutPrompt[];
 
-	if (list.length < LIMIT) {
+	if (list.length < count) {
 		const ids = list.map((t) => t.id);
 
 		const extactList = (await db.query.apps.findMany({
@@ -284,7 +283,7 @@ export async function getRelationApps(routeId: number) {
 				ne(apps.id, app.id)
 			),
 			orderBy: [desc(apps.rate), desc(apps.useCount)],
-			limit: LIMIT - list.length
+			limit: count - list.length
 		})) as AppWithoutPrompt[];
 
 		list.push(...extactList);

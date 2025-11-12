@@ -21,7 +21,7 @@ export interface AppRepo {
 	searchApps(search: string, type: SearchType): Promise<AppWithoutPrompt[]>;
 	getAppByRouteId(routeId: number, withoutPrompt: boolean): Promise<App | undefined>;
 
-	getRelationApps(routeId: number): Promise<AppWithoutPrompt[]>;
+	getRelationApps(routeId: number, count: number): Promise<AppWithoutPrompt[]>;
 	getAppsFromFilter(filter: GetAppFilter): Promise<{
 		list: AppWithoutPrompt[];
 		total: number;
@@ -75,8 +75,8 @@ export class PgAppRepo implements AppRepo {
 	getAppByRouteId(routeId: number, withoutPrompt: boolean = true): Promise<App | undefined> {
 		return pgApp.getAppByRouteId(routeId, withoutPrompt);
 	}
-	getRelationApps(routeId: number): Promise<AppWithoutPrompt[]> {
-		return pgApp.getRelationApps(routeId);
+	getRelationApps(routeId: number, count: number): Promise<AppWithoutPrompt[]> {
+		return pgApp.getRelationApps(routeId, count);
 	}
 	getAppsFromFilter(filter: GetAppFilter): Promise<{
 		list: AppWithoutPrompt[];
