@@ -62,11 +62,13 @@
 	"dependencies": {
 		"bcryptjs": "^3.0.2",
 		"drizzle-orm": "^0.44.7",
+		"inversify": "^7.10.4",
 		"jsonwebtoken": "^9.0.2",
 		"lucide-svelte": "^0.546.0",
 		"luxon": "^3.7.2",
 		"minio": "^8.0.6",
 		"pg": "^8.16.3",
+		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.2",
 		"svelte-easy-crop": "^5.0.0",
 		"uuid": "^13.0.0",

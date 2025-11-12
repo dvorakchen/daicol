@@ -14,9 +14,10 @@ import logger from '$lib/server/log.ts';
 import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
 import { getUserById } from '$lib/server/repo/users.ts';
-import { addHistory } from '$lib/server/repo/histories.ts';
-import { increaseUsedCount } from '$lib/server/repo/apps/index.ts';
+import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 import { AccessType } from '$lib/share/app.ts';
+import { di } from '$lib/server/dependency-injection.ts';
+import { type HistoryRepo, historyRepoServiceId } from '$lib/server/repo/histories.ts';
 
 const DATABASE_URL = env.DATABASE_URL;
 if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
@@ -89,12 +90,21 @@ const recordHistoryHandle: Handle = async ({ event, resolve }) => {
 	if (match && match.length >= 1) {
 		const routeId = match[1];
 
-		await addHistory(+routeId, AccessType.PageView);
-		await increaseUsedCount(+routeId);
+		const historyRepo = event.locals.di.get<HistoryRepo>(historyRepoServiceId);
+		await historyRepo.addHistory(+routeId, AccessType.PageView);
+
+		const appRepo = event.locals.di.get<AppRepo>(appRepoServiceId);
+		await appRepo.increaseUsedCount(+routeId);
 		logger.info(`record routeId: ${routeId}`);
 	}
 
 	return resolve(event);
 };
 
-export const handle = sequence(themeHandle, paraglideHandle, refreshAuth, recordHistoryHandle);
+const dependencyHandle: Handle = ({ event, resolve }) => {
+	event.locals.di = di;
+
+	return resolve(event);
+};
+
+export const handle = sequence(dependencyHandle, themeHandle, paraglideHandle, refreshAuth, recordHistoryHandle);

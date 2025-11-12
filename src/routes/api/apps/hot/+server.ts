@@ -1,8 +1,10 @@
-import { json } from '@sveltejs/kit';
-import { getHotApps } from '$lib/server/repo/apps/index.ts';
+import { json } from "@sveltejs/kit";
+import { type AppRepo, appRepoServiceId } from "$lib/server/repo/apps/index.ts";
+import type { RequestEvent } from "@sveltejs/kit";
 
-export async function GET() {
-	const apps = await getHotApps(4);
+export async function GET({ locals }: RequestEvent) {
+  const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
+  const apps = await appRepo.getHotApps(4, []);
 
-	return json(apps);
+  return json(apps);
 }
