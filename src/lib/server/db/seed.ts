@@ -1,11 +1,11 @@
 import { db } from '$lib/server/db/index.ts';
 import { users, apps } from '$lib/server/db/schema/index.ts';
-import logger from '$lib/server/log.ts';
 import { UserPermissions } from '$lib/share/user.ts';
 import { eq } from 'drizzle-orm';
 import apps10001_10050 from '$lib/server/db/apps-seed/10001-10050.ts';
+import type { Logger } from '$lib/server/logger/index.ts';
 
-export async function plantingSeed() {
+export async function plantingSeed(logger: Logger) {
 	logger.info(`plainting database seed`);
 	await db.transaction(async (tx) => {
 		const count = await tx.$count(users);

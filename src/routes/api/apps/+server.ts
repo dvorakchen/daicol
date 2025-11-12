@@ -1,8 +1,8 @@
-import { type RequestEvent, json } from '@sveltejs/kit';
+import { json, type RequestEvent } from '@sveltejs/kit';
 import { getAppsFromFilter } from '$lib/server/repo/apps/apps.ts';
-import type { PaginationList } from '$lib/share';
-import type { AppWithoutPrompt } from '$lib/server/db/schema';
-import { removeApp } from '$lib/server/repo/apps/delete.ts';
+import type { PaginationList } from '$lib/share/index.ts';
+import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 
 export async function GET({ url }: RequestEvent) {
 	const name = url.searchParams.get('name') ?? undefined;
@@ -32,14 +32,15 @@ export async function GET({ url }: RequestEvent) {
 	} as PaginationList<AppWithoutPrompt>);
 }
 
-export async function DELETE({ url }: RequestEvent) {
+export async function DELETE({ url, locals }: RequestEvent) {
 	const routeId = url.searchParams.get('routeId') ?? '';
 
 	if (isNaN(parseInt(routeId))) {
 		return json({}, { status: 400 });
 	}
 
-	await removeApp(+routeId);
+	const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
+	await appRepo.removeApp(+routeId);
 
 	return json({});
 }

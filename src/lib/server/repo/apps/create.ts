@@ -3,8 +3,7 @@ import { db } from '$lib/server/db/index.ts';
 import { apps } from '$lib/server/db/schema/apps.ts';
 import { eq } from 'drizzle-orm';
 import { AppStatus } from '$lib/share/app.ts';
-import logger from '$lib/server/log.ts';
-import fileStore from '$lib/server/file-store.ts';
+import type { Bucket } from '$lib/server/file-store.ts';
 
 export type CreationUpdateModel = Omit<
 	App,
@@ -16,20 +15,16 @@ export type CreationUpdateModel = Omit<
 };
 
 export async function createApp(model: CreationUpdateModel) {
-	logger.info(`Create app`);
-
 	let exists = (await db.$count(apps, eq(apps.routeId, model.routeId))) > 0;
 
 	if (exists) {
 		throw `App routeId exists: ${model.routeId}`;
 	}
-	logger.info(`RouteId ${model.routeId} not exists`);
 
 	exists = (await db.$count(apps, eq(apps.name, model.name))) > 0;
 	if (exists) {
 		throw `App name exists: ${model.routeId}`;
 	}
-	logger.info(`RouteId ${model.routeId} not exists`);
 
 	const insertionModel = {
 		routeId: model.routeId,
@@ -59,9 +54,7 @@ export async function createApp(model: CreationUpdateModel) {
 	});
 }
 
-export async function updateApp(model: CreationUpdateModel) {
-	logger.info(`Update app`);
-
+export async function updateApp(model: CreationUpdateModel, bucket: Bucket) {
 	const existApp = await db.query.apps.findFirst({
 		where: eq(apps.routeId, model.routeId)
 	});
@@ -126,6 +119,5 @@ export async function updateApp(model: CreationUpdateModel) {
 		.where(eq(apps.routeId, model.routeId));
 
 	//	cleanup images
-	logger.info(`Cleanup unused images: ${JSON.stringify(cleanupImgs)}`);
-	await fileStore.removeAll(cleanupImgs);
+	await bucket.removeAll(cleanupImgs);
 }

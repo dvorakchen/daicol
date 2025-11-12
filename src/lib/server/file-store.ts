@@ -1,9 +1,10 @@
 import { env } from '$env/dynamic/private';
-import logger from '$lib/server/log.ts';
 import * as Minio from 'minio';
 import { Buffer } from 'node:buffer';
 import { v4 as uuidv4 } from 'uuid';
-import { getFilename } from '../share/files.ts';
+import { getFilename } from '$lib/share/files.ts';
+import { inject, injectable, type ServiceIdentifier } from 'inversify';
+import { type Logger, loggerServiceId } from '$lib/server/logger/index.ts';
 
 export interface Bucket {
 	getBucket(): string;
@@ -21,23 +22,37 @@ export interface Bucket {
 	hostname(): string;
 }
 
+export const bucketServiceId: ServiceIdentifier<Bucket> = Symbol.for('bucketServiceId');
+
+const MINIO_ENDPOINT = env.MINIO_ENDPOINT;
+const MINIO_PORT = env.MINIO_PORT;
+const MINIO_ACCESS_KEY = env.MINIO_ACCESS_KEY;
+const MINIO_SECRET_KEY = env.MINIO_SECRET_KEY;
+
+@injectable()
 export class Image implements Bucket {
 	private client: Minio.Client;
+	private readonly useSSL: boolean;
+	private readonly endPoint: string;
+	private readonly port: number;
 
-	constructor(
-		private endPoint: string,
-		private port: number,
-		accessKey: string,
-		secretKey: string,
-		private useSSL: boolean = false
-	) {
+	constructor(@inject(loggerServiceId) private logger: Logger) {
+		this.useSSL = false;
+		this.endPoint = MINIO_ENDPOINT;
+		this.port = +MINIO_PORT;
+
 		this.client = new Minio.Client({
-			endPoint,
-			port,
-			useSSL,
-			accessKey,
-			secretKey
+			endPoint: this.endPoint,
+			port: this.port,
+			useSSL: false,
+			accessKey: MINIO_ACCESS_KEY,
+			secretKey: MINIO_SECRET_KEY
 		});
+
+		this.logger.info(`MINIO_ENDPOINT: ${MINIO_ENDPOINT}`);
+		this.logger.info(`MINIO_PORT: ${MINIO_PORT}`);
+		this.logger.info(`MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}`);
+		this.logger.info(`MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}`);
 	}
 	remove(filename: string): Promise<void> {
 		return this.client.removeObject(this._bucket, filename);
@@ -111,23 +126,3 @@ export class Image implements Bucket {
 		return Buffer.concat(chunks);
 	}
 }
-
-const MINIO_ENDPOINT = env.MINIO_ENDPOINT;
-const MINIO_PORT = env.MINIO_PORT;
-const MINIO_ACCESS_KEY = env.MINIO_ACCESS_KEY;
-const MINIO_SECRET_KEY = env.MINIO_SECRET_KEY;
-
-logger.info(`MINIO_ENDPOINT: ${MINIO_ENDPOINT}`);
-logger.info(`MINIO_PORT: ${MINIO_PORT}`);
-logger.info(`MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}`);
-logger.info(`MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}`);
-
-const storeBucket: Bucket = new Image(
-	MINIO_ENDPOINT,
-	+MINIO_PORT,
-	MINIO_ACCESS_KEY,
-	MINIO_SECRET_KEY,
-	false
-);
-
-export default storeBucket;

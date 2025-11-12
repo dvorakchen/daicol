@@ -2,20 +2,25 @@ import { json, type RequestEvent } from '@sveltejs/kit';
 import { m } from '$lib/paraglide/messages.js';
 import { setJWTCookie, signJWT } from '$lib/server/jwt.ts';
 import { DateTime } from 'luxon';
-import logger from '$lib/server/log.ts';
 import type { UserSignInInfo } from '$lib/share/user.ts';
 import bcrypt from 'bcryptjs';
-import { getUserByUsername } from '$lib/server/repo/users';
+import { type UserRepo, userRepoServiceId } from '$lib/server/repo/users.ts';
 
-export async function POST({ request, cookies }: RequestEvent) {
+export async function POST({ request, cookies, locals }: RequestEvent) {
 	const { username, password }: { username: string; password: string } = await request.json();
 
 	if (!username || !password) {
-		logger.error(`invalid: ${username} - ${password}`);
-		return json({ error: m['sign_in.error.invalid_username_password']() }, { status: 422 });
+		locals.logger.error(`invalid: ${username} - ${password}`);
+		return json(
+			{ error: m['sign_in.error.invalid_username_password']() },
+			{
+				status: 422
+			}
+		);
 	}
 
-	const user = await getUserByUsername(username);
+	const userRepo = locals.di.get<UserRepo>(userRepoServiceId);
+	const user = await userRepo.getUserByUsername(username);
 	if (!user) {
 		return json(
 			{
@@ -34,7 +39,11 @@ export async function POST({ request, cookies }: RequestEvent) {
 		);
 	}
 
-	const token = signJWT(user.id, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+	const token = signJWT(
+		user.id,
+		DateTime.utc().plus({ weeks: 1 }).toSeconds(),
+		locals.privateEnv.JWT_KEY
+	);
 
 	setJWTCookie(cookies, token);
 

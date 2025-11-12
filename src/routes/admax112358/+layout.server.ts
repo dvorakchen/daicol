@@ -1,16 +1,18 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
 import { getJWTPayloadSubFromCookie } from '$lib/server/jwt.ts';
 import { UserPermissions } from '$lib/share/user.ts';
-import { getAdminUserById } from '$lib/server/repo/users.ts';
+import { type UserRepo, userRepoServiceId } from '$lib/server/repo/users.ts';
 
-export async function load({ cookies }: RequestEvent) {
-	const sub = getJWTPayloadSubFromCookie(cookies);
+export async function load({ cookies, locals }: RequestEvent) {
+	const sub = getJWTPayloadSubFromCookie(cookies, locals.privateEnv.JWT_KEY);
 
 	if (sub === null) {
 		return redirect(302, `/signin`);
 	}
 
-	const user = await getAdminUserById(sub);
+	const userRepo = locals.di.get<UserRepo>(userRepoServiceId);
+
+	const user = await userRepo.getAdminUserById(sub);
 
 	if (!user) {
 		return redirect(302, '/signin');

@@ -1,8 +1,12 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
-import { updateApp, type CreationUpdateModel } from '$lib/server/repo/apps/create.ts';
+import {
+	type AppRepo,
+	appRepoServiceId,
+	type CreationUpdateModel
+} from '$lib/server/repo/apps/index.ts';
 
 export const actions = {
-	update: async ({ request }: RequestEvent) => {
+	update: async ({ request, locals }: RequestEvent) => {
 		const data = await request.formData();
 
 		const updateModel = {} as CreationUpdateModel;
@@ -15,7 +19,8 @@ export const actions = {
 			});
 		});
 
-		await updateApp(updateModel);
+		const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
+		await appRepo.updateApp(updateModel);
 
 		redirect(301, `/admax112358/apps/${updateModel.routeId}`);
 	}

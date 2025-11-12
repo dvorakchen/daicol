@@ -21,7 +21,6 @@ import {
 	type AppWithoutPrompt,
 	type App
 } from '$lib/server/db/schema/index.ts';
-import logger from '$lib/server/log.ts';
 import { AppCategories, AppStatus, RankTypes, type GetAppFilter } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
 
@@ -74,7 +73,6 @@ export async function getHotApps(count: number = 10, excludeIds: number[] = []) 
 		limit: count
 	});
 
-	logger.info(`get hot apps: ${hotApps.length}`);
 	return (hotApps as AppWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
 }
 
@@ -133,7 +131,6 @@ export async function getRankApps(rankType: RankTypes) {
 		rankApps.push(...(await getHotApps(rest, appIdList)));
 	}
 
-	logger.info(`get rank apps: type: ${rankType}, apps: ${JSON.stringify(rankApps)}`);
 	rankApps = rankApps ?? [];
 
 	return (rankApps as AppWithoutPrompt[]).toSorted((a, b) => b.useCount - a.useCount);
@@ -197,7 +194,6 @@ export async function getRankAppsByCategory(category: AppCategories) {
 
 export async function searchApps(search: string, type: SearchType) {
 	search = search.trim();
-	logger.info(`search: ${search}, type: ${type}`);
 
 	const baseCondition = eq(apps.status, AppStatus.Enabled);
 	let orderByCondition = [];

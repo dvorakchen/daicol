@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { env } from '$env/dynamic/private';
 import { DateTime } from 'luxon';
-import logger from '$lib/server/log.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 export const JWT_COOKIE_KEY = 'jwt';
@@ -15,7 +13,7 @@ export type JwtPayload = Record<string, unknown> & {
 	exp: number;
 };
 
-export function signJWT(sub: number, exp: number): string {
+export function signJWT(sub: number, exp: number, key: string): string {
 	return jwt.sign(
 		{
 			sub,
@@ -24,23 +22,23 @@ export function signJWT(sub: number, exp: number): string {
 			iat: DateTime.utc().toSeconds(),
 			exp
 		} as JwtPayload,
-		env.JWT_KEY!,
+		key,
 		{ algorithm: 'HS256' }
 	);
 }
 
-export function isJwtValid(token: string): boolean {
+export function isJwtValid(token: string, key: string): boolean {
 	try {
-		jwt.verify(token, env.JWT_KEY!);
+		jwt.verify(token, key);
 		return true;
 	} catch (e) {
-		logger.error(e);
+		console.error(e);
 		return false;
 	}
 }
 
-export function getJwtPayload(token: string): JwtPayload {
-	const decoded = jwt.verify(token, env.JWT_KEY!);
+export function getJwtPayload(token: string, key: string): JwtPayload {
+	const decoded = jwt.verify(token, key);
 
 	if (typeof decoded === 'object' && decoded !== null && 'exp' in decoded) {
 		return {
@@ -55,24 +53,23 @@ export function getJwtPayload(token: string): JwtPayload {
 	throw new Error('Invalid JWT payload');
 }
 
-export function tryGetPayloadSub(token: string) {
+export function tryGetPayloadSub(token: string, key: string) {
 	if (!token) {
-		logger.info('No JWT found in cookies, RETURNED');
 		return null;
 	}
 
-	if (!env.JWT_KEY) {
-		logger.error('JWT_KEY is not set in environment variables.');
-	}
+	// if (!env.JWT_KEY) {
+	// 	logger.error('JWT_KEY is not set in environment variables.');
+	// }
 
-	if (!isJwtValid(token)) {
-		logger.info('invald JWT or expired, RETURNED');
+	if (!isJwtValid(token, key)) {
+		// logger.info('invald JWT or expired, RETURNED');
 		return null;
 	}
 
-	const payload = getJwtPayload(token) as JwtPayload;
+	const payload = getJwtPayload(token, key) as JwtPayload;
 	if (!payload.sub) {
-		logger.warn('No sub IN JWT, RETURNED');
+		// logger.warn('No sub IN JWT, RETURNED');
 		return null;
 	}
 
@@ -90,10 +87,10 @@ export function setJWTCookie(cookies: Cookies, value: string) {
 	});
 }
 
-export function getJWTPayloadSubFromCookie(cookies: Cookies): number | null {
+export function getJWTPayloadSubFromCookie(cookies: Cookies, key: string): number | null {
 	const jwt = cookies.get(JWT_COOKIE_KEY);
 
-	const sub = tryGetPayloadSub(jwt || '');
+	const sub = tryGetPayloadSub(jwt || '', key);
 	if (!sub) {
 		return null;
 	}

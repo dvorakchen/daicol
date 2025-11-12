@@ -1,7 +1,6 @@
 import { db } from '$lib/server/db/index.ts';
 import { and, eq, sql } from 'drizzle-orm';
 import { smsCaptcha } from '$lib/server/db/schema/index.ts';
-import logger from '$lib/server/log.ts';
 
 export async function updateNewSmsCode(phone: string, code: string) {
 	await db.transaction(async (tx) => {
@@ -9,7 +8,6 @@ export async function updateNewSmsCode(phone: string, code: string) {
 			where: eq(smsCaptcha.phoneNumber, phone)
 		});
 		if (sms) {
-			logger.info(`has sms record about phone: ${phone}, update`);
 			await tx
 				.update(smsCaptcha)
 				.set({
@@ -19,7 +17,6 @@ export async function updateNewSmsCode(phone: string, code: string) {
 				})
 				.where(eq(smsCaptcha.phoneNumber, phone));
 		} else {
-			logger.info(`has NOT sms record about phone: ${phone}, insert`);
 			await tx.insert(smsCaptcha).values({
 				phoneNumber: phone,
 				code,

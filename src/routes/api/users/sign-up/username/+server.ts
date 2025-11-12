@@ -1,9 +1,8 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
-import logger from '$lib/server/log.ts';
 import { m } from '$lib/paraglide/messages.js';
-import { createUserByUsername, getUserByUsername } from '$lib/server/repo/users';
+import { type UserRepo, userRepoServiceId } from '$lib/server/repo/users.ts';
 
-export async function POST({ request }: RequestEvent) {
+export async function POST({ request, locals }: RequestEvent) {
 	const {
 		username,
 		password,
@@ -11,20 +10,31 @@ export async function POST({ request }: RequestEvent) {
 	}: { username: string; password: string; rePassword: string } = await request.json();
 
 	if (!username || !password || !rePassword) {
-		logger.error(`invalid: ${username} - ${password}`);
-		return json({ error: m['sign_in.error.invalid_username_password']() }, { status: 422 });
+		locals.logger.error(`invalid: ${username} - ${password}`);
+		return json(
+			{ error: m['sign_in.error.invalid_username_password']() },
+			{
+				status: 422
+			}
+		);
 	}
 
-	logger.info(`Sign-up, username: ${username}`);
-	if (await getUserByUsername(username)) {
-		return json({ error: m['sign_up.error.username_exists']() }, { status: 422 });
+	locals.logger.info(`Sign-up, username: ${username}`);
+	const userRepo = locals.di.get<UserRepo>(userRepoServiceId);
+	if (await userRepo.getUserByUsername(username)) {
+		return json(
+			{ error: m['sign_up.error.username_exists']() },
+			{
+				status: 422
+			}
+		);
 	}
 
 	if (password !== rePassword) {
 		return json({ error: m['sign_up.passwords_not_match']() }, { status: 422 });
 	}
 
-	const signUpUser = await createUserByUsername(username, password);
+	const signUpUser = await userRepo.createUserByUsername(username, password);
 	if (signUpUser) {
 		return json({}, { status: 200 });
 	}

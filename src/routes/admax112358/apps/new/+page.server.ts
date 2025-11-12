@@ -1,35 +1,36 @@
-import { redirect, type RequestEvent } from "@sveltejs/kit";
+import { redirect, type RequestEvent } from '@sveltejs/kit';
 import {
-  createApp,
-  type CreationUpdateModel,
-} from "$lib/server/repo/apps/create.ts";
-import { type AppRepo, appRepoServiceId } from "$lib/server/repo/apps/index.ts";
+	type AppRepo,
+	appRepoServiceId,
+	type CreationUpdateModel
+} from '$lib/server/repo/apps/index.ts';
 
 export async function load({ locals }: RequestEvent) {
-  const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
-  const unusedRouteId = await appRepo.getUnusedRouteId();
+	const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
+	const unusedRouteId = await appRepo.getUnusedRouteId();
 
-  return {
-    unusedRouteId,
-  };
+	return {
+		unusedRouteId
+	};
 }
 
 export const actions = {
-  create: async ({ request }: RequestEvent) => {
-    const data = await request.formData();
+	create: async ({ request, locals }: RequestEvent) => {
+		const data = await request.formData();
 
-    const creationModel = {} as CreationUpdateModel;
-    data.entries().forEach(([key, value]) => {
-      Object.defineProperty(creationModel, key, {
-        enumerable: true,
-        configurable: false,
-        writable: false,
-        value,
-      });
-    });
+		const creationModel = {} as CreationUpdateModel;
+		data.entries().forEach(([key, value]) => {
+			Object.defineProperty(creationModel, key, {
+				enumerable: true,
+				configurable: false,
+				writable: false,
+				value
+			});
+		});
 
-    await createApp(creationModel);
+		const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
+		await appRepo.createApp(creationModel);
 
-    redirect(301, `/admax112358/apps/${creationModel.routeId}`);
-  },
+		redirect(301, `/admax112358/apps/${creationModel.routeId}`);
+	}
 };

@@ -10,20 +10,24 @@ import {
 } from '$lib/server/jwt.ts';
 import type { UserAttributes } from '$lib/share/user.ts';
 import { env } from '$env/dynamic/private';
-import logger from '$lib/server/log.ts';
 import { DateTime } from 'luxon';
 import { plantingSeed } from '$lib/server/db/seed.ts';
-import { getUserById } from '$lib/server/repo/users.ts';
+import { type UserRepo, userRepoServiceId } from '$lib/server/repo/users.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 import { AccessType } from '$lib/share/app.ts';
 import { di } from '$lib/server/dependency-injection.ts';
 import { type HistoryRepo, historyRepoServiceId } from '$lib/server/repo/histories.ts';
+import { type Logger, loggerServiceId } from '$lib/server/logger/index.ts';
 
-const DATABASE_URL = env.DATABASE_URL;
-if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
-logger.info(`Using DATABASE_URL: ${DATABASE_URL}`);
+(() => {
+	const log = di.get<Logger>(loggerServiceId);
 
-await plantingSeed();
+	const DATABASE_URL = env.DATABASE_URL;
+	if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
+	log.info(`Using DATABASE_URL: ${DATABASE_URL}`);
+})();
+
+await plantingSeed(di.get<Logger>(loggerServiceId));
 
 // creating a handle to use the paraglide middleware
 const paraglideHandle: Handle = ({ event, resolve }) =>
@@ -41,12 +45,13 @@ const themeHandle: Handle = ({ event, resolve }) => {
 	return resolve(event, {
 		transformPageChunk: async ({ html }) => {
 			const jwt = event.cookies.get(JWT_COOKIE_KEY);
-			const sub = tryGetPayloadSub(jwt || '');
+			const sub = tryGetPayloadSub(jwt || '', event.locals.privateEnv.JWT_KEY);
 			if (!sub) {
 				return html.replace('%theme%', '');
 			}
 
-			const user = await getUserById(sub);
+			const userRepo = event.locals.di.get<UserRepo>(userRepoServiceId);
+			const user = await userRepo.getUserById(sub);
 
 			if (!user) {
 				return html.replace('%theme%', '');
@@ -67,17 +72,21 @@ const refreshAuth: Handle = ({ event, resolve }) => {
 	// TODO: check protecting route, return 401 if need auth and locals.userId undefined
 	const PROTECTED = [`/api/files`];
 	if (PROTECTED.some((t) => event.url.pathname.startsWith(t))) {
-		if (!isJwtValid(token)) {
+		if (!isJwtValid(token, event.locals.privateEnv.JWT_KEY)) {
 			return new Response('', { status: 401 });
 		}
 	}
 
 	const response = resolve(event);
-	if (isJwtValid(token)) {
-		const sub = tryGetPayloadSub(token);
+	if (isJwtValid(token, event.locals.privateEnv.JWT_KEY)) {
+		const sub = tryGetPayloadSub(token, event.locals.privateEnv.JWT_KEY);
 		if (sub) {
 			event.locals.userId = sub;
-			const token = signJWT(sub, DateTime.utc().plus({ weeks: 1 }).toSeconds());
+			const token = signJWT(
+				sub,
+				DateTime.utc().plus({ weeks: 1 }).toSeconds(),
+				event.locals.privateEnv.JWT_KEY
+			);
 			setJWTCookie(event.cookies, token);
 		}
 	}
@@ -95,16 +104,30 @@ const recordHistoryHandle: Handle = async ({ event, resolve }) => {
 
 		const appRepo = event.locals.di.get<AppRepo>(appRepoServiceId);
 		await appRepo.increaseUsedCount(+routeId);
-		logger.info(`record routeId: ${routeId}`);
+		event.locals.logger.info(`record routeId: ${routeId}`);
 	}
 
 	return resolve(event);
 };
 
 const dependencyHandle: Handle = ({ event, resolve }) => {
+	event.locals.logger = di.get<Logger>(loggerServiceId);
 	event.locals.di = di;
 
 	return resolve(event);
 };
 
-export const handle = sequence(dependencyHandle, themeHandle, paraglideHandle, refreshAuth, recordHistoryHandle);
+const environmentHandle: Handle = ({ event, resolve }) => {
+	event.locals.privateEnv = env;
+
+	return resolve(event);
+};
+
+export const handle = sequence(
+	environmentHandle,
+	dependencyHandle,
+	themeHandle,
+	paraglideHandle,
+	refreshAuth,
+	recordHistoryHandle
+);
