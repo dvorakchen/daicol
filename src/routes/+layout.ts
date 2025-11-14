@@ -3,7 +3,7 @@ import type { UserSignInInfo } from '$lib/share/user.ts';
 
 export async function load({ fetch }: RequestEvent) {
 	const response = await fetch(`/api/users/sign-in-info`);
-	console.log(`Have a good day`);
+	// console.log(`Have a good day`);
 
 	if (!response.ok) {
 		throw error(response.status, `Failed to fetch sign-in info: ${response.statusText}`);

@@ -45,7 +45,8 @@ const COLUMNS_WITHOUT_PROMPT = {
 	icon: true,
 	barImg: true,
 	rate: true,
-	useCount: true
+	useCount: true,
+	promptPlugIn: true
 };
 
 export async function getRecommendApps(count: number = 10) {

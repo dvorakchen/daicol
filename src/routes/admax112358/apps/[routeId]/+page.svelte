@@ -2,15 +2,17 @@
 	import { enhance } from '$app/forms';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import InputTags from '$lib/components/input-tags.svelte';
-	import { AppCategories, enumToArray } from '$lib/share';
+	import { AppCategories, enumToArray, extractPromptPlugInFromPrompt } from '$lib/share';
 	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { type UploadedFile } from '$lib/client/net/files';
+	import PromptEditor from '$lib/components/prompt/prompt-editor.svelte';
 
 	let { data } = $props();
 
 	const categoryOptions = enumToArray(AppCategories);
 
+	let prompt = $state(data.app.prompt);
 	let loading = $state(false);
 	let refImgStoreNames: UploadedFile[] = $state(
 		data.app.referenceImgs?.map((t) => ({ url: t }) as UploadedFile) ?? []
@@ -19,6 +21,18 @@
 	let handledImg: UploadedFile[] = $state([{ url: data.app.handledImg } as UploadedFile]);
 	let iconImg: UploadedFile[] = $state([{ url: data.app.icon } as UploadedFile]);
 	let barImg: UploadedFile[] = $state([{ url: data.app.barImg } as UploadedFile]);
+
+	let promptPlugInEle: HTMLTextAreaElement;
+	let promptPlugIn = $derived.by(() => {
+		const plugIn = extractPromptPlugInFromPrompt(prompt);
+
+		setTimeout(() => {
+			if (promptPlugInEle?.style) {
+				promptPlugInEle.style.height = `${promptPlugInEle.scrollHeight}px`;
+			}
+		}, 0);
+		return JSON.stringify(plugIn, null, 2);
+	});
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
@@ -45,6 +59,11 @@
 			await update();
 		};
 	};
+
+	function onAdjustHeight(ev: Event) {
+		const ele = ev.target as HTMLTextAreaElement;
+		ele.style.height = `${ele.scrollHeight}px`;
+	}
 </script>
 
 <main class="mx-auto max-w-7xl">
@@ -129,15 +148,9 @@
 				</label>
 			</div>
 
-			<div>
+			<div class="h-64">
 				<h1>Prompt</h1>
-				<textarea
-					class="textarea"
-					name="prompt"
-					placeholder="Prompt"
-					required
-					defaultValue={data.app.prompt}>{data.app.prompt}</textarea
-				>
+				<PromptEditor name="prompt" placeholder="Prompt" required bind:text={prompt} />
 			</div>
 
 			<div>
@@ -147,7 +160,10 @@
 					name="promptPlugIn"
 					placeholder="promptPlugIn"
 					defaultValue={JSON.stringify(data.app.promptPlugIn)}
-					required>{JSON.stringify(data.app.promptPlugIn)}</textarea
+					required
+					bind:this={promptPlugInEle}
+					oninput={onAdjustHeight}
+					spellcheck="false">{promptPlugIn}</textarea
 				>
 			</div>
 			<div></div>

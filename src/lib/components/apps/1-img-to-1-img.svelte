@@ -42,7 +42,7 @@
 			<Preview1ImgTo1Img original={app.originImg} handled={app.handledImg} />
 
 			<div class="divider divider-secondary"></div>
-			<Generator1ImgTo1Img routeId={app.routeId} />
+			<Generator1ImgTo1Img routeId={app.routeId} promptPlugIn={app.promptPlugIn} />
 
 			<div class="divider divider-secondary"></div>
 			<RelationRecommandApps {app} />

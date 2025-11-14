@@ -70,6 +70,7 @@
 	"app.ai.generate.drag_and_drop_or_upload_image": "Drag & drop image or click here",
 	"app.ai.generate.choose_image_under_mb": "Please choose image under {size}MB",
 	"app.ai.generate.choose_file_under_mb": "Please choose file under {size}MB",
+	"app.ai.generate.custom_parameters": "Custom Parameter(s)",
 	"app.ai.generate.error.sensitive_content": "Image Sensitive Content Detected",
 	"app.ai.generate.error.use_count_limit": "Use count limit reached",
 	"app.ai.generate.error.occured_please_contact_administrator": "Error Occured, Please Contact The Administrator"

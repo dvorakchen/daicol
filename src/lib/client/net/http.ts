@@ -22,11 +22,14 @@ export function deleteHttp<T>(url: string, body?: unknown, headers?: Headers) {
 	return httpRequest<T>('DELETE', url, headers, body);
 }
 
-export function postFile<T>(url: string, files: File[]) {
+export function postFile<T>(url: string, files: File[], listData: Record<string, string> = {}) {
 	const formData = new FormData();
 
 	files.forEach((file) => {
 		formData.append(`file`, file);
+	});
+	Object.entries(listData).forEach(([key, value]) => {
+		formData.append(key, value);
 	});
 
 	return httpRequest<T>('POST', url, {}, formData);

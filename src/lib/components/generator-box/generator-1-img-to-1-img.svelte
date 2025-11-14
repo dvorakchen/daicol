@@ -7,9 +7,18 @@
 	import { postFile } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import SingleImgPreviewable from '$lib/components/previewers/single-img-previewable.svelte';
+	import type { PromptPlugInType } from '$lib/share';
+	import CustomParameters from './custom_parameters.svelte';
 
-	let { routeId } = $props();
+	let {
+		routeId,
+		promptPlugIn
+	}: {
+		routeId: number;
+		promptPlugIn: PromptPlugInType;
+	} = $props();
 
+	let customParamsInstance: CustomParameters;
 	let image = $state(null as null | File);
 	let generating = $state(false);
 	let handledImageLink = $state(null as null | string);
@@ -36,7 +45,14 @@
 		}
 		generating = true;
 
-		postFile(`/api/generator/img-to-img/${routeId}`, [image]).subscribe({
+		const customParamsForm = customParamsInstance.getFormElement();
+		const formData = new FormData(customParamsForm);
+		const customData: Record<string, string> = {};
+		formData.entries().forEach(([Key, value]) => {
+			customData[Key] = value.toString();
+		});
+
+		postFile(`/api/generator/img-to-img/${routeId}`, [image], customData).subscribe({
 			next: (data) => {
 				handledImageLink = (data as { urls: string[] }).urls[0];
 				generating = false;
@@ -68,45 +84,51 @@
 	}
 </script>
 
-<div class="flex flex-col justify-between gap-4 md:flex-row">
-	<div class="grow md:max-w-2xs">
-		<div class="max-x-full" bind:this={originalImgDiv}>
-			<UploadFile {afterSelectImage} {afterImageLoaded} />
-		</div>
+<div class="grid grid-cols-1 grid-rows-[1fr] gap-4">
+	<div>
+		<CustomParameters {promptPlugIn} bind:this={customParamsInstance} />
 	</div>
-	<div class="flex items-center justify-center">
-		{#if generating}
-			<div class="text-center">
-				<MagicHandling />
-				{m['app.ai.generate.generating']()}...
+
+	<div class="flex flex-col justify-between gap-4 md:flex-row">
+		<div class="grow md:max-w-2xs">
+			<div class="max-x-full" bind:this={originalImgDiv}>
+				<UploadFile {afterSelectImage} {afterImageLoaded} />
 			</div>
-		{:else}
-			<button
-				class="btn h-16 flex-col btn-primary sm:h-10 sm:flex-row"
-				onclick={onGenerate}
-				disabled={generating}
-			>
-				{m['app.ai.generate.generate_it']()}
-				<span class="w-5 rotate-90 md:rotate-0"> <ArrowRight /></span>
-			</button>
-		{/if}
-	</div>
-	<div class="grow md:max-w-2xs">
-		<div
-			class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg"
-			bind:this={handledImgDiv}
-		>
-			{#if handledImageLink}
-				<div class="flex flex-col gap-1">
-					<div>
-						<a href={handledImageLink} download class="btn btn-sm btn-primary">{m.download()}</a>
-						<button class="btn btn-sm btn-secondary" onclick={onPreview}>{m.preview()}</button>
-					</div>
-					<SingleImgPreviewable imageLink={handledImageLink} open={openPreview} />
+		</div>
+		<div class="flex items-center justify-center">
+			{#if generating}
+				<div class="text-center">
+					<MagicHandling />
+					{m['app.ai.generate.generating']()}...
 				</div>
 			{:else}
-				<ImagePlaceholder />
+				<button
+					class="btn h-16 flex-col btn-primary sm:h-10 sm:flex-row"
+					onclick={onGenerate}
+					disabled={generating}
+				>
+					{m['app.ai.generate.generate_it']()}
+					<span class="w-5 rotate-90 md:rotate-0"> <ArrowRight /></span>
+				</button>
 			{/if}
+		</div>
+		<div class="grow md:max-w-2xs">
+			<div
+				class="mx-auto flex min-h-full max-w-md items-center justify-center overflow-hidden rounded-lg"
+				bind:this={handledImgDiv}
+			>
+				{#if handledImageLink}
+					<div class="flex flex-col gap-1">
+						<div>
+							<a href={handledImageLink} download class="btn btn-sm btn-primary">{m.download()}</a>
+							<button class="btn btn-sm btn-secondary" onclick={onPreview}>{m.preview()}</button>
+						</div>
+						<SingleImgPreviewable imageLink={handledImageLink} open={openPreview} />
+					</div>
+				{:else}
+					<ImagePlaceholder />
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,11 +1,13 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
-import { UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
+import { blendPlugInPrompt, UPLOAD_IMAGE_MAX_SIZE } from '$lib/share/index.ts';
 import {
 	type Generator,
 	generatorServiceId,
 	type ReferenceImage
 } from '$lib/server/generator/index.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
+
+const FILE_KEY_IN_FORMDATA = 'file';
 
 export async function POST({ request, params, locals }: RequestEvent) {
 	const routeId = params['routeid'];
@@ -15,8 +17,18 @@ export async function POST({ request, params, locals }: RequestEvent) {
 
 	locals.logger.info(`api generate 1-img-to-1-img, routeId: ${routeId}`);
 	const formData = await request.formData();
-	locals.logger.info(JSON.stringify(formData));
-	const files = formData.getAll('file') as File[] | null;
+
+	// TODO
+	const promptPlugIn: Record<string, string> = {};
+	formData.entries().forEach(([key, value]) => {
+		if (key === FILE_KEY_IN_FORMDATA) {
+			return;
+		}
+		promptPlugIn[key] = value.toString();
+	});
+	locals.logger.info(JSON.stringify(promptPlugIn));
+
+	const files = formData.getAll(FILE_KEY_IN_FORMDATA) as File[] | null;
 	locals.logger.info(`files: ${files?.length}`);
 
 	if (
@@ -50,7 +62,12 @@ export async function POST({ request, params, locals }: RequestEvent) {
 	locals.logger.info(`all reference images: ${referFilesData.length}`);
 	const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
 
-	const prompt = await appRepo.getPrompt(+routeId);
+	let prompt = await appRepo.getPrompt(+routeId);
+	locals.logger.info(prompt);
+
+	prompt = blendPlugInPrompt(prompt, promptPlugIn);
+	locals.logger.info('after blended');
+	locals.logger.info(prompt);
 
 	const generator = locals.di.get<Generator>(generatorServiceId);
 	const urls = await generator.genImage(referFilesData, prompt);

@@ -2,10 +2,11 @@
 	import { enhance } from '$app/forms';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import InputTags from '$lib/components/input-tags.svelte';
-	import { AppCategories, enumToArray } from '$lib/share';
+	import { AppCategories, enumToArray, extractPromptPlugInFromPrompt } from '$lib/share';
 	import MultiUploader from '$lib/components/file-uploader/multi-uploader.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { type UploadedFile } from '$lib/client/net/files';
+	import PromptEditor from '$lib/components/prompt/prompt-editor.svelte';
 
 	let { data } = $props();
 	const categoryOptions = enumToArray(AppCategories);
@@ -16,6 +17,19 @@
 	let handledImg: UploadedFile[] = $state([]);
 	let iconImg: UploadedFile[] = $state([]);
 	let barImg: UploadedFile[] = $state([]);
+
+	let prompt = $state('');
+	let promptPlugInEle: HTMLTextAreaElement;
+	let promptPlugIn = $derived.by(() => {
+		const plugIn = extractPromptPlugInFromPrompt(prompt);
+
+		setTimeout(() => {
+			if (promptPlugInEle?.style) {
+				promptPlugInEle.style.height = `${promptPlugInEle.scrollHeight}px`;
+			}
+		}, 0);
+		return JSON.stringify(plugIn, null, 2);
+	});
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
@@ -40,6 +54,11 @@
 			await update();
 		};
 	};
+
+	function onAdjustHeight(ev: Event) {
+		const ele = ev.target as HTMLTextAreaElement;
+		ele.style.height = `${ele.scrollHeight}px`;
+	}
 </script>
 
 <main class="mx-auto max-w-7xl">
@@ -100,8 +119,8 @@
 				</label>
 			</div>
 
-			<div>
-				<textarea class="textarea" name="prompt" placeholder="Prompt" required></textarea>
+			<div class="h-64">
+				<PromptEditor name="prompt" placeholder="Prompt" required bind:text={prompt} />
 			</div>
 
 			<div>
@@ -109,8 +128,11 @@
 					class="textarea"
 					name="promptPlugIn"
 					placeholder="promptPlugIn"
-					defaultValue={'{}'}
+					defaultValue={promptPlugIn}
 					required
+					bind:this={promptPlugInEle}
+					oninput={onAdjustHeight}
+					spellcheck="false"
 				></textarea>
 			</div>
 			<div></div>
