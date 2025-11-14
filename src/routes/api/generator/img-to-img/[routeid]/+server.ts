@@ -18,7 +18,6 @@ export async function POST({ request, params, locals }: RequestEvent) {
 	locals.logger.info(`api generate 1-img-to-1-img, routeId: ${routeId}`);
 	const formData = await request.formData();
 
-	// TODO
 	const promptPlugIn: Record<string, string> = {};
 	formData.entries().forEach(([key, value]) => {
 		if (key === FILE_KEY_IN_FORMDATA) {
