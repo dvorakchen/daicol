@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { CircleX } from 'lucide-svelte';
+	import { CircleX, Plus } from 'lucide-svelte';
 
 	const customId = Math.random().toString();
 
-	let { defaultValue = [], name = '', placeholder = '' } = $props();
+	let { defaultValue = [], name = '', placeholder = '', presets = [] } = $props();
 	let tags = $state<string[]>(defaultValue);
 
 	let value = $derived.by(() => {
@@ -47,6 +47,13 @@
 	function onRemove(value: string) {
 		tags = tags.filter((tag: string) => tag !== value);
 	}
+
+	function addPreset(value: string) {
+		value = value.trim();
+		if (value && !tags.includes(value)) {
+			tags.push(value);
+		}
+	}
 </script>
 
 <label class="flex flex-col gap-4 rounded border border-base-300 bg-base-100 p-2" for={customId}>
@@ -61,5 +68,18 @@
 		{/each}
 	</div>
 	<input type="text" {placeholder} class="input w-full" id={customId} {onchange} />
+	<div class="flex flex-col">
+		<h1>Preset:</h1>
+		<div class="flex flex-wrap gap-2">
+			{#each presets as preset (preset)}
+				<button type="button" class="btn btn-sm btn-primary" onclick={() => addPreset(preset)}
+					>{preset}
+					<span class="w-4">
+						<Plus size="sm" />
+					</span>
+				</button>
+			{/each}
+		</div>
+	</div>
 	<input type="text" {name} hidden {value} />
 </label>

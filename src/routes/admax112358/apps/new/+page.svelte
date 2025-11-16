@@ -89,7 +89,7 @@
 			</div>
 
 			<div>
-				<InputTags name="tags" placeholder="Tags" />
+				<InputTags name="tags" placeholder="Tags" presets={['宠物', '动物', '写真', '摄影']} />
 			</div>
 
 			<div>
@@ -146,7 +146,15 @@
 			<div>
 				<label class="input">
 					<span class="label">Points</span>
-					<input type="number" required placeholder="Points" min="1" max="100" name="points" />
+					<input
+						type="number"
+						required
+						placeholder="Points"
+						min="1"
+						max="100"
+						name="points"
+						defaultValue="1"
+					/>
 				</label>
 			</div>
 			<div></div>
