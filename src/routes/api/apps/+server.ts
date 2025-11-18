@@ -1,8 +1,9 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { getAppsFromFilter } from '$lib/server/repo/apps/apps.ts';
-import type { PaginationList } from '$lib/share/index.ts';
+import { type PaginationList } from '$lib/share/index.ts';
 import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
+import { type Bucket, bucketServiceId } from '$lib/server/file-store.ts';
 
 export async function GET({ url }: RequestEvent) {
 	const name = url.searchParams.get('name') ?? undefined;
@@ -40,7 +41,27 @@ export async function DELETE({ url, locals }: RequestEvent) {
 	}
 
 	const appRepo = locals.di.get<AppRepo>(appRepoServiceId);
-	await appRepo.removeApp(+routeId);
+	const app = await appRepo.removeApp(+routeId);
+
+	if (app) {
+		const bucket = locals.di.get<Bucket>(bucketServiceId);
+		if (app.referenceImgs?.length) {
+			bucket.removeAll(app.referenceImgs);
+		}
+
+		if (app.originImg) {
+			bucket.remove(app.originImg);
+		}
+		if (app.handledImg) {
+			bucket.remove(app.handledImg);
+		}
+		if (app.icon) {
+			bucket.remove(app.icon);
+		}
+		if (app.barImg) {
+			bucket.remove(app.barImg);
+		}
+	}
 
 	return json({});
 }

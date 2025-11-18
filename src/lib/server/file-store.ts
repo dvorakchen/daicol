@@ -55,6 +55,7 @@ export class Image implements Bucket {
 		this.logger.info(`MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}`);
 	}
 	remove(filename: string): Promise<void> {
+		filename = getFilename(filename);
 		return this.client.removeObject(this._bucket, filename);
 	}
 

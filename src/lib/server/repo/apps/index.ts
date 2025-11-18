@@ -28,7 +28,7 @@ export interface AppRepo {
 	}>;
 	createApp(model: CreationUpdateModel): Promise<void>;
 	updateApp(model: CreationUpdateModel): Promise<void>;
-	removeApp(routeId: number): Promise<void>;
+	removeApp(routeId: number): Promise<App | undefined>;
 }
 
 export type CreationUpdateModel = Omit<
@@ -45,8 +45,12 @@ export const appRepoServiceId: ServiceIdentifier<AppRepo> = Symbol.for('appRepoS
 @injectable()
 export class PgAppRepo implements AppRepo {
 	constructor(@inject(bucketServiceId) private readonly bucket: Bucket) {}
-	removeApp(routeId: number): Promise<void> {
-		return pgAppDelete.removeApp(routeId);
+	async removeApp(routeId: number): Promise<App | undefined> {
+		const app = await this.getAppByRouteId(routeId, false);
+		if (app) {
+			await pgAppDelete.removeApp(routeId);
+		}
+		return app;
 	}
 	createApp(model: CreationUpdateModel): Promise<void> {
 		return pgAppCreateUpdate.createApp(model);
