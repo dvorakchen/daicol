@@ -17,7 +17,8 @@ describe('extractPromptPlugInFromPrompt', () => {
 		const expected = {
 			name: {
 				display: 'Username',
-				value: 'John Doe'
+				value: 'John Doe',
+				sort: 1
 			}
 		};
 		expect(extractPromptPlugInFromPrompt(prompt)).toEqual(expected);
@@ -30,15 +31,18 @@ describe('extractPromptPlugInFromPrompt', () => {
 		const expected = {
 			type: {
 				display: 'Document Type',
-				value: 'Report'
+				value: 'Report',
+				sort: 1
 			},
 			user: {
 				display: 'User ID',
-				value: '123'
+				value: '123',
+				sort: 2
 			},
 			time: {
 				display: 'Time',
-				value: '09:00'
+				value: '09:00',
+				sort: 3
 			}
 		};
 		expect(extractPromptPlugInFromPrompt(prompt)).toEqual(expected);
@@ -50,7 +54,8 @@ describe('extractPromptPlugInFromPrompt', () => {
 		const expected = {
 			content: {
 				display: 'Body',
-				value: '\nThis is a multiline\nvalue'
+				value: '\nThis is a multiline\nvalue',
+				sort: 1
 			}
 		};
 		expect(extractPromptPlugInFromPrompt(prompt)).toEqual(expected);
@@ -62,7 +67,8 @@ describe('extractPromptPlugInFromPrompt', () => {
 		const expected = {
 			valid: {
 				display: 'ID',
-				value: '123'
+				value: '123',
+				sort: 1
 			}
 		};
 		// {name(Username)} 不包含 '=value' 部分，因此不匹配

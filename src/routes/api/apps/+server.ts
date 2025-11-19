@@ -4,6 +4,9 @@ import { type PaginationList } from '$lib/share/index.ts';
 import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 import { type Bucket, bucketServiceId } from '$lib/server/file-store.ts';
+import { isAdmin } from '$lib/server/auth.ts';
+import { JWT_COOKIE_KEY } from '$lib/server/jwt.ts';
+import { type UserRepo, userRepoServiceId } from '$lib/server/repo/users.ts';
 
 export async function GET({ url }: RequestEvent) {
 	const name = url.searchParams.get('name') ?? undefined;
@@ -33,7 +36,17 @@ export async function GET({ url }: RequestEvent) {
 	} as PaginationList<AppWithoutPrompt>);
 }
 
-export async function DELETE({ url, locals }: RequestEvent) {
+export async function DELETE({ cookies, url, locals }: RequestEvent) {
+	if (
+		!isAdmin(
+			cookies.get(JWT_COOKIE_KEY) ?? '',
+			locals.privateEnv.JWT_KEY,
+			locals.di.get<UserRepo>(userRepoServiceId)
+		)
+	) {
+		return json({}, { status: 401 });
+	}
+
 	const routeId = url.searchParams.get('routeId') ?? '';
 
 	if (isNaN(parseInt(routeId))) {
