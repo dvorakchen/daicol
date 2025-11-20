@@ -16,6 +16,7 @@
 	"preview": "Preview",
 	"download": "Download",
 	"admin_board": "Admin board",
+	"copy_link": "Copy Link",
 	"sign_in.username": "User Name",
 	"sign_in.username.hint": "Please enter user name",
 	"sign_in.password": "Passord",

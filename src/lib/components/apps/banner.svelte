@@ -2,11 +2,12 @@
 	import { m } from '$lib/paraglide/messages';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import { Forward, MessageCircle, Star } from 'lucide-svelte';
+	import CopyButton from '$lib/components/copy-button.svelte';
 
 	let { app }: { app: AppWithoutPrompt } = $props();
 </script>
 
-<div class="overflow-hidden rounded-xl bg-base-200 shadow-sm">
+<div class="rounded-xl bg-base-200 shadow-sm">
 	<div class="relative h-48 md:h-64">
 		<img class="h-full w-full object-cover" src={app.barImg} alt={app.name} />
 		<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -27,11 +28,24 @@
 		</div>
 	</div>
 	<div class="p-6">
-		<div class="flex flex-wrap gap-3">
-			<button class="btn btn-primary">
-				<Forward />
-				{m.share()}</button
-			>
+		<div class="flex flex-wrap items-center gap-3">
+			<div class="dropdown">
+				<div tabindex="0" role="button" class="btn m-1 btn-primary">
+					<Forward />
+					{m.share()}
+				</div>
+				<ul
+					tabindex="-1"
+					class="dropdown-content menu z-10 w-52 rounded-box bg-base-100 p-2 shadow-sm"
+				>
+					<li>
+						<CopyButton value={location.href}>
+							{m.copy_link()}
+						</CopyButton>
+					</li>
+				</ul>
+			</div>
+
 			<button class="btn btn-outline btn-primary">
 				<Star />
 				{m.collection()}</button
