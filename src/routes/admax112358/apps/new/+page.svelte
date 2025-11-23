@@ -8,6 +8,7 @@
 	import { type UploadedFile } from '$lib/client/net/files';
 	import PromptEditor from '$lib/components/prompt/prompt-editor.svelte';
 	import GeneratePromptIntro from '$lib/components/prompt/generate-prompt-intro.svelte';
+	import type { PromptBaseIntro } from '$lib/share/prompt.js';
 
 	let { data } = $props();
 	const categoryOptions = enumToArray(AppCategories);
@@ -31,6 +32,12 @@
 		}, 0);
 		return JSON.stringify(plugIn, null, 2);
 	});
+
+	let tagsDefaultValue: string[] = $state([]);
+	let keywordssDefaultValue: string[] = $state([]);
+	let name = $state('');
+	let seoDescription = $state('');
+	let description = $state('');
 
 	const enhanceSubmitEvent: SubmitFunction = async ({ formData }) => {
 		loading = true;
@@ -60,6 +67,14 @@
 		const ele = ev.target as HTMLTextAreaElement;
 		ele.style.height = `${ele.scrollHeight}px`;
 	}
+
+	function onPromptIntro(value: PromptBaseIntro) {
+		tagsDefaultValue = value.tags;
+		keywordssDefaultValue = value.keywords;
+		name = value.name;
+		description = value.description;
+		seoDescription = value.seoDescription;
+	}
 </script>
 
 <main class="mx-auto max-w-7xl">
@@ -77,7 +92,7 @@
 			<div>
 				<label class="input">
 					<span class="label">App Name</span>
-					<input type="text" name="name" required />
+					<input type="text" name="name" required defaultValue={name} />
 				</label>
 			</div>
 
@@ -90,19 +105,39 @@
 			</div>
 
 			<div>
-				<InputTags name="tags" placeholder="Tags" presets={['宠物', '动物', '写真', '摄影']} />
+				<InputTags
+					name="tags"
+					placeholder="Tags"
+					presets={['宠物', '动物', '写真', '摄影']}
+					defaultValue={tagsDefaultValue}
+				/>
 			</div>
 
 			<div>
-				<textarea class="textarea" name="description" placeholder="Description" required></textarea>
+				<textarea
+					class="textarea"
+					name="description"
+					placeholder="Description"
+					required
+					defaultValue={description}
+				></textarea>
 			</div>
 
 			<div>
-				<InputTags name="seoKeywords" placeholder="SEO Keywords" />
+				<InputTags
+					name="seoKeywords"
+					placeholder="SEO Keywords"
+					defaultValue={keywordssDefaultValue}
+				/>
 			</div>
 
 			<div>
-				<textarea class="textarea" name="seoDescription" placeholder="SEO Description" required
+				<textarea
+					class="textarea"
+					name="seoDescription"
+					placeholder="SEO Description"
+					required
+					defaultValue={seoDescription}
 				></textarea>
 			</div>
 
@@ -124,7 +159,7 @@
 				<div class="h-64">
 					<PromptEditor name="prompt" placeholder="Prompt" required bind:text={prompt} />
 				</div>
-				<GeneratePromptIntro />
+				<GeneratePromptIntro {prompt} cb={onPromptIntro} />
 			</div>
 
 			<div>

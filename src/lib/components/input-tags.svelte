@@ -3,15 +3,24 @@
 
 	const customId = Math.random().toString();
 
-	let { defaultValue = [], name = '', placeholder = '', presets = [] } = $props();
-	let tags = $state<string[]>(defaultValue);
+	let { defaultValue = $bindable(), name = '', placeholder = '', presets = [] } = $props();
+	let tags = $state<string[]>([]);
+	let displayTags = $derived.by(() => {
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
+		const set = new Set(tags);
+		(defaultValue as string[]).forEach((t) => {
+			set.add(t);
+		});
+
+		return Array.from(set);
+	});
 
 	let value = $derived.by(() => {
-		if (!tags) {
+		if (!displayTags) {
 			return '[]';
 		}
 
-		return JSON.stringify(tags);
+		return JSON.stringify(displayTags);
 	});
 
 	function onchange(ev: Event) {
@@ -46,6 +55,7 @@
 
 	function onRemove(value: string) {
 		tags = tags.filter((tag: string) => tag !== value);
+		defaultValue = defaultValue.filter((tag: string) => tag !== value);
 	}
 
 	function addPreset(value: string) {
@@ -58,7 +68,7 @@
 
 <label class="flex flex-col gap-4 rounded border border-base-300 bg-base-100 p-2" for={customId}>
 	<div class="flex flex-wrap gap-2">
-		{#each tags as tag (tag)}
+		{#each displayTags as tag (tag)}
 			<button type="button" class="btn btn-sm btn-primary" onclick={() => onRemove(tag)}
 				>{tag}
 				<span class="w-4">

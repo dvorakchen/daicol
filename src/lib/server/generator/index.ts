@@ -1,4 +1,5 @@
 import type { ServiceIdentifier } from 'inversify';
+import type { PromptBaseIntro } from '$lib/share/prompt.ts';
 
 export type ReferenceImage = {
 	mimeType: string;
@@ -10,14 +11,6 @@ export interface Generator {
 }
 
 export const generatorServiceId: ServiceIdentifier<Generator> = Symbol.for('generatorServiceId');
-
-export type PromptBaseIntro = {
-	keywords: string[];
-	description: string;
-	title: string;
-	summary: string;
-	tags: string[];
-};
 
 export interface PromptBaseIntroGenerator {
 	genInfoByPrompt(prompt: string): Promise<PromptBaseIntro>;

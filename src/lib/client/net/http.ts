@@ -22,7 +22,7 @@ export class AxiosHttp implements Http {
 	constructor(apiHost: string) {
 		this.instance = axios.create({
 			baseURL: apiHost,
-			timeout: 1000
+			timeout: 60_000
 		});
 
 		this.instance.interceptors.response.use(undefined, (error) => {

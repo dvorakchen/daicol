@@ -1,6 +1,7 @@
-import type { PromptBaseIntro, PromptBaseIntroGenerator } from '$lib/server/generator/index.ts';
+import type { PromptBaseIntroGenerator } from '$lib/server/generator/index.ts';
 import OpenAI from 'openai';
 import { env } from '$env/dynamic/private';
+import type { PromptBaseIntro } from '$lib/share/prompt.ts';
 
 export class DeepSeekGenerator implements PromptBaseIntroGenerator {
 	async genInfoByPrompt(prompt: string): Promise<PromptBaseIntro> {
@@ -13,7 +14,7 @@ export class DeepSeekGenerator implements PromptBaseIntroGenerator {
 			messages: [
 				{
 					role: 'system',
-					content: `用户会输入一段描述，根据描述，帮我生成适用于 SEO 的keywords 和 description, keywords 用数组方式一行给出，description不要太长。
+					content: `用户会输入一段 AI 提示词描述，根据描述，帮我生成适用于 SEO 的keywords 和 seoDescription, keywords 用数组方式一行给出，seoDescription 不要太长。
 生成一个简短的标题，在10个字以内，要高度概括内容。
 生成一个简短的介绍，在20个字以内，简单说明主要内容。
 生成数个 tag 词语，用于检索内容。如："写真"，"宠物"，"甜妹"，和内容相关的词语
@@ -25,9 +26,9 @@ EXAMPLE INPUT:
 EXAMPLE JSON OUTPUT:
 {
   "keywords": ["keyword_1", "keyword_2"],
-  "description": "description",
-  "title": "标题",
-  "summary": "简短的介绍",
+  "seoDescription": "description",
+  "name": "标题",
+  "description": "简短的介绍",
   "tags": "写真"，"宠物"，"甜妹"]
 }`
 				},

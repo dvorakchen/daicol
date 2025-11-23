@@ -44,7 +44,7 @@ services:
       DATABASE_URL: postgres://user:password@db:5432/daicol
       JWT_KEY: your-secret-jwt-key
       VOLCENGINE_API_KEY:
-      DEEPSEEK_API_KEY: 
+      DEEPSEEK_API_KEY:
       PUBLIC_HOST: https://localhost:3000/
       PUBLIC_BEIAN_NUMBER: 苏@BEIAN_NUMBER
       MINIO_ENDPOINT: minio
@@ -53,4 +53,3 @@ services:
       MINIO_SECRET_KEY: minio_password
       PUBLIC_STATIC_SERVER_HOST: localhost:9000/
       PUBLIC_API_HOST: http://localhost:5173/
-
