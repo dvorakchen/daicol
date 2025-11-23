@@ -9,8 +9,14 @@ import { PgUserRepo, type UserRepo, userRepoServiceId } from '$lib/server/repo/u
 import { type Bucket, bucketServiceId, Image } from '$lib/server/file-store.ts';
 import { type Logger, loggerServiceId } from '$lib/server/logger/index.ts';
 import { WinstonLogger } from '$lib/server/logger/winston-logger.ts';
-import { type Generator, generatorServiceId } from '$lib/server/generator/index.ts';
+import {
+	type Generator,
+	type PromptBaseIntroGenerator,
+	generatorServiceId,
+	promptBaseIntroGeneratorServiceId
+} from '$lib/server/generator/index.ts';
 import { DoubaoGenerator } from '$lib/server/generator/doubao.ts';
+import { DeepSeekGenerator } from '$lib/server/generator/deepseek.ts';
 
 export const di: Container = new Container();
 di.bind<Logger>(loggerServiceId).to(WinstonLogger).inSingletonScope();
@@ -20,3 +26,6 @@ di.bind<AppRepo>(appRepoServiceId).to(PgAppRepo).inTransientScope();
 di.bind<UserRepo>(userRepoServiceId).to(PgUserRepo).inTransientScope();
 di.bind<Bucket>(bucketServiceId).to(Image).inTransientScope();
 di.bind<Generator>(generatorServiceId).to(DoubaoGenerator).inTransientScope();
+di.bind<PromptBaseIntroGenerator>(promptBaseIntroGeneratorServiceId)
+	.to(DeepSeekGenerator)
+	.inTransientScope();

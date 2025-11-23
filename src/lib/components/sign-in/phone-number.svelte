@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { post } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import SendCaptcha from '$lib/components/send-captcha.svelte';
 	import { m } from '$lib/paraglide/messages.js';
@@ -7,8 +6,12 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY } from '$lib/share';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
+	import { getContext } from 'svelte';
 
 	let { title = '' } = $props();
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	let formData = $state({} as { phone: string; code: string });
 	let error = $state('');
@@ -18,21 +21,10 @@
 		ev.preventDefault();
 		loading = true;
 
-		post(`/api/users/sign-in`, formData).subscribe({
-			next: () => {
-				loading = false;
-				toastMan.add('success', m['sign_in.success']());
-				redirectTo();
-			},
-			error: (e) => {
-				if (typeof e === 'string') {
-					toastMan.add('error', e);
-				}
-				error = e;
-				loading = false;
-				console.error(e);
-			}
-		});
+		await http.post(`/api/users/sign-in`, formData);
+		loading = false;
+		toastMan.add('success', m['sign_in.success']());
+		redirectTo();
 	}
 
 	function redirectTo() {

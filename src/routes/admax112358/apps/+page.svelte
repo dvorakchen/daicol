@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { deleteHttp, get } from '$lib/client/net/http';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import ConfirmButton from '$lib/components/confirm-button.svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
@@ -7,12 +7,14 @@
 	import type { AppWithoutPrompt } from '$lib/server/db/schema';
 	import type { GetAppFilter, PaginationList } from '$lib/share';
 	import { debounceTime, Subject, Subscription, switchMap, tap } from 'rxjs';
-	import { onDestroy, onMount } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 
 	let pageData = $state({
 		filter: { name: undefined, routeId: undefined } as GetAppFilter,
 		page: 1
 	});
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	const SIZE = 20;
 	let list = $state([] as AppWithoutPrompt[]);
@@ -41,7 +43,7 @@
 				}),
 				debounceTime(500),
 				switchMap((value) => {
-					return get<PaginationList<AppWithoutPrompt>>(
+					return http.get<PaginationList<AppWithoutPrompt>>(
 						`/api/apps?page=${value.page}&size=${SIZE}&name=${value?.filter?.name ? value.filter?.name : ''}&routeId=${value?.filter?.routeId ? value?.filter?.routeId : ''}`
 					);
 				})
@@ -78,17 +80,10 @@
 		pageData.page = 1;
 	}
 
-	function onDelete(routeId: number) {
-		deleteHttp(`/api/apps?routeId=${routeId}`).subscribe({
-			next: () => {
-				toastMan.add('success', `Delete Success`);
-				list = list.filter((t) => t.routeId !== routeId);
-			},
-			error: (e) => {
-				console.error(`delete fail: `, e);
-				toastMan.add('error', `Delete failed`);
-			}
-		});
+	async function onDelete(routeId: number) {
+		await http.delete(`/api/apps?routeId=${routeId}`);
+		toastMan.add('success', `Delete Success`);
+		list = list.filter((t) => t.routeId !== routeId);
 	}
 </script>
 

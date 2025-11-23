@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { post } from '$lib/client/net/http';
 	import { m } from '$lib/paraglide/messages';
 	import { DateTime } from 'luxon';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	const phoneRegex = /^\d{11}$/;
 
@@ -41,12 +43,7 @@
 		startCountDown(COUNTDOWN);
 		localStorage.setItem(SEND_CAPTCHA_CLOCK_KEY, Math.floor(DateTime.utc().toSeconds()).toString());
 
-		post(`/api/captcha/send`, { phone }).subscribe({
-			error: (e) => {
-				toastMan.add('error', `${m['captcha.sent_error']()}: ${e}`);
-				console.error('send captcha error: ', e);
-			}
-		});
+		await http.post(`/api/captcha/send`, { phone });
 	}
 
 	function startCountDown(start: number) {

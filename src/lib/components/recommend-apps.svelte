@@ -1,29 +1,25 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import { get } from '$lib/client/net/http.ts';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import AppCard from '$lib/components/app-card.svelte';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
+	import { getContext } from 'svelte';
 
 	let { apps } = $props();
 
+	const http: Http = getContext(HTTP_SERVER_KEY);
+
 	let loading = $state(false);
 
-	function onclick() {
+	async function onclick() {
 		if (loading) {
 			return;
 		}
 		loading = true;
 
-		get<AppWithoutPrompt[]>(`/api/apps/recommend`).subscribe({
-			next: (data) => {
-				apps = data;
-				loading = false;
-			},
-			error: (error) => {
-				loading = false;
-				console.error(error);
-			}
-		});
+		const data = await http.get<AppWithoutPrompt[]>(`/api/apps/recommend`);
+		apps = data;
+		loading = false;
 	}
 </script>
 

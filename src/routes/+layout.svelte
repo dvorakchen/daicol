@@ -5,8 +5,11 @@
 	import ToastMsg from '$lib/components/toast-msg.svelte';
 	import { onMount } from 'svelte';
 	import { invalidate } from '$app/navigation';
+	import { setAllDIContext } from '$lib/client/dependency-injection';
 
 	let { children } = $props();
+
+	setAllDIContext();
 
 	onMount(() => {
 		const interval = setInterval(() => {

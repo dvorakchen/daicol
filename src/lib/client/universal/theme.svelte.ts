@@ -1,7 +1,6 @@
 import { themePrefer } from '$lib/share/index.ts';
-import { post } from '$lib/client/net/http.ts';
-import { catchError, debounceTime, switchMap } from 'rxjs/operators';
-import { EMPTY, Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 const IS_DARK_KEY = 'isdark';
 
@@ -19,12 +18,13 @@ class ThemeMan {
 						theme: isDarkValue ? themePrefer.dark : themePrefer.light
 					};
 
-					return post(`/api/users/theme`, body).pipe(
-						catchError((error) => {
-							console.error('Failed to save theme to server:', error);
-							return EMPTY;
-						})
-					);
+					return fetch(`/api/users/theme`, {
+						method: 'post',
+						body: JSON.stringify(body),
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					});
 				})
 			)
 			.subscribe(() => {});

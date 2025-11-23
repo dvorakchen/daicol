@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { post } from '$lib/client/net/http';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import { m } from '$lib/paraglide/messages';
+	import { getContext } from 'svelte';
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	async function onclick() {
-		post(`/api/users/sign-out`).subscribe(() => {
-			location.href = location.href;
-		});
+		await http.post(`/api/users/sign-out`);
+		location.href = location.href;
 	}
 </script>
 

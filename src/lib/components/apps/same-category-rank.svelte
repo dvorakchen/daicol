@@ -1,31 +1,17 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronRight, Star } from 'lucide-svelte';
-	import { get } from '$lib/client/net/http.ts';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
-	import type { Subscription } from 'rxjs';
-	import { onDestroy } from 'svelte';
+	import { getContext } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 
 	let { category } = $props();
-	let sub: Subscription;
-	let appsPromise = getCategoryRanking();
 
-	onDestroy(() => {
-		sub?.unsubscribe();
-	});
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	function getCategoryRanking(): Promise<AppWithoutPrompt[]> {
-		return new Promise((resolve, reject) => {
-			sub = get<AppWithoutPrompt[]>(`/api/apps/ranks/category?category=${category}`).subscribe({
-				next: (data) => {
-					resolve(data);
-				},
-				error: (e) => {
-					reject(e);
-				}
-			});
-		});
+		return http.get<AppWithoutPrompt[]>(`/api/apps/ranks/category?category=${category}`);
 	}
 </script>
 
@@ -34,7 +20,7 @@
 		<h3 class="flex items-center text-lg font-bold">{m['app.ai.detail.category_rank']()}</h3>
 	</div>
 	<div class="divide-y divide-secondary/10">
-		{#await appsPromise}
+		{#await getCategoryRanking()}
 			<div class="flex justify-center pt-4">
 				<BikeLoading />
 			</div>

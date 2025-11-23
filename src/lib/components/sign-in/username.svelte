@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { post } from '$lib/client/net/http';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import { toastMan } from '$lib/client/universal/toast.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 	import { Key, User } from 'lucide-svelte';
 	import { page } from '$app/state';
 	import { QS_REDIRECT_KEY } from '$lib/share';
+	import { getContext } from 'svelte';
 
 	let { title = '' } = $props();
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	let formData = $state({} as { username: string; password: string; rePassword: string });
 	let error = $state('');
@@ -17,21 +20,10 @@
 		ev.preventDefault();
 		loading = true;
 
-		post(`/api/users/sign-in/username`, formData).subscribe({
-			next: () => {
-				loading = false;
-				toastMan.add('success', m['sign_in.success']());
-				redirectTo();
-			},
-			error: (e) => {
-				if (typeof e === 'string') {
-					toastMan.add('error', e);
-				}
-				error = e;
-				loading = false;
-				console.error(e);
-			}
-		});
+		await http.post(`/api/users/sign-in/username`, formData);
+		loading = false;
+		toastMan.add('success', m['sign_in.success']());
+		redirectTo();
 	}
 
 	function redirectTo() {
@@ -52,21 +44,10 @@
 			return false;
 		}
 
-		post(`/api/users/sign-up/username`, formData).subscribe({
-			next: () => {
-				loading = false;
-				toastMan.add('success', m['sign_in.success']());
-				signUp = false;
-			},
-			error: (e) => {
-				if (typeof e === 'string') {
-					toastMan.add('error', e);
-				}
-				error = e;
-				loading = false;
-				console.error(e);
-			}
-		});
+		await http.post(`/api/users/sign-up/username`, formData);
+		loading = false;
+		toastMan.add('success', m['sign_in.success']());
+		signUp = false;
 	}
 </script>
 

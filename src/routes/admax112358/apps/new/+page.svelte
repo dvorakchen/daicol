@@ -7,6 +7,7 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { type UploadedFile } from '$lib/client/net/files';
 	import PromptEditor from '$lib/components/prompt/prompt-editor.svelte';
+	import GeneratePromptIntro from '$lib/components/prompt/generate-prompt-intro.svelte';
 
 	let { data } = $props();
 	const categoryOptions = enumToArray(AppCategories);
@@ -119,8 +120,11 @@
 				</label>
 			</div>
 
-			<div class="h-64">
-				<PromptEditor name="prompt" placeholder="Prompt" required bind:text={prompt} />
+			<div>
+				<div class="h-64">
+					<PromptEditor name="prompt" placeholder="Prompt" required bind:text={prompt} />
+				</div>
+				<GeneratePromptIntro />
 			</div>
 
 			<div>

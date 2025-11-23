@@ -1,27 +1,19 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
-	import { get } from '$lib/client/net/http.ts';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http.ts';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 	import AppCard from '../app-card.svelte';
+	import { getContext } from 'svelte';
 
 	let { app }: { app: AppWithoutPrompt } = $props();
 
+	const http: Http = getContext(HTTP_SERVER_KEY);
+
 	const APP_COUNT = 16;
-	let getApps = getRelationApps();
 
 	function getRelationApps(): Promise<AppWithoutPrompt[]> {
-		return new Promise((resolve, reject) => {
-			get<AppWithoutPrompt[]>(`/api/apps/relation/${app.routeId}?count=${APP_COUNT}`).subscribe({
-				next: (data) => {
-					resolve(data);
-				},
-				error: (e) => {
-					console.error(`request get relation apps by routeId failed: ${e}`);
-					reject(e);
-				}
-			});
-		});
+		return http.get<AppWithoutPrompt[]>(`/api/apps/relation/${app.routeId}?count=${APP_COUNT}`);
 	}
 </script>
 
@@ -29,7 +21,7 @@
 	<h1 class="text-lg font-bold">{m['app.ai.detail.relation_recommand']()}</h1>
 </div>
 
-{#await getApps}
+{#await getRelationApps()}
 	<div class="flex items-center justify-center">
 		<BikeLoading />
 	</div>

@@ -1,29 +1,15 @@
 <script lang="ts">
-	import { get } from '$lib/client/net/http.ts';
 	import { m } from '$lib/paraglide/messages';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import { Star } from 'lucide-svelte';
-	import { Subscription } from 'rxjs';
-	import { onDestroy } from 'svelte';
+	import { getContext } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 
-	let sub: Subscription;
-
-	onDestroy(() => {
-		sub?.unsubscribe();
-	});
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	function getHotApps(): Promise<AppWithoutPrompt[]> {
-		return new Promise((resolve, reject) => {
-			sub = get<AppWithoutPrompt[]>(`/api/apps/hot`).subscribe({
-				next: (data) => {
-					resolve(data);
-				},
-				error: (e) => {
-					reject(e);
-				}
-			});
-		});
+		return http.get<AppWithoutPrompt[]>(`/api/apps/hot`);
 	}
 </script>
 

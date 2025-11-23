@@ -4,11 +4,11 @@
 	import UploadFile from '$lib/components/file-uploader/upload-file.svelte';
 	import MagicHandling from '$lib/components/loading-handling/magic-handling.svelte';
 	import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
-	import { postFile } from '$lib/client/net/http';
-	import { toastMan } from '$lib/client/universal/toast.svelte';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import SingleImgPreviewable from '$lib/components/previewers/single-img-previewable.svelte';
 	import type { PromptPlugInType } from '$lib/share';
 	import CustomParameters from './custom_parameters.svelte';
+	import { getContext } from 'svelte';
 
 	let {
 		routeId,
@@ -17,6 +17,8 @@
 		routeId: number;
 		promptPlugIn: PromptPlugInType;
 	} = $props();
+
+	const http: Http = getContext(HTTP_SERVER_KEY);
 
 	let customParamsInstance: CustomParameters;
 	let image = $state(null as null | File);
@@ -52,23 +54,16 @@
 			customData[Key] = value.toString();
 		});
 
-		postFile(`/api/generator/img-to-img/${routeId}`, [image], customData).subscribe({
-			next: (data) => {
-				handledImageLink = (data as { urls: string[] }).urls[0];
-				generating = false;
-				handledImgDiv?.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center'
-				});
-			},
-			error: (e) => {
-				console.error(e);
-				toastMan.add(
-					'error',
-					`${m['app.ai.generate.error.occured_please_contact_administrator']()}: ${e.response.message}`
-				);
-				generating = false;
-			}
+		const data = await http.postFile<{ urls: string[] }>(
+			`/api/generator/img-to-img/${routeId}`,
+			[image],
+			customData
+		);
+		handledImageLink = data.urls[0];
+		generating = false;
+		handledImgDiv?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center'
 		});
 	}
 

@@ -3,6 +3,7 @@
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import { Forward, MessageCircle, Star } from 'lucide-svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
+	import { env } from '$env/dynamic/public';
 
 	let { app }: { app: AppWithoutPrompt } = $props();
 </script>
@@ -39,7 +40,7 @@
 					class="dropdown-content menu z-10 w-52 rounded-box bg-base-100 p-2 shadow-sm"
 				>
 					<li>
-						<CopyButton value={location.href}>
+						<CopyButton value={`${env.PUBLIC_HOST}ai/${app.routeId}`}>
 							{m.copy_link()}
 						</CopyButton>
 					</li>

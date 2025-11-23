@@ -2,49 +2,30 @@
 	import { m } from '$lib/paraglide/messages.js';
 	import { RankTypes } from '$lib/share/app.js';
 	import { ChevronUp, Star } from 'lucide-svelte';
-	import { get } from '$lib/client/net/http.ts';
-	import { debounceTime } from 'rxjs';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
+	import { getContext } from 'svelte';
 
 	let { initList }: { initList: AppWithoutPrompt[] } = $props();
 
-	let first = true;
+	const http: Http = getContext(HTTP_SERVER_KEY);
+
 	let rankType = $state(RankTypes.Week);
 	let rankApps = $state(initList.map((app) => ({ ...app })));
 	let top3Apps = $derived(rankApps.slice(0, 3));
 	let restApps = $derived(rankApps.slice(3));
 	let loading = $state(false);
 
-	$effect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		rankType;
-		if (first) {
-			first = false;
+	async function onChangeRankType(newRankType: RankTypes) {
+		if (loading) {
 			return;
 		}
-
 		loading = true;
-		const subscription = get<AppWithoutPrompt[]>(`/api/apps/ranks?type=${rankType}`)
-			.pipe(debounceTime(500))
-			.subscribe({
-				next: (data: AppWithoutPrompt[]) => {
-					rankApps = data;
-					loading = false;
-				},
-				error: (e) => {
-					loading = false;
-					console.error(`get rank apps error: `, e);
-				}
-			});
-
-		return () => {
-			subscription.unsubscribe();
-		};
-	});
-
-	function onChangeRankType(newRankType: RankTypes) {
 		rankType = newRankType;
+		const data = await http.get<AppWithoutPrompt[]>(`/api/apps/ranks?type=${rankType}`);
+		rankApps = data;
+		loading = false;
 	}
 </script>
 
