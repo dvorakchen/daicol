@@ -1,7 +1,7 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { getAppsFromFilter } from '$lib/server/repo/apps/apps.ts';
 import { type PaginationList } from '$lib/share/index.ts';
-import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 import { type Bucket, bucketServiceId } from '$lib/server/file-store.ts';
 import { isAdmin } from '$lib/server/auth.ts';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 	import AppCard from '$lib/components/app-card.svelte';
 	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import { getContext } from 'svelte';

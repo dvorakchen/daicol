@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db/index.ts';
-import { users, apps } from '$lib/server/db/schema/index.ts';
+import { users, apps } from '$lib/server/db/schema.ts';
 import { UserPermissions } from '$lib/share/user.ts';
 import { eq } from 'drizzle-orm';
 import apps10001_10050 from '$lib/server/db/apps-seed/10001-10050.ts';

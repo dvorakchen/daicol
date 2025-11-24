@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import { ChevronRight, Star } from 'lucide-svelte';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 	import { getContext } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
 	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';

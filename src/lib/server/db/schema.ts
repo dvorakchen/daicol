@@ -6,10 +6,12 @@ import {
 	serial,
 	text,
 	timestamp,
-	varchar
+	varchar,
+	primaryKey,
+	date
 } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
-import { AppStatus } from '../../../share/app.ts';
+import { AppStatus } from '../../share/app.ts';
 
 export const apps = pgTable('apps', {
 	id: serial('id').primaryKey(),
@@ -43,3 +45,45 @@ export const apps = pgTable('apps', {
 export type App = typeof apps.$inferSelect;
 
 export type AppWithoutPrompt = Omit<App, 'prompt' | 'referenceImgs'>;
+
+import { UserStatus } from '../../share/user.ts';
+
+export const users = pgTable('users', {
+	id: serial('id').primaryKey(),
+	userName: varchar('user_name', { length: 64 }).notNull().default(''),
+	hashedPassword: varchar('hashed_password', { length: 256 }).notNull().default(''),
+	phoneNumber: varchar('phone_number', { length: 16 }).notNull().default('').unique(),
+	email: varchar('email', { length: 64 }).notNull().default(''),
+	profilePicture: text('profile_picture').notNull().default(''),
+	freeCount: integer('free_count').notNull().default(0),
+	points: integer('points').notNull().default(0),
+	attributes: jsonb('attributes').notNull().default({}),
+	permissions: varchar('permissions', { length: 64 })
+		.array()
+		.notNull()
+		.default(sql`'{}'::varchar[]`),
+	status: varchar('status', { length: 32 }).notNull().default(UserStatus.Enabled),
+	createAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow(),
+	updateAt: timestamp('update_at', { withTimezone: true }).notNull().defaultNow()
+});
+
+export type User = typeof users.$inferSelect;
+
+import { AccessType } from '../../share/app.ts';
+
+export const visitHistories = pgTable(
+	'visit_histories',
+	{
+		appId: integer('app_id')
+			.references(() => apps.id, { onDelete: 'cascade' })
+			.notNull(),
+		userId: integer('user_id').references(() => users.id),
+		visitCount: integer('visitCount').notNull().default(0),
+		accessType: varchar('access_type', { length: 16 }).notNull().default(AccessType.PageView),
+		accessDate: date('access_date', { mode: 'date' }).notNull().defaultNow(),
+		deviceInfo: jsonb('device_info').default({})
+	},
+	(table) => [primaryKey({ columns: [table.appId, table.accessDate] })]
+);
+
+export type visitHistory = typeof visitHistories.$inferSelect;

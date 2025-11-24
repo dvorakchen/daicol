@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 	import { Forward, MessageCircle, Star } from 'lucide-svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
 	import { env } from '$env/dynamic/public';

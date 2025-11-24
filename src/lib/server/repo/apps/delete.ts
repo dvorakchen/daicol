@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db/index.ts';
-import { apps } from '$lib/server/db/schema/apps.ts';
+import { apps } from '$lib/server/db/schema.ts';
 import { eq } from 'drizzle-orm';
 
 export async function removeApp(routeId: number) {

@@ -1,5 +1,5 @@
 import { error, type RequestEvent } from '@sveltejs/kit';
-import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 import { type AppRepo, appRepoServiceId } from '$lib/server/repo/apps/index.ts';
 
 export async function load({ params, locals }: RequestEvent) {

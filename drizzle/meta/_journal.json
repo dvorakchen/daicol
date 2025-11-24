@@ -8,6 +8,13 @@
       "when": 1762502535450,
       "tag": "0000_yellow_thanos",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763984626317,
+      "tag": "0001_shocking_turbo",
+      "breakpoints": true
     }
   ]
 }

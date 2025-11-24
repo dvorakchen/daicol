@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 	import { Star } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';

@@ -1,10 +1,10 @@
-import { users } from '$lib/server/db/schema/index.ts';
+import { users } from '$lib/server/db/schema.ts';
 import { db } from '$lib/server/db/index.ts';
 import { and, arrayContains, eq, sql } from 'drizzle-orm';
 import { UserPermissions, UserStatus } from '$lib/share/user.ts';
 import bcrypt from 'bcryptjs';
 import { injectable, type ServiceIdentifier } from 'inversify';
-import type { User } from '$lib/server/db/schema/users.ts';
+import type { User } from '$lib/server/db/schema.ts';
 
 export interface UserRepo {
 	createUserByPhone(phone: string): Promise<User>;

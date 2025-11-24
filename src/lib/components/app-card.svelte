@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
 	import { Eye, Star } from 'lucide-svelte';
 
 	let { app }: { app: AppWithoutPrompt } = $props();
