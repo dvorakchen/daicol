@@ -15,7 +15,12 @@ import {
 	SQL,
 	sql
 } from 'drizzle-orm';
-import { apps, visitHistories, type AppWithoutPrompt, type App } from '$lib/server/db/schema.ts';
+import {
+	apps,
+	visitHistories,
+	type AppWithoutPrompt,
+	type App
+} from '$lib/server/db/schema/index.ts';
 import { AppCategories, AppStatus, RankTypes, type GetAppFilter } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
 

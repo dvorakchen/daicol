@@ -3,7 +3,7 @@
 	import { RankTypes } from '$lib/share/app.js';
 	import { ChevronUp, Star } from 'lucide-svelte';
 	import BikeLoading from '$lib/components/loading-handling/bike-loading.svelte';
-	import type { AppWithoutPrompt } from '$lib/server/db/schema.ts';
+	import type { AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 	import { HTTP_SERVER_KEY, type Http } from '$lib/client/net/http';
 	import { getContext } from 'svelte';
 

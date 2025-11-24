@@ -40,6 +40,7 @@ services:
         condition: service_started
     ports:
       - '3000:3000'
+    restart: always
     environment:
       DATABASE_URL: postgres://user:password@db:5432/daicol
       JWT_KEY: your-secret-jwt-key
@@ -53,3 +54,21 @@ services:
       MINIO_SECRET_KEY: minio_password
       PUBLIC_STATIC_SERVER_HOST: localhost:9000/
       PUBLIC_API_HOST: http://localhost:5173/
+  postfix:
+    image: takeyamajp/postfix:latest
+    container_name: send_only_smtp
+    ports:
+      - '8587:587'
+      - '8465:465'
+    volumes:
+      - /etc/mail/dkim/daicol.com:/ssl_certs
+      - /etc/mail/dkim/daicol.com:/dkim_keys
+    environment:
+      HOSTNAME: 'smtp.daicol.com'
+      DOMAIN_NAME: 'daicol.com'
+      AUTH_USER: 'admin@daicol.com'
+      AUTH_PASSWORD: 'password'
+      ENABLE_DKIM: 'true'
+      DKIM_KEY_LENGTH: 2048
+      TIMEZONE: 'Asia/Tokyo'
+      restart: always

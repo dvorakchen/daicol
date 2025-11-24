@@ -1,7 +1,7 @@
 import type { AccessType } from '$lib/share/app.ts';
 import { db } from '$lib/server/db/index.ts';
 import { and, eq, sql } from 'drizzle-orm';
-import { apps, visitHistories } from '$lib/server/db/schema.ts';
+import { apps, visitHistories } from '$lib/server/db/schema/index.ts';
 import { inject, injectable, type ServiceIdentifier } from 'inversify';
 import { loggerServiceId, type Logger } from '$lib/server/logger/index.ts';
 

@@ -1,6 +1,6 @@
-import type { App } from '$lib/server/db/schema.ts';
+import type { App } from '$lib/server/db/schema/index.ts';
 import { db } from '$lib/server/db/index.ts';
-import { apps } from '$lib/server/db/schema.ts';
+import { apps } from '$lib/server/db/schema/index.ts';
 import { eq } from 'drizzle-orm';
 import { AppStatus } from '$lib/share/app.ts';
 import type { Bucket } from '$lib/server/file-store.ts';

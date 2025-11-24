@@ -11,7 +11,7 @@ import {
 	date
 } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
-import { AppStatus } from '../../share/app.ts';
+import { AppStatus } from '../../../share/app.ts';
 
 export const apps = pgTable('apps', {
 	id: serial('id').primaryKey(),
@@ -46,7 +46,7 @@ export type App = typeof apps.$inferSelect;
 
 export type AppWithoutPrompt = Omit<App, 'prompt' | 'referenceImgs'>;
 
-import { UserStatus } from '../../share/user.ts';
+import { UserStatus } from '../../../share/user.ts';
 
 export const users = pgTable('users', {
 	id: serial('id').primaryKey(),
@@ -69,7 +69,7 @@ export const users = pgTable('users', {
 
 export type User = typeof users.$inferSelect;
 
-import { AccessType } from '../../share/app.ts';
+import { AccessType } from '../../../share/app.ts';
 
 export const visitHistories = pgTable(
 	'visit_histories',

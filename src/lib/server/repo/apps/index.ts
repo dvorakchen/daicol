@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/index.ts';
 import { eq, max } from 'drizzle-orm';
-import { type App, apps, type AppWithoutPrompt } from '$lib/server/db/schema.ts';
+import { type App, apps, type AppWithoutPrompt } from '$lib/server/db/schema/index.ts';
 import { inject, injectable, type ServiceIdentifier } from 'inversify';
 import { AppCategories, type GetAppFilter, RankTypes } from '$lib/share/app.ts';
 import { SearchType } from '$lib/share/search.ts';
