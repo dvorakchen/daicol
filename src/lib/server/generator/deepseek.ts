@@ -17,7 +17,7 @@ export class DeepSeekGenerator implements PromptBaseIntroGenerator {
 					content: `用户会输入一段 AI 提示词描述，根据描述，帮我生成适用于 SEO 的keywords 和 seoDescription, keywords 用数组方式一行给出，seoDescription 不要太长。
 生成一个简短的标题，在10个字以内，要高度概括内容。
 生成一个简短的介绍，在20个字以内，简单说明主要内容。
-生成数个 tag 词语，用于检索内容。如："写真"，"宠物"，"甜妹"，和内容相关的词语
+生成数个 tag 词语，用于检索内容。如："写真"，"宠物"，"甜妹"，和内容相关的词语，要求准确，涵盖范围广
 
 EXAMPLE INPUT: 
 帮我生成图片。不要改变图一的脸！参考图二，使用图二的构图！忽略图二的五官！使用图一的脸！使用图一的脸！重复！使用图一的脸！使用图二的构图！
